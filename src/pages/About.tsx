@@ -100,7 +100,7 @@ export function About() {
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Management</h4>
                 <p className="text-gray-700">
-                  We are managed under the mentorship of <strong>Mr. Vishal Thube</strong>. His immense market understanding and in-depth industrial experience make us able to meet specific requirements of clients in an efficient manner.
+                  Leading our sales department, <strong>Vishal (Sales Engineer)</strong> uses his extensive market expertise to efficiently handle client requirements and industrial demands.
                 </p>
               </div>
             </div>

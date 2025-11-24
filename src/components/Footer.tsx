@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2020;
 
   useEffect(() => {
     const fetchSettings = async () => {
