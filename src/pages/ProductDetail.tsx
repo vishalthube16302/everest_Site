@@ -178,6 +178,7 @@ export function ProductDetail() {
                                 description={product.description}
                                 specifications={product.specifications}
                                 imageUrl={product.image_url}
+                                price={product.price_range}
                             />
                         </div>
 

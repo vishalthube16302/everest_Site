@@ -7,9 +7,10 @@ interface ShareButtonProps {
     description?: string;
     specifications?: Record<string, any>;
     imageUrl?: string;
+    price?: string;
 }
 
-export function ShareButton({ productName, url, description, specifications, imageUrl }: ShareButtonProps) {
+export function ShareButton({ productName, url, description, specifications, imageUrl, price }: ShareButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -27,16 +28,22 @@ export function ShareButton({ productName, url, description, specifications, ima
     }, []);
 
     const getFormattedText = () => {
-        let text = `*${productName}*\n\n`;
+        let text = `*${productName}*\n`;
+
+        if (price) {
+            text += `Price: ${price}\n`;
+        }
+
+        text += `\n`;
 
         if (description) {
             text += `${description}\n\n`;
         }
 
         if (specifications && Object.keys(specifications).length > 0) {
-            text += `Features:\n`;
+            text += `*Specifications:*\n`;
             Object.entries(specifications).forEach(([key, value]) => {
-                text += `- ${key}: ${value}\n`;
+                text += `• ${key}: ${value}\n`;
             });
             text += `\n`;
         }
