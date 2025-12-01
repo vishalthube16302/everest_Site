@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { ArrowLeft, ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
+import { ShareButton } from '../components/ShareButton';
 
 interface ProductImage {
     id: string;
@@ -169,7 +170,16 @@ export function ProductDetail() {
 
                     {/* Product Details */}
                     <div className="flex flex-col justify-start">
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
+                        <div className="flex items-center justify-between mb-4">
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{product.name}</h1>
+                            <ShareButton
+                                productName={product.name}
+                                url={window.location.href}
+                                description={product.description}
+                                specifications={product.specifications}
+                                imageUrl={product.image_url}
+                            />
+                        </div>
 
                         {product.price_range && (
                             <p className="text-2xl font-semibold text-blue-600 mb-6">{product.price_range}</p>

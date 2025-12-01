@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Category, Product } from '../types';
 import { useSearchParams, Link } from 'react-router-dom';
+import { ShareButton } from '../components/ShareButton';
 
 export function Products() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -99,7 +100,16 @@ export function Products() {
             ) : (
               <div className="grid md:grid-cols-3 gap-6">
                 {products.map((product) => (
-                  <div key={product.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                  <div key={product.id} className="relative bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div className="absolute top-2 right-2 z-10 bg-white rounded-full shadow-md">
+                      <ShareButton
+                        productName={product.name}
+                        url={`${window.location.origin}/products/${product.slug}`}
+                        description={product.description}
+                        specifications={product.specifications}
+                        imageUrl={product.image_url}
+                      />
+                    </div>
                     <Link to={`/products/${product.slug}`} className="block">
                       <div className="h-48 bg-gray-200 overflow-hidden">
                         {product.image_url ? (
