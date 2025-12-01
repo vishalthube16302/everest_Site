@@ -60,11 +60,19 @@ export function ShareButton({ productName, url, description, specifications, ima
 
     const handleNativeShare = async () => {
         const text = getFormattedText();
+
+        // Base share data
         const shareData: ShareData = {
             title: productName,
             text: text,
-            url: url,
         };
+
+        // Only add URL field if we are NOT sharing a file, 
+        // or if we want to ensure it's there. 
+        // However, some apps drop 'text' if 'url' + 'files' are present.
+        // Since our 'text' already contains the URL, we can try omitting 'url' property 
+        // when sharing files to force apps to use 'text'.
+        let hasFile = false;
 
         // Try to share image file if available and supported
         if (imageUrl && navigator.canShare && navigator.canShare({ files: [new File([], 'test.png')] })) {
@@ -74,10 +82,16 @@ export function ShareButton({ productName, url, description, specifications, ima
                 const file = new File([blob], 'product-image.jpg', { type: blob.type });
                 if (navigator.canShare({ files: [file] })) {
                     shareData.files = [file];
+                    hasFile = true;
                 }
             } catch (e) {
                 console.warn('Failed to fetch image for sharing', e);
             }
+        }
+
+        // If no file, ensure URL is set in shareData (for better link preview if text is ignored)
+        if (!hasFile) {
+            shareData.url = url;
         }
 
         if (navigator.share) {
