@@ -108,6 +108,7 @@ export function Products() {
                         description={product.description}
                         specifications={product.specifications}
                         imageUrl={product.image_url}
+                        price={product.price_range}
                       />
                     </div>
                     <Link to={`/products/${product.slug}`} className="block">
