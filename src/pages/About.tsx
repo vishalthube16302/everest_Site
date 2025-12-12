@@ -124,19 +124,19 @@ export function About() {
                 <dl className="space-y-4">
                   <div>
                     <dt className="text-sm text-gray-500">Nature of Business</dt>
-                    <dd className="font-medium text-gray-900">Service Provider and Others</dd>
+                    <dd className="font-medium text-gray-900">Manufatucre & Service Provider</dd>
                   </div>
                   <div>
                     <dt className="text-sm text-gray-500">Additional Business</dt>
                     <dd className="font-medium text-gray-900">Wholesale Business</dd>
                   </div>
-                  <div>
+                  {/* <div>
                     <dt className="text-sm text-gray-500">Company CEO</dt>
-                    <dd className="font-medium text-gray-900">Rahul Nanasaheb Thube</dd>
-                  </div>
+                    <dd className="font-medium text-gray-900">Rahul T</dd>
+                  </div> */}
                   <div>
                     <dt className="text-sm text-gray-500">Total Employees</dt>
-                    <dd className="font-medium text-gray-900">11 to 25 People</dd>
+                    <dd className="font-medium text-gray-900">0 to 11 People</dd>
                   </div>
                   <div>
                     <dt className="text-sm text-gray-500">Legal Status</dt>
@@ -157,16 +157,16 @@ export function About() {
                     <dt className="text-sm text-gray-500">GST Registration Date</dt>
                     <dd className="font-medium text-gray-900">01-09-2020</dd>
                   </div>
-                  <div>
+                  {/* <div>
                     <dt className="text-sm text-gray-500">GST Partner Name</dt>
                     <dd className="font-medium text-gray-900">Rahul Nanasaheb Thube</dd>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <dt className="text-sm text-gray-500">GST No.</dt>
                     <dd className="font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded inline-block">
-                      {settings?.gst_number || '27ATEPT3692E1ZD'}
+                      {settings?.gst_number || '23213'}
                     </dd>
-                  </div>
+                  </div> */}
                 </dl>
               </div>
             </div>
