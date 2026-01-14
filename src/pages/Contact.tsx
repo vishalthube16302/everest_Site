@@ -1,54 +1,63 @@
 import { useEffect, useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { SiteSettings, Category } from '../types';
+import { SiteSettings } from '../types';
 
 export function Contact() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    phone: '',
-    email: '',
-    category_id: '',
-    message: '',
-  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const [settingsRes, categoriesRes] = await Promise.all([
-        supabase.from('site_settings').select('*').limit(1).maybeSingle(),
-        supabase.from('categories').select('*').order('sort_order'),
-      ]);
-      if (settingsRes.data) setSettings(settingsRes.data);
-      if (categoriesRes.data) setCategories(categoriesRes.data);
+    const fetchSettings = async () => {
+      const { data } = await supabase.from('site_settings').select('*').limit(1).maybeSingle();
+      if (data) setSettings(data);
     };
-    fetchData();
+    fetchSettings();
+
+    // Lightning Out Integration
+    const scriptSrc = "https://fwseries3-dev-ed.develop.my.site.com/External/lightning/lightning.out.js";
+    const lightningEndpoint = "https://fwseries3-dev-ed.develop.my.site.com/External";
+    const appName = "c:WebsiteInquiryApp";
+    const componentName = "c:websiteInquiryForm";
+    const authToken = "";
+
+    const loadScript = () => {
+      return new Promise((resolve, reject) => {
+        if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+          resolve(true);
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = () => resolve(true);
+        script.onerror = () => reject(new Error('Failed to load Lightning Out script'));
+        document.body.appendChild(script);
+      });
+    };
+
+    const initLightning = async () => {
+      try {
+        await loadScript();
+
+        if ((window as any).$Lightning) {
+          (window as any).$Lightning.use(appName, function () {
+            (window as any).$Lightning.createComponent(
+              componentName,
+              {},
+              "lightning-container",
+              function (cmp: any) {
+                console.log("Inquiry Form created successfully!");
+              }
+            );
+          }, lightningEndpoint, authToken);
+        }
+      } catch (error) {
+        console.error("Error initializing Lightning component:", error);
+      }
+    };
+
+    initLightning();
   }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      await supabase.from('inquiries').insert([formData]);
-      setSubmitted(true);
-      setFormData({ name: '', company: '', phone: '', email: '', category_id: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -93,80 +102,10 @@ export function Contact() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Form */}
+          {/* Contact Form - LWC Container */}
           <div>
             <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
-                Thank you! We'll get back to you soon.
-              </div>
-            )}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="text"
-                name="company"
-                placeholder="Company Name"
-                value={formData.company}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <select
-                name="category_id"
-                value={formData.category_id}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              >
-                <option value="">Select Product Category</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
-              <textarea
-                name="message"
-                placeholder="Your Message / Requirement"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
-              ></textarea>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                <Send size={20} /> {loading ? 'Sending...' : 'Send Inquiry'}
-              </button>
-            </form>
+            <div id="lightning-container" className="min-h-[400px]"></div>
           </div>
 
           {/* Info & Map */}
