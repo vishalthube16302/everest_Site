@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { LightningService } from '../lib/lightning';
 import { SiteSettings } from '../types';
 
 export function Contact() {
@@ -15,51 +16,18 @@ export function Contact() {
     };
     fetchSettings();
 
-    // Lightning Out Integration
-    const scriptSrc = "https://fwseries3-dev-ed.develop.my.site.com/External/lightning/lightning.out.js";
-    const lightningEndpoint = "https://fwseries3-dev-ed.develop.my.site.com/External";
-    const appName = "c:WebsiteInquiryApp";
-    const componentName = "c:websiteInquiryForm";
-    const authToken = "";
-
-    const loadScript = () => {
-      return new Promise((resolve, reject) => {
-        if (document.querySelector(`script[src="${scriptSrc}"]`)) {
-          resolve(true);
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = scriptSrc;
-        script.onload = () => resolve(true);
-        script.onerror = () => reject(new Error('Failed to load Lightning Out script'));
-        document.body.appendChild(script);
-      });
-    };
-
-    const initLightning = async () => {
+    // Use shared service for optimizations
+    const initLWC = async () => {
       try {
-        await loadScript();
-
-        if ((window as any).$Lightning) {
-          (window as any).$Lightning.use(appName, function () {
-            (window as any).$Lightning.createComponent(
-              componentName,
-              {},
-              "lightning-container",
-              function (cmp: any) {
-                console.log("Inquiry Form created successfully!");
-                setLoading(false);
-              }
-            );
-          }, lightningEndpoint, authToken);
-        }
+        await LightningService.createComponent("c:websiteInquiryForm", "lightning-container");
+        setLoading(false);
       } catch (error) {
-        console.error("Error initializing Lightning component:", error);
+        console.error("Error creating inquiry form:", error);
         setLoading(false);
       }
     };
 
-    initLightning();
+    initLWC();
   }, []);
 
   return (

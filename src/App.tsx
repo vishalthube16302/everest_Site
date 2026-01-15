@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LightningService } from './lib/lightning';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
@@ -21,7 +23,6 @@ function AppLayout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/services" element={<Services />} />
@@ -37,6 +38,11 @@ function AppLayout() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Start loading Salesforce Lightning Out in the background
+    LightningService.init().catch(console.error);
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
