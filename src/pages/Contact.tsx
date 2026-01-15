@@ -118,7 +118,7 @@ export function Contact() {
             {/* LWC Container */}
             <div
               id="lightning-container"
-              className={`min-h-[400px] ${loading ? 'hidden' : 'block'}`}
+              className="min-h-[400px]"
             ></div>
           </div>
 
