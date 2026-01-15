@@ -106,19 +106,21 @@ export function Contact() {
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form - LWC Container */}
-          <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-          {/* Loading Spinner */}
-          {loading && (
-            <div className="flex flex-col items-center justify-center min-h-[400px] bg-gray-50 rounded-lg border border-gray-100">
-              <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-              <p className="text-gray-500 font-medium">Loading form...</p>
-            </div>
-          )}
-          {/* LWC Container */}
-          <div
-            id="lightning-container"
-            className={`min-h-[400px] ${loading ? 'hidden' : 'block'}`}
-          ></div>
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+            {/* Loading Spinner */}
+            {loading && (
+              <div className="flex flex-col items-center justify-center min-h-[400px] bg-gray-50 rounded-lg border border-gray-100">
+                <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+                <p className="text-gray-500 font-medium">Loading form...</p>
+              </div>
+            )}
+            {/* LWC Container */}
+            <div
+              id="lightning-container"
+              className={`min-h-[400px] ${loading ? 'hidden' : 'block'}`}
+            ></div>
+          </div>
 
           {/* Info & Map */}
           <div>
