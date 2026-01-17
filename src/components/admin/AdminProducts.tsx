@@ -8,6 +8,7 @@ export function AdminProducts() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [additionalImages, setAdditionalImages] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -39,14 +40,57 @@ export function AdminProducts() {
     }
 
     try {
-      if (editingId) {
-        await supabase.from('products').update(formData).eq('id', editingId);
-      } else {
-        await supabase.from('products').insert([formData]);
+      // Parse images from JSON
+      let mainImageUrl = '';
+      let additionalImagesList: string[] = [];
+
+      try {
+        if (additionalImages.trim()) {
+          const parsed = JSON.parse(additionalImages);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            mainImageUrl = parsed[0];
+            additionalImagesList = parsed.slice(1);
+          }
+        }
+      } catch (e) {
+        alert('Invalid JSON format for images. Please check the array format.');
+        return;
       }
+
+      const productData = {
+        ...formData,
+        image_url: mainImageUrl
+      };
+
+      let productId = editingId;
+      if (editingId) {
+        await supabase.from('products').update(productData).eq('id', editingId);
+      } else {
+        const { data } = await supabase.from('products').insert([productData]).select().single();
+        if (data) productId = data.id;
+      }
+
+      // Handle additional images
+      if (productId) {
+        // Delete existing additional images
+        await supabase.from('product_images').delete().eq('product_id', productId);
+
+        // Insert new additional images
+        if (additionalImagesList.length > 0) {
+          const imageInserts = additionalImagesList.map((url: string, index: number) => ({
+            product_id: productId,
+            image_url: url,
+            sort_order: index,
+            alt_text: `${formData.name} - Image ${index + 2}` // Start from 2 since 1 is main
+          }));
+          await supabase.from('product_images').insert(imageInserts);
+        }
+      }
+
       resetForm();
       fetchData();
     } catch (error) {
+      console.error('Error saving product:', error);
       alert('Error saving product');
     }
   };
@@ -61,6 +105,35 @@ export function AdminProducts() {
     }
   };
 
+  const handleEdit = async (product: Product) => {
+    setEditingId(product.id);
+    setFormData(product as any);
+
+    // Fetch images for this product
+    const { data: images } = await supabase
+      .from('product_images')
+      .select('image_url')
+      .eq('product_id', product.id)
+      .order('sort_order');
+
+    // Combine main image and additional images
+    const allImages = [product.image_url];
+    if (images && images.length > 0) {
+      allImages.push(...images.map(img => img.image_url));
+    }
+
+    // Filter out empty strings if any
+    const validImages = allImages.filter(Boolean);
+
+    if (validImages.length > 0) {
+      setAdditionalImages(JSON.stringify(validImages, null, 2));
+    } else {
+      setAdditionalImages('');
+    }
+
+    setShowForm(true);
+  };
+
   const resetForm = () => {
     setFormData({
       name: '',
@@ -71,6 +144,7 @@ export function AdminProducts() {
       price_range: '',
       is_featured: false,
     });
+    setAdditionalImages('');
     setEditingId(null);
     setShowForm(false);
   };
@@ -140,18 +214,27 @@ export function AdminProducts() {
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
-                  placeholder="Image URL"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  className="px-4 py-2 border border-gray-300 rounded-lg"
-                />
-                <input
-                  type="text"
                   placeholder="Price Range (e.g., ₹500-1000)"
                   value={formData.price_range}
                   onChange={(e) => setFormData({ ...formData, price_range: e.target.value })}
                   className="px-4 py-2 border border-gray-300 rounded-lg"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Product Images (JSON Array)
+                </label>
+                <textarea
+                  placeholder='[\n  "https://example.com/main-image.jpg",\n  "https://example.com/other-image.jpg"\n]'
+                  value={additionalImages}
+                  onChange={(e) => setAdditionalImages(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm"
+                  rows={6}
+                />
+                <p className="text-xs text-gray-500">
+                  Enter image URLs as a JSON array. The first image will be the main product image.
+                </p>
               </div>
 
               <label className="flex items-center gap-2">
@@ -202,11 +285,7 @@ export function AdminProducts() {
                 <td className="px-4 py-3">{product.is_featured ? '✓' : '—'}</td>
                 <td className="px-4 py-3 flex gap-2">
                   <button
-                    onClick={() => {
-                      setEditingId(product.id);
-                      setFormData(product as any);
-                      setShowForm(true);
-                    }}
+                    onClick={() => handleEdit(product)}
                     className="p-2 text-blue-600 hover:bg-blue-50 rounded"
                   >
                     <Edit2 size={16} />
