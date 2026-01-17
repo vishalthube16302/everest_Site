@@ -6,6 +6,7 @@ import { AdminSettings } from '../../components/admin/AdminSettings';
 import { AdminProducts } from '../../components/admin/AdminProducts';
 import { AdminInquiries } from '../../components/admin/AdminInquiries';
 import { AdminGallery } from '../../components/admin/AdminGallery';
+import { AdminImageManager } from '../../components/admin/AdminImageManager';
 import { AdminServices } from '../../components/admin/AdminServices';
 import { AdminCategories } from '../../components/admin/AdminCategories';
 import { AdminPages } from '../../components/admin/AdminPages';
@@ -101,8 +102,9 @@ export function AdminDashboard() {
             { id: 'settings', label: 'Settings', icon: Settings },
             { id: 'categories', label: 'Categories', icon: Package },
             { id: 'products', label: 'Products', icon: Package },
+            { id: 'images', label: 'Images', icon: Image },
             { id: 'services', label: 'Services', icon: Zap },
-            { id: 'gallery', label: 'Gallery', icon: Image },
+            { id: 'gallery', label: 'Website Gallery', icon: Image },
             { id: 'inquiries', label: 'Inquiries', icon: MessageSquare },
             { id: 'pages', label: 'Pages', icon: Settings },
           ].map((tab) => (
@@ -139,6 +141,7 @@ export function AdminDashboard() {
           {currentTab === 'settings' && <AdminSettings />}
           {currentTab === 'categories' && <AdminCategories />}
           {currentTab === 'products' && <AdminProducts />}
+          {currentTab === 'images' && <AdminImageManager />}
           {currentTab === 'services' && <AdminServices />}
           {currentTab === 'gallery' && <AdminGallery />}
           {currentTab === 'inquiries' && <AdminInquiries />}
