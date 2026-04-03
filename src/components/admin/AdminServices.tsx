@@ -11,6 +11,7 @@ export function AdminServices() {
     title: '',
     description: '',
     icon: 'zap',
+    sort_order: 0,
   });
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export function AdminServices() {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', description: '', icon: 'zap' });
+    setFormData({ title: '', description: '', icon: 'zap', sort_order: 0 });
     setEditingId(null);
     setShowForm(false);
   };
@@ -102,6 +103,14 @@ export function AdminServices() {
               <option value="book">Book</option>
             </select>
 
+            <input
+              type="number"
+              placeholder="Sort Order"
+              value={formData.sort_order}
+              onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+
             <div className="flex gap-2">
               <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 {editingId ? 'Update' : 'Add'} Service
@@ -121,7 +130,10 @@ export function AdminServices() {
       <div className="space-y-4">
         {services.map((service) => (
           <div key={service.id} className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-600">
-            <h3 className="font-bold text-lg mb-1">{service.title}</h3>
+            <div className="flex justify-between items-start mb-1">
+              <h3 className="font-bold text-lg">{service.title}</h3>
+              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">Order: {service.sort_order ?? 0}</span>
+            </div>
             <p className="text-sm text-gray-600 mb-3">{service.description}</p>
             <div className="flex gap-2">
               <button

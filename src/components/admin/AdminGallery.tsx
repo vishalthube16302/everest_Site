@@ -10,6 +10,7 @@ export function AdminGallery() {
     title: '',
     image_url: '',
     description: '',
+    sort_order: 0,
   });
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export function AdminGallery() {
 
     try {
       await supabase.from('gallery_images').insert([formData]);
-      setFormData({ title: '', image_url: '', description: '' });
+      setFormData({ title: '', image_url: '', description: '', sort_order: 0 });
       setShowForm(false);
       fetchImages();
     } catch (error) {
@@ -88,6 +89,14 @@ export function AdminGallery() {
               rows={3}
             />
 
+            <input
+              type="number"
+              placeholder="Sort Order"
+              value={formData.sort_order}
+              onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+
             <div className="flex gap-2">
               <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 Add Image
@@ -96,7 +105,7 @@ export function AdminGallery() {
                 type="button"
                 onClick={() => {
                   setShowForm(false);
-                  setFormData({ title: '', image_url: '', description: '' });
+                setFormData({ title: '', image_url: '', description: '', sort_order: 0 });
                 }}
                 className="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
               >
@@ -114,7 +123,8 @@ export function AdminGallery() {
               <img src={image.image_url} alt={image.title} className="w-full h-full object-cover" />
             </div>
             <div className="p-3">
-              {image.title && <p className="font-semibold text-sm mb-2">{image.title}</p>}
+              {image.title && <p className="font-semibold text-sm mb-1">{image.title}</p>}
+              <span className="text-xs text-gray-400">Order: {image.sort_order ?? 0}</span>
               <button
                 onClick={() => handleDelete(image.id)}
                 className="w-full flex items-center justify-center gap-2 px-2 py-1 text-red-600 hover:bg-red-50 rounded text-sm"

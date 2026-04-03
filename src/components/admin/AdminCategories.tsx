@@ -12,6 +12,7 @@ export function AdminCategories() {
     slug: '',
     description: '',
     image_url: '',
+    sort_order: 0,
   });
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export function AdminCategories() {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', slug: '', description: '', image_url: '' });
+    setFormData({ name: '', slug: '', description: '', image_url: '', sort_order: 0 });
     setEditingId(null);
     setShowForm(false);
   };
@@ -108,13 +109,24 @@ export function AdminCategories() {
               rows={3}
             />
 
-            <input
-              type="text"
-              placeholder="Image URL"
-              value={formData.image_url}
-              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            <div className="grid md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Image URL"
+                value={formData.image_url}
+                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                className="px-4 py-2 border border-gray-300 rounded-lg"
+              />
+              <div>
+                <input
+                  type="number"
+                  placeholder="Sort Order"
+                  value={formData.sort_order}
+                  onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                />
+              </div>
+            </div>
 
             <div className="flex gap-2">
               <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
@@ -135,7 +147,10 @@ export function AdminCategories() {
       <div className="grid md:grid-cols-2 gap-6">
         {categories.map((category) => (
           <div key={category.id} className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="font-bold text-lg mb-2">{category.name}</h3>
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-bold text-lg">{category.name}</h3>
+              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">Order: {category.sort_order ?? 0}</span>
+            </div>
             <p className="text-sm text-gray-600 mb-3">{category.description}</p>
             <div className="flex gap-2">
               <button
