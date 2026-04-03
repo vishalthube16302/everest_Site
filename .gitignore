@@ -25,3 +25,6 @@ dist-ssr
 # Temporary and AI Metadata
 supabase/.temp/
 .bolt/
+
+# Database Backups
+backup/
