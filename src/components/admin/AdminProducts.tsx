@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Product, Category } from '../../types';
-import { Trash2, Edit2, Plus, X, GripVertical, ImagePlus } from 'lucide-react';
+import { Trash2, Edit2, Plus, X, GripVertical, ImagePlus, Upload, Loader } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -15,6 +15,8 @@ export function AdminProducts() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const BUCKET_NAME = 'Product Images';
 
   // Image list (dynamic URLs instead of JSON)
   const [imageUrls, setImageUrls] = useState<string[]>(['']);
@@ -75,13 +77,10 @@ export function AdminProducts() {
     }
 
     try {
-      // Build specifications object from key/value rows
-      const specifications: Record<string, string> = {};
-      specRows.forEach((row) => {
-        if (row.key.trim()) {
-          specifications[row.key.trim()] = row.value.trim();
-        }
-      });
+      // Build specifications as an ordered array of [key, value] pairs
+      const specifications: [string, string][] = specRows
+        .filter((row) => row.key.trim())
+        .map((row) => [row.key.trim(), row.value.trim()]);
 
       // First valid image is the main one
       const validImages = imageUrls.filter((url) => url.trim() !== '');
@@ -158,11 +157,14 @@ export function AdminProducts() {
     setLongDesc(product.long_description || '');
 
     // Load specifications into key/value rows
-    const specs = product.specifications || {};
-    const rows = Object.entries(specs).map(([key, value]) => ({
-      key,
-      value: String(value),
-    }));
+    // Support both array format [[key,value],...] and legacy object format {key:value,...}
+    const specs = product.specifications;
+    let rows: SpecRow[] = [];
+    if (Array.isArray(specs)) {
+      rows = specs.map(([key, value]: [string, string]) => ({ key, value: String(value) }));
+    } else if (specs && typeof specs === 'object') {
+      rows = Object.entries(specs).map(([key, value]) => ({ key, value: String(value) }));
+    }
     setSpecRows(rows.length > 0 ? rows : [{ key: '', value: '' }]);
 
     // Load images
@@ -207,6 +209,51 @@ export function AdminProducts() {
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
     ],
+  };
+
+  // ─── Multi-file upload to Supabase Storage ───────────
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploadingImages(true);
+    const newUrls: string[] = [];
+
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(BUCKET_NAME)
+          .upload(fileName, file);
+
+        if (uploadError) {
+          console.error('Upload error for', file.name, uploadError);
+          continue;
+        }
+
+        const { data } = supabase.storage.from(BUCKET_NAME).getPublicUrl(fileName);
+        if (data?.publicUrl) {
+          newUrls.push(data.publicUrl);
+        }
+      }
+
+      if (newUrls.length > 0) {
+        // Filter out empty placeholder entries, then append new uploaded URLs
+        setImageUrls((prev) => {
+          const existing = prev.filter((u) => u.trim() !== '');
+          return [...existing, ...newUrls];
+        });
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      alert('Error uploading images');
+    } finally {
+      setUploadingImages(false);
+      event.target.value = '';
+    }
   };
 
   return (
@@ -386,13 +433,29 @@ export function AdminProducts() {
                   <label className="block text-sm font-semibold text-gray-700">
                     Product Images
                   </label>
-                  <button
-                    type="button"
-                    onClick={addImageUrl}
-                    className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 font-medium"
-                  >
-                    <ImagePlus size={16} /> Add Image
-                  </button>
+                  <div className="flex gap-2">
+                    <label className={`flex items-center gap-1 text-sm font-medium cursor-pointer px-3 py-1.5 rounded-lg border transition-colors ${
+                      uploadingImages ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100'
+                    }`}>
+                      {uploadingImages ? <Loader size={16} className="animate-spin" /> : <Upload size={16} />}
+                      {uploadingImages ? 'Uploading…' : 'Upload Files'}
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileUpload}
+                        disabled={uploadingImages}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={addImageUrl}
+                      className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                      <ImagePlus size={16} /> Add URL
+                    </button>
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                   {imageUrls.map((url, idx) => (

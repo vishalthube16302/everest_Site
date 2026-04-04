@@ -16,7 +16,7 @@ export interface Product {
   long_description: string;
   image_url: string;
   price_range: string;
-  specifications: Record<string, any>;
+  specifications: [string, string][] | Record<string, any>;
   is_featured: boolean;
   sort_order: number;
 }

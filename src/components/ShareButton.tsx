@@ -40,12 +40,18 @@ export function ShareButton({ productName, url, description, specifications, ima
             text += `${description}\n\n`;
         }
 
-        if (specifications && Object.keys(specifications).length > 0) {
-            text += `*Specifications:*\n`;
-            Object.entries(specifications).forEach(([key, value]) => {
-                text += `• ${key}: ${value}\n`;
-            });
-            text += `\n`;
+        if (specifications) {
+            // Support both array format [[key,value],...] and legacy object format {key:value,...}
+            const specEntries: [string, string][] = Array.isArray(specifications)
+                ? specifications
+                : Object.entries(specifications);
+            if (specEntries.length > 0) {
+                text += `*Specifications:*\n`;
+                specEntries.forEach(([key, value]) => {
+                    text += `• ${key}: ${value}\n`;
+                });
+                text += `\n`;
+            }
         }
 
         text += `Check it out: ${url}`;

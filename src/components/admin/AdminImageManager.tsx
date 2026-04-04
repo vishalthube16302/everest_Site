@@ -17,6 +17,9 @@ export function AdminImageManager() {
     const [uploading, setUploading] = useState(false);
     const BUCKET_NAME = 'Product Images';
 
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [fileToDelete, setFileToDelete] = useState<string | null>(null);
+
     useEffect(() => {
         fetchFiles();
     }, []);
@@ -70,21 +73,36 @@ export function AdminImageManager() {
         }
     };
 
-    const handleDelete = async (fileName: string) => {
-        if (!confirm(`Are you sure you want to delete ${fileName}?`)) return;
+    const confirmDelete = (fileName: string) => {
+        setFileToDelete(fileName);
+        setDeleteModalOpen(true);
+    };
 
+    const handleDelete = async () => {
+        if (!fileToDelete) return;
+        
         try {
-            const { error } = await supabase.storage
+            const fileName = fileToDelete;
+            console.log("Attempting to delete:", fileName);
+            const response = await supabase.storage
                 .from(BUCKET_NAME)
                 .remove([fileName]);
+            
+            console.log("Delete response:", response);
 
-            if (error) {
-                throw error;
+            if (response.error) {
+                console.error("Delete error from Supabase:", response.error);
+                throw response.error;
             }
 
+            console.log("Fetching updated files...");
             await fetchFiles();
         } catch (error: any) {
-            alert('Error deleting file: ' + error.message);
+            console.error('Delete exception:', error);
+            alert('Error deleting file. It may be locked or already removed. ' + (error.message || ''));
+        } finally {
+            setDeleteModalOpen(false);
+            setFileToDelete(null);
         }
     };
 
@@ -209,7 +227,7 @@ export function AdminImageManager() {
                                                         <Copy size={18} />
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDelete(file.name)}
+                                                        onClick={() => confirmDelete(file.name)}
                                                         className="p-2 text-gray-400 hover:text-red-600 rounded-full hover:bg-red-50 transition-colors"
                                                         title="Delete"
                                                     >
@@ -225,6 +243,37 @@ export function AdminImageManager() {
                     </table>
                 </div>
             </div>
+
+            {/* Custom Confirmation Modal */}
+            {deleteModalOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Image</h3>
+                        <p className="text-gray-600 mb-6">
+                            Are you sure you want to delete <span className="font-semibold text-gray-800 break-all">{fileToDelete}</span>? 
+                            This action cannot be undone and will break any links using this image.
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => {
+                                    setDeleteModalOpen(false);
+                                    setFileToDelete(null);
+                                }}
+                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
+                            >
+                                <Trash2 size={16} />
+                                Delete Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

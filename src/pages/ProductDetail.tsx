@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { ArrowLeft, ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
 import { ShareButton } from '../components/ShareButton';
+import DOMPurify from 'dompurify';
 
 interface ProductImage {
     id: string;
@@ -190,25 +191,34 @@ export function ProductDetail() {
                             <h2 className="text-lg font-semibold text-gray-900 mb-3">Description</h2>
                             <p className="text-gray-700 leading-relaxed mb-4">{product.description}</p>
                             {product.long_description && (
-                                <p className="text-gray-600 leading-relaxed whitespace-pre-line">{product.long_description}</p>
+                                <div
+                                    className="text-gray-600 leading-relaxed prose prose-sm max-w-none"
+                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.long_description) }}
+                                />
                             )}
                         </div>
 
-                        {product.specifications && Object.keys(product.specifications).length > 0 && (
-                            <div className="border-t border-gray-200 pt-6 mb-6">
-                                <h2 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h2>
-                                <div className="bg-gray-50 rounded-lg p-4">
-                                    <div className="space-y-2">
-                                        {Object.entries(product.specifications).map(([key, value]) => (
-                                            <div key={key} className="grid grid-cols-3 gap-4 py-2 border-b border-gray-200 last:border-0">
-                                                <span className="text-gray-600 font-medium col-span-1">{key}</span>
-                                                <span className="text-gray-900 col-span-2">{String(value)}</span>
-                                            </div>
-                                        ))}
+                        {product.specifications && (() => {
+                            // Support both array format [[key,value],...] and legacy object format {key:value,...}
+                            const specEntries: [string, string][] = Array.isArray(product.specifications)
+                                ? product.specifications
+                                : Object.entries(product.specifications);
+                            return specEntries.length > 0 ? (
+                                <div className="border-t border-gray-200 pt-6 mb-6">
+                                    <h2 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h2>
+                                    <div className="bg-gray-50 rounded-lg p-4">
+                                        <div className="space-y-2">
+                                            {specEntries.map(([key, value], idx) => (
+                                                <div key={idx} className="grid grid-cols-3 gap-4 py-2 border-b border-gray-200 last:border-0">
+                                                    <span className="text-gray-600 font-medium col-span-1">{key}</span>
+                                                    <span className="text-gray-900 col-span-2">{String(value)}</span>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            ) : null;
+                        })()}
 
                         <a
                             href="/contact"
