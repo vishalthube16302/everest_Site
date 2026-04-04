@@ -9,15 +9,15 @@ interface Props {
   categoryName?: string;
 }
 
-export function ProductCard({ product, categoryName }: Props) {
+export function ProductCard({ product }: Props) {
   const price = formatPrice(product.price_range);
   const isPOR = price === 'Price on Request';
 
   return (
-    <div className="group relative bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200">
       {/* Image */}
       <Link to={`/products/${product.slug}`} className="block relative">
-        <div className="relative h-44 bg-gray-50 overflow-hidden">
+        <div className="relative h-44 bg-white overflow-hidden">
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -28,12 +28,6 @@ export function ProductCard({ product, categoryName }: Props) {
             <div className="w-full h-full flex items-center justify-center text-gray-300">
               <ShoppingBag size={40} />
             </div>
-          )}
-          {/* Category badge */}
-          {categoryName && (
-            <span className="absolute top-2 left-2 text-[10px] font-semibold uppercase tracking-wide bg-[#0f3460] text-white px-2 py-0.5 rounded-full">
-              {truncate(categoryName, 22)}
-            </span>
           )}
         </div>
       </Link>
@@ -53,7 +47,7 @@ export function ProductCard({ product, categoryName }: Props) {
       {/* Body */}
       <div className="p-4 flex flex-col gap-2">
         <Link to={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-gray-900 text-sm leading-snug hover:text-[#0f3460] transition-colors line-clamp-2">
+          <h3 className="font-semibold text-black text-sm leading-snug hover:text-[#0f3460] transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>

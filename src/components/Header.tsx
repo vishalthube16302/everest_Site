@@ -23,7 +23,11 @@ export function Header() {
   }, []);
 
   // Fallback when company_name is empty string in DB
-  const companyName = settings?.company_name?.trim() || 'Everest HPS';
+  const isSettingsLoaded = settings !== null;
+  const companyName = isSettingsLoaded ? (settings.company_name?.trim() || '') : 'Everest HPS';
+  const tagline = settings?.tagline?.trim() || '';
+  const showText = companyName.length > 0;
+
   const primary = settings?.primary_color || '#0f3460';
   const accent = settings?.accent_color || '#e94560';
   const isActive = (path: string) => location.pathname === path;
@@ -56,16 +60,25 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             {settings?.logo_url ? (
-              <img src={settings.logo_url} alt={companyName} className="h-9 w-auto object-contain" />
+              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-10 w-auto object-contain" />
             ) : (
-              <div className="w-9 h-9 rounded-lg" style={{ backgroundColor: primary }} />
+              <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ backgroundColor: primary }} />
             )}
-            <span
-              className="hidden sm:inline font-bold text-base tracking-tight"
-              style={{ color: settings?.company_name_color || primary }}
-            >
-              {companyName}
-            </span>
+            {showText && (
+              <div className="hidden sm:flex flex-col justify-center">
+                <span
+                  className="font-extrabold text-lg tracking-tight leading-none"
+                  style={{ color: settings?.company_name_color || primary }}
+                >
+                  {companyName}
+                </span>
+                {tagline && (
+                  <span className="text-[11px] font-medium tracking-wide mt-1 opacity-80" style={{ color: settings?.company_name_color || primary }}>
+                    {tagline}
+                  </span>
+                )}
+              </div>
+            )}
           </Link>
 
           {/* Desktop nav */}

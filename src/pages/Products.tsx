@@ -10,35 +10,51 @@ export function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    supabase.from('categories').select('*').order('sort_order').then(({ data }) => {
-      if (data) setCategories(data);
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      const [catRes, prodRes] = await Promise.all([
+        supabase.from('categories').select('*').order('sort_order'),
+        supabase.from('products').select('*').order('sort_order')
+      ]);
+
+      if (catRes.data) setCategories(catRes.data);
+      if (prodRes.data) setProducts(prodRes.data);
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
     const cat = searchParams.get('category');
-    if (cat) setSelectedCategory(cat);
+    if (cat !== null) {
+      setSelectedCategory(cat);
+    } else {
+      setSelectedCategory('');
+    }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (categories.length === 0 && selectedCategory) return;
-    setLoading(true);
-    let query = supabase.from('products').select('*').order('sort_order');
-    if (selectedCategory) {
-      const found = categories.find((c) => c.slug === selectedCategory);
-      if (found) query = query.eq('category_id', found.id);
+  const handleCategorySelect = (slug: string) => {
+    if (slug) {
+      setSearchParams({ category: slug });
+    } else {
+      setSearchParams({});
     }
-    query.then(({ data }) => {
-      if (data) setProducts(data);
-      setLoading(false);
-    });
-  }, [categories, selectedCategory]);
+    setSidebarOpen(false);
+  };
 
-  const selectedCategoryName = categories.find((c) => c.slug === selectedCategory)?.name;
+  const filteredProducts = selectedCategory
+    ? products.filter((p: Product) => {
+      const cat = categories.find((c: Category) => c.slug === selectedCategory);
+      return cat && p.category_id === cat.id;
+    })
+    : products;
+
+  const selectedCategoryName = categories.find((c: Category) => c.slug === selectedCategory)?.name;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -66,32 +82,29 @@ export function Products() {
         <div className="flex gap-8">
           {/* Sidebar */}
           <aside
-            className={`${
-              sidebarOpen ? 'block' : 'hidden'
-            } md:block w-full md:w-48 shrink-0`}
+            className={`${sidebarOpen ? 'block' : 'hidden'
+              } md:block w-full md:w-48 shrink-0`}
           >
-            <div className="bg-white border border-gray-100 rounded-xl p-4 sticky top-24">
+            <div className="bg-gray-100 border border-neutral-200 shadow-sm rounded-xl p-4 sticky top-24">
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Category</p>
               <div className="flex flex-col gap-0.5">
                 <button
-                  onClick={() => { setSelectedCategory(''); setSidebarOpen(false); }}
-                  className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                    !selectedCategory
-                      ? 'bg-[#0f3460] text-white font-semibold'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  onClick={() => handleCategorySelect('')}
+                  className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${!selectedCategory
+                    ? 'bg-[#0f3460] text-white font-semibold'
+                    : 'text-gray-600 hover:bg-gray-100'
+                    }`}
                 >
                   All Products
                 </button>
-                {categories.map((cat) => (
+                {categories.map((cat: Category) => (
                   <button
                     key={cat.id}
-                    onClick={() => { setSelectedCategory(cat.slug); setSidebarOpen(false); }}
-                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors leading-snug ${
-                      selectedCategory === cat.slug
-                        ? 'bg-[#0f3460] text-white font-semibold'
-                        : 'text-gray-600 hover:bg-gray-100'
-                    }`}
+                    onClick={() => handleCategorySelect(cat.slug)}
+                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors leading-snug ${selectedCategory === cat.slug
+                      ? 'bg-[#0f3460] text-white font-semibold'
+                      : 'text-gray-600 hover:bg-gray-100'
+                      }`}
                   >
                     {cat.name}
                   </button>
@@ -105,7 +118,7 @@ export function Products() {
             {/* Result header */}
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-gray-500">
-                {loading ? '…' : `${products.length} product${products.length !== 1 ? 's' : ''}`}
+                {loading ? '…' : `${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`}
                 {selectedCategoryName && <span className="font-medium text-gray-700"> in {selectedCategoryName}</span>}
               </p>
             </div>
@@ -116,14 +129,14 @@ export function Products() {
                   <div key={i} className="bg-white border border-gray-100 rounded-xl h-64 animate-pulse" />
                 ))}
               </div>
-            ) : products.length === 0 ? (
-              <div className="text-center py-20 text-gray-400 bg-white rounded-xl border border-gray-100">
+            ) : filteredProducts.length === 0 ? (
+              <div className="text-center py-20 text-gray-400 bg-neutral-50 shadow-sm rounded-xl border border-neutral-200">
                 <p className="text-sm">No products found in this category.</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products.map((product) => {
-                  const cat = categories.find((c) => c.id === product.category_id);
+                {filteredProducts.map((product: Product) => {
+                  const cat = categories.find((c: Category) => c.id === product.category_id);
                   return <ProductCard key={product.id} product={product} categoryName={cat?.name} />;
                 })}
               </div>
