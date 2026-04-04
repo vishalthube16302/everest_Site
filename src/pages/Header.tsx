@@ -74,10 +74,11 @@ export function Header() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive(item.path)
                     ? 'text-white'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
+                }`}
                 style={isActive(item.path) ? { backgroundColor: primary } : {}}
               >
                 {item.label}
@@ -124,10 +125,11 @@ export function Header() {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
+                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    isActive(item.path)
                       ? 'text-white'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                   style={isActive(item.path) ? { backgroundColor: primary } : {}}
                 >
                   {item.label}

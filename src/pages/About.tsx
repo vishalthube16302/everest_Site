@@ -1,23 +1,6 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
-import { SiteSettings } from '../types';
 import { CheckCircle2, Users, Award, Briefcase } from 'lucide-react';
 
 export function About() {
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('*')
-        .limit(1)
-        .maybeSingle();
-      if (data) setSettings(data);
-    };
-    fetchSettings();
-  }, []);
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
