@@ -9,15 +9,14 @@ interface Props {
   categoryName?: string;
 }
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({ product, categoryName }: Props) {
   const price = formatPrice(product.price_range);
   const isPOR = price === 'Price on Request';
 
   return (
-    <div className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200">
-      {/* Image */}
+    <div className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       <Link to={`/products/${product.slug}`} className="block relative">
-        <div className="relative h-44 bg-white overflow-hidden">
+        <div className="relative h-44 bg-gray-50 overflow-hidden">
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -29,34 +28,35 @@ export function ProductCard({ product }: Props) {
               <ShoppingBag size={40} />
             </div>
           )}
+          {/* {categoryName && (
+            <span className="absolute top-2 left-2 text-[10px] font-semibold uppercase tracking-wide bg-[#0f3460] text-white px-2 py-0.5 rounded-full">
+              {truncate(categoryName, 22)}
+            </span>
+          )} */}
         </div>
       </Link>
 
-      {/* Share button */}
       <div className="absolute top-2 right-2 z-10">
         <ShareButton
           productName={product.name}
           url={`${window.location.origin}/products/${product.slug}`}
+          categoryName={categoryName}
           description={product.description}
           specifications={product.specifications}
           imageUrl={product.image_url}
-          price={product.price_range}
+          price={price}
         />
       </div>
 
-      {/* Body */}
       <div className="p-4 flex flex-col gap-2">
         <Link to={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-black text-sm leading-snug hover:text-[#0f3460] transition-colors line-clamp-2">
+          <h3 className="font-semibold text-gray-900 text-sm leading-snug hover:text-[#0f3460] transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>
-
         <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
           {truncate(product.description ?? '', 90)}
         </p>
-
-        {/* Price + CTA */}
         <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
           <span className={`text-sm font-semibold ${isPOR ? 'text-gray-400 italic' : 'text-[#0f3460]'}`}>
             {price}

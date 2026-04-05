@@ -14,7 +14,7 @@ import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
 import { AdminLogin } from './pages/admin/AdminLogin';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-
+import { WhatsAppFAB } from './components/WhatsAppFAB';
 function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -32,6 +32,7 @@ function AppLayout() {
           <Route path="/terms" element={<Terms />} />
         </Routes>
       </main>
+      <WhatsAppFAB />
       <Footer />
     </div>
   );
