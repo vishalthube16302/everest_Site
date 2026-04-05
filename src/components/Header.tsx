@@ -66,17 +66,29 @@ export function Header() {
             )}
             {showText && (
               <div className="hidden sm:flex flex-col justify-center">
-                <span
+                {/* <span
                   className="font-extrabold text-lg tracking-tight leading-none"
                   style={{ color: settings?.company_name_color || primary }}
                 >
                   {companyName}
-                </span>
-                {tagline && (
-                  <span className="text-[11px] font-medium tracking-wide mt-1 opacity-80" style={{ color: settings?.company_name_color || primary }}>
-                    {tagline}
+                </span> */}
+                <div className="flex flex-col leading-tight">
+                  <span
+                    className="font-extrabold text-4xl tracking-wide leading-none"
+                    style={{ color: settings?.company_name_color || '#ffffff' }}
+                  >
+                    {companyName}
                   </span>
-                )}
+
+                  {tagline && (
+                    <span
+                      className="text-xs font-medium tracking-wide opacity-80"
+                      style={{ color: primary }}
+                    >
+                      {tagline}
+                    </span>
+                  )}
+                </div>
               </div>
             )}
           </Link>
@@ -88,8 +100,8 @@ export function Header() {
                 key={item.path}
                 to={item.path}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
-                    ? 'text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  ? 'text-white'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}
                 style={isActive(item.path) ? { backgroundColor: primary } : {}}
               >
@@ -138,8 +150,8 @@ export function Header() {
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
-                      ? 'text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   style={isActive(item.path) ? { backgroundColor: primary } : {}}
                 >
