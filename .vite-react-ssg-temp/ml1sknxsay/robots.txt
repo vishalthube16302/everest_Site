@@ -1,9 +1,0 @@
-# Everest Hydro Pneumatic Solutions — everesthps.com
-# Last updated: 2026-04-06
-
-User-agent: *
-Allow: /
-Disallow: /admin/
-
-# Sitemap
-Sitemap: https://everesthps.com/sitemap.xml
