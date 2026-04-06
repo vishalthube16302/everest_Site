@@ -280,25 +280,66 @@ export function Home() {
           </div>
         </div>
       </section>
-
       {/* ─── TESTIMONIALS ───────────────────────────────────── */}
       {testimonials.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-1 text-center" style={{ color: accent }}>Client reviews</p>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">What Our Clients Say</h2>
-            <div className="grid md:grid-cols-3 gap-4">
+        <section className="py-14 bg-gradient-to-b from-gray-50 to-white">
+          <div className="max-w-6xl mx-auto px-4">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p
+                className="text-[11px] font-semibold tracking-[2px] uppercase mb-2"
+                style={{ color: accent }}
+              >
+                CLIENT REVIEWS
+              </p>
+
+              <h2 className="text-2xl font-semibold text-gray-900 relative inline-block">
+                What Our Clients Say
+                <span className="block h-[2px] w-12 bg-blue-500 mx-auto mt-2 rounded-full"></span>
+              </h2>
+            </div>
+
+            {/* Cards */}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {testimonials.map((t) => (
-                <div key={t.id} className="bg-white border border-gray-100 rounded-xl p-5">
-                  <div className="flex gap-0.5 mb-3">
+                <div
+                  key={t.id}
+                  className="relative bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                >
+                  {/* Quote Icon */}
+                  <div className="absolute -top-3 left-4 text-blue-500 text-3xl opacity-20">
+                    “
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex justify-center mb-3">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-sm ${i < t.rating ? 'text-amber-400' : 'text-gray-200'}`}>★</span>
+                      <span
+                        key={i}
+                        className={`text-sm ${i < t.rating ? 'text-yellow-400' : 'text-gray-300'
+                          }`}
+                      >
+                        ★
+                      </span>
                     ))}
                   </div>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">"{truncate(t.content, 160)}"</p>
-                  <div className="border-t border-gray-100 pt-3">
-                    <p className="font-semibold text-gray-900 text-sm">{t.author_name}</p>
-                    {t.author_company && <p className="text-xs text-gray-500">{t.author_company}</p>}
+
+                  {/* Content */}
+                  <p className="text-gray-600 text-sm leading-relaxed text-center mb-4">
+                    {truncate(t.content, 150)}
+                  </p>
+
+                  {/* Author */}
+                  <div className="text-center border-t pt-3">
+                    <p className="text-sm font-semibold text-gray-800">
+                      {t.author_name}
+                    </p>
+                    {t.author_company && (
+                      <p className="text-xs text-gray-500">
+                        {t.author_company}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -307,7 +348,7 @@ export function Home() {
         </section>
       )}
 
-      {/* ─── CTA BANNER ─────────────────────────────────────── */}
+      {/* ─── CTA BANNER ───────────────────────────────────────
       <section className="py-14" style={{ backgroundColor: accent }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to power your operations?</h2>
@@ -330,7 +371,7 @@ export function Home() {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
