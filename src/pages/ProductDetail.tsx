@@ -98,22 +98,31 @@ export function ProductDetail() {
     const price = formatPrice(product.price_range);
     const isPOR = price === 'Price on Request';
 
-    // US-004: Product JSON-LD
+    /**
+     * US-004 fix (Sprint 2): pass `specifications` to buildProductSchema so
+     * that `sku` and `additionalProperty` fields are included in the JSON-LD.
+     *
+     * Previously `specifications` was omitted from this call, leaving the
+     * schema without a sku identifier and without the PropertyValue array
+     * that Google uses for product knowledge panels and spec comparisons.
+     */
     const productSchema = buildProductSchema({
-      name: product.name,
-      slug: product.slug,
-      description: product.description,
-      image_url: product.image_url,
-      price_range: product.price_range,
-      categoryName: categoryName || undefined,
+        name: product.name,
+        slug: product.slug,
+        description: product.description,
+        image_url: product.image_url,
+        price_range: product.price_range,
+        categoryName: categoryName || undefined,
+        specifications: product.specifications,   // ← Sprint 2 addition
     });
 
     // US-008: Breadcrumb JSON-LD — Home → Products → {Product Name}
     const breadcrumbSchema = buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Products', path: '/products' },
-      { name: product.name, path: `/products/${product.slug}` },
+        { name: 'Home', path: '/' },
+        { name: 'Products', path: '/products' },
+        { name: product.name, path: `/products/${product.slug}` },
     ]);
+
     const cleanLong = product.long_description
         ? DOMPurify.sanitize(product.long_description)
         : '';
@@ -121,14 +130,13 @@ export function ProductDetail() {
     return (
         <div className="min-h-screen bg-gray-50">
 
-            {/* US-002/003/004/008/009: Dynamic SEO + Product + Breadcrumb schemas */}
             <SEO
-              title={`${product.name} | Buy in Pune | Everest HPS`}
-              description={`${product.name} — ${(product.description || '').slice(0, 120)}. Buy from Everest HPS, Chakan Pune. Free installation & pan-India delivery.`}
-              canonical={`/products/${product.slug}`}
-              ogImage={product.image_url || undefined}
-              ogType="product"
-              schemas={[productSchema, breadcrumbSchema]}
+                title={`${product.name} | Buy in Pune | Everest HPS`}
+                description={`${product.name} — ${(product.description || '').slice(0, 120)}. Buy from Everest HPS, Chakan Pune. Free installation & pan-India delivery.`}
+                canonical={`/products/${product.slug}`}
+                ogImage={product.image_url || undefined}
+                ogType="product"
+                schemas={[productSchema, breadcrumbSchema]}
             />
 
             {/* Breadcrumb */}
@@ -175,7 +183,11 @@ export function ProductDetail() {
                                     <button key={i} onClick={() => setSelectedIdx(i)}
                                         className={`flex-shrink-0 w-16 h-16 rounded-xl border-2 overflow-hidden transition-all ${selectedIdx === i ? 'border-[#0f3460]' : 'border-gray-200 hover:border-gray-300'
                                             }`}>
-                                        <img src={img} alt={`${product.name} - image ${i + 1}`} className="w-full h-full object-cover" />
+                                        <img
+                                            src={img}
+                                            alt={`${product.name} - image ${i + 1}`}
+                                            className="w-full h-full object-cover"
+                                        />
                                     </button>
                                 ))}
                             </div>
@@ -201,7 +213,7 @@ export function ProductDetail() {
                                         productName={product.name}
                                         url={`https://everesthps.com/products/${product.slug}`}
                                         description={product.description}
-                                        specifications={product.specifications}
+                                        specifications={product.specifications as Record<string, unknown>}
                                         imageUrl={product.image_url}
                                         price={product.price_range}
                                     />
@@ -218,7 +230,7 @@ export function ProductDetail() {
                             {!isPOR && <span className="text-xs text-gray-400">incl. taxes</span>}
                         </div>
 
-                        {/* ── SPEC TABLE — black border style matching screenshot ── */}
+                        {/* Spec table */}
                         {specs.length > 0 && (
                             <div>
                                 <h2 className="text-sm font-bold text-gray-900 mb-2">Technical Specifications</h2>

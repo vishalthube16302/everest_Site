@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 import { formatPrice, truncate } from '../lib/format';
-import { ShareButton } from './ShareButton';
+import { ShareButton, BASE_URL } from './ShareButton';
 
 interface Props {
   product: Product;
@@ -28,21 +28,21 @@ export function ProductCard({ product, categoryName }: Props) {
               <ShoppingBag size={40} />
             </div>
           )}
-          {/* {categoryName && (
-            <span className="absolute top-2 left-2 text-[10px] font-semibold uppercase tracking-wide bg-[#0f3460] text-white px-2 py-0.5 rounded-full">
-              {truncate(categoryName, 22)}
-            </span>
-          )} */}
         </div>
       </Link>
 
       <div className="absolute top-2 right-2 z-10">
+        {/*
+          SSR/SSG fix: previously `${window.location.origin}/products/${product.slug}`.
+          window.location is not available during vite-react-ssg pre-rendering (Node.js).
+          Use the imported BASE_URL constant instead.
+        */}
         <ShareButton
           productName={product.name}
-          url={`${window.location.origin}/products/${product.slug}`}
+          url={`${BASE_URL}/products/${product.slug}`}
           categoryName={categoryName}
           description={product.description}
-          specifications={product.specifications}
+          specifications={product.specifications as Record<string, unknown>}
           imageUrl={product.image_url}
           price={price}
         />

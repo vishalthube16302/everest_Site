@@ -4,12 +4,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- SEO tags are now managed dynamically by react-helmet-async (src/components/SEO.tsx) -->
-  <!-- LocalBusiness schema is injected dynamically from Supabase site_settings -->
+
+  <!--
+    Static SEO fallbacks — overridden per-page by react-helmet-async.
+
+    WHY THESE EXIST:
+    Social media crawlers (Facebook, LinkedIn, WhatsApp, Slack) and some
+    SEO tools request the raw HTML before JavaScript executes.  If no
+    static tags are present they display blank previews.
+
+    During vite-react-ssg pre-rendering, react-helmet-async bakes the
+    correct per-page tags into each route's HTML file, making these
+    fallbacks genuinely only used for:
+      • The raw un-rendered HTML during development
+      • Any path that isn't in the ssgOptions.includedRoutes list
+      • Tools that specifically disable JavaScript
+  -->
+
+  <!-- Primary meta fallbacks -->
+  <title>Everest Hydro Pneumatic Solutions — Air Compressors Pune</title>
+  <meta name="description"
+    content="Manufacturer and supplier of industrial air compressors, screw compressors, oil-free compressors and material handling equipment. Chakan, Pune, Maharashtra. Free installation. Pan-India delivery." />
+
+  <!-- Open Graph fallbacks -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Everest Hydro Pneumatic Solutions" />
+  <meta property="og:title" content="Everest Hydro Pneumatic Solutions — Air Compressors Pune" />
+  <meta property="og:description"
+    content="Manufacturer and supplier of industrial air compressors, screw compressors and material handling equipment in Pune, India. Free installation. Pan-India delivery." />
+  <meta property="og:url" content="https://everesthps.com/" />
+  <meta property="og:image" content="https://everesthps.com/favicon.svg" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Card fallbacks -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Everest Hydro Pneumatic Solutions" />
+  <meta name="twitter:description"
+    content="Industrial air compressors and material handling equipment. Chakan, Pune, Maharashtra." />
+  <meta name="twitter:image" content="https://everesthps.com/favicon.svg" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!--
+    SEO tags that require live Supabase data (dynamic title, description,
+    canonical, per-product og:image, JSON-LD schemas) are all managed
+    at runtime by react-helmet-async (src/components/SEO.tsx) and injected
+    by vite-react-ssg at build time.  Do not add additional hardcoded
+    meta or schema tags here; add them in the SEO component or schema.ts.
+  -->
 </head>
 
 <body>
+  <!--
+    noscript fallback: rendered by browsers/crawlers with JS disabled.
+    Provides minimal textual content so the page is not blank for
+    accessibility tools and non-JS crawlers.
+  -->
+  <noscript>
+    <div style="font-family:sans-serif;max-width:640px;margin:2rem auto;padding:1rem">
+      <h1>Everest Hydro Pneumatic Solutions</h1>
+      <p>Manufacturer &amp; supplier of industrial air compressors and material handling equipment.</p>
+      <p>Location: Kalp Residency, 109 B Wing, Chakan Shikrapur Road, Chakan, Pune – 410501, Maharashtra, India.</p>
+      <p>Phone: +91-8855820105 &nbsp;|&nbsp; Email: everesthps@gmail.com</p>
+      <p>This website requires JavaScript. Please enable JavaScript to view the full site.</p>
+    </div>
+  </noscript>
+
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

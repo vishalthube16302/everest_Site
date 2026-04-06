@@ -3,7 +3,16 @@ import { supabase } from '../lib/supabase';
 import { SiteSettings } from '../types';
 import { CheckCircle2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { buildOrganizationSchema } from '../lib/schema';
 
+/**
+ * About page
+ *
+ * Sprint 2 addition: Organization JSON-LD schema injected via the SEO
+ * component's schemas prop.  This gives Google the signals required to
+ * build a knowledge panel for "Everest Hydro Pneumatic Solutions" brand
+ * queries (founding date, employees, contact point, sameAs links).
+ */
 export function About() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
@@ -36,6 +45,7 @@ export function About() {
         title="About Us — Everest Hydro Pneumatic Solutions, Est. 2020, Chakan Pune"
         description="Established in 2020 in Chakan, Pune — Everest HPS manufactures & supplies industrial air compressors, screw compressors, oil-free compressors & material handling equipment. 50+ products, pan-India delivery."
         canonical="/about"
+        schemas={[buildOrganizationSchema()]}
       />
 
       {/* Hero */}
@@ -73,7 +83,6 @@ export function About() {
               <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-2">Who we are</p>
               <h2 className="text-2xl font-bold text-black mb-5">Built on precision. Trusted by industry.</h2>
 
-              {/* Pull first 2 clean paras from about_text */}
               {settings?.about_text ? (
                 <div className="space-y-3">
                   {settings.about_text

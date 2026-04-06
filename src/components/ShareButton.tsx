@@ -1,17 +1,28 @@
 import { useState, useRef, useEffect } from 'react';
 import { Share2, Mail, MessageCircle, X } from 'lucide-react';
 
+/** Canonical base URL — avoids any reference to window.location during SSG/SSR. */
+const BASE_URL = 'https://everesthps.com';
+
 interface ShareButtonProps {
     productName: string;
     url: string;
     categoryName?: string;
     description?: string;
-    specifications?: Record<string, any>;
+    specifications?: Record<string, unknown>;
     imageUrl?: string;
     price?: string;
 }
 
-export function ShareButton({ productName, url, categoryName, description, specifications, imageUrl, price }: ShareButtonProps) {
+export function ShareButton({
+    productName,
+    url,
+    categoryName,
+    description,
+    specifications,
+    imageUrl,
+    price,
+}: ShareButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -71,11 +82,25 @@ export function ShareButton({ productName, url, categoryName, description, speci
         return text;
     };
 
+    /**
+     * SSR/SSG safety: navigator is a browser-only global.
+     * During vite-react-ssg pre-rendering (Node.js environment) it does not
+     * exist.  Wrapping every navigator access with this guard prevents
+     * ReferenceError crashes that would break the pre-render build.
+     */
+    const isClient = typeof window !== 'undefined' && typeof navigator !== 'undefined';
+
     const handleNativeShare = async () => {
+        if (!isClient) return;
+
         const text = getFormattedText();
         const shareData: ShareData = { title: productName, text, url };
 
-        if (imageUrl && navigator.canShare && navigator.canShare({ files: [new File([], 'test.png')] })) {
+        if (
+            imageUrl &&
+            navigator.canShare &&
+            navigator.canShare({ files: [new File([], 'test.png')] })
+        ) {
             try {
                 const response = await fetch(imageUrl);
                 const blob = await response.blob();
@@ -110,10 +135,20 @@ export function ShareButton({ productName, url, categoryName, description, speci
         setIsOpen(false);
     };
 
+    const handleShareClick = () => {
+        // Guard: Web Share API and setIsOpen are client-side only
+        if (!isClient) return;
+        if ('share' in navigator) {
+            handleNativeShare();
+        } else {
+            setIsOpen(!isOpen);
+        }
+    };
+
     return (
         <div className="relative inline-block text-left" ref={menuRef}>
             <button
-                onClick={() => ('share' in navigator ? handleNativeShare() : setIsOpen(!isOpen))}
+                onClick={handleShareClick}
                 className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-blue-600 transition-colors"
                 aria-label="Share product"
                 title="Share"
@@ -150,3 +185,7 @@ export function ShareButton({ productName, url, categoryName, description, speci
         </div>
     );
 }
+
+// Re-export BASE_URL so callers (e.g. ProductCard) can build canonical URLs
+// without referencing window.location.origin.
+export { BASE_URL };
