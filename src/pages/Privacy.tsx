@@ -1,6 +1,15 @@
+import { SEO } from '../components/SEO';
+
 export function Privacy() {
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="Privacy Policy | Everest Hydro Pneumatic Solutions"
+        description="Read the privacy policy of Everest Hydro Pneumatic Solutions. Learn how we collect, use, and protect your personal data."
+        canonical="/privacy"
+      />
+
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Privacy Policy</h1>

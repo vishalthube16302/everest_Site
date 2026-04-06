@@ -6,6 +6,8 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { ShareButton } from '../components/ShareButton';
 import { formatPrice } from '../lib/format';
 import DOMPurify from 'dompurify';
+import { SEO } from '../components/SEO';
+import { buildProductSchema, buildBreadcrumbSchema } from '../lib/schema';
 
 interface ProductImage {
     id: string;
@@ -95,12 +97,39 @@ export function ProductDetail() {
     const specs = parseSpecs(product.specifications);
     const price = formatPrice(product.price_range);
     const isPOR = price === 'Price on Request';
+
+    // US-004: Product JSON-LD
+    const productSchema = buildProductSchema({
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      image_url: product.image_url,
+      price_range: product.price_range,
+      categoryName: categoryName || undefined,
+    });
+
+    // US-008: Breadcrumb JSON-LD — Home → Products → {Product Name}
+    const breadcrumbSchema = buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Products', path: '/products' },
+      { name: product.name, path: `/products/${product.slug}` },
+    ]);
     const cleanLong = product.long_description
         ? DOMPurify.sanitize(product.long_description)
         : '';
 
     return (
         <div className="min-h-screen bg-gray-50">
+
+            {/* US-002/003/004/008/009: Dynamic SEO + Product + Breadcrumb schemas */}
+            <SEO
+              title={`${product.name} | Buy in Pune | Everest HPS`}
+              description={`${product.name} — ${(product.description || '').slice(0, 120)}. Buy from Everest HPS, Chakan Pune. Free installation & pan-India delivery.`}
+              canonical={`/products/${product.slug}`}
+              ogImage={product.image_url || undefined}
+              ogType="product"
+              schemas={[productSchema, breadcrumbSchema]}
+            />
 
             {/* Breadcrumb */}
             <div className="bg-white border-b border-gray-100">
@@ -146,7 +175,7 @@ export function ProductDetail() {
                                     <button key={i} onClick={() => setSelectedIdx(i)}
                                         className={`flex-shrink-0 w-16 h-16 rounded-xl border-2 overflow-hidden transition-all ${selectedIdx === i ? 'border-[#0f3460]' : 'border-gray-200 hover:border-gray-300'
                                             }`}>
-                                        <img src={img} alt="" className="w-full h-full object-cover" />
+                                        <img src={img} alt={`${product.name} - image ${i + 1}`} className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
@@ -170,7 +199,7 @@ export function ProductDetail() {
                                 <div className="shrink-0 mt-0.5">
                                     <ShareButton
                                         productName={product.name}
-                                        url={window.location.href}
+                                        url={`https://everesthps.com/products/${product.slug}`}
                                         description={product.description}
                                         specifications={product.specifications}
                                         imageUrl={product.image_url}

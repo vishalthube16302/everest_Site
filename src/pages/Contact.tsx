@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { LightningService } from '../lib/lightning';
 import { SiteSettings } from '../types';
+import { SEO } from '../components/SEO';
 
 export function Contact() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -12,9 +13,18 @@ export function Contact() {
     supabase.from('site_settings').select('*').limit(1).maybeSingle()
       .then(({ data }) => { if (data) setSettings(data); });
 
-    LightningService.createComponent('c:websiteInquiryForm', 'lwc-container')
-      .catch(() => { })
-      .finally(() => setLoading(false));
+    // US-011: Lightning lazy-loaded ONLY on Contact page
+    // Guard: skip during prerender/SSG (no window interaction)
+    const isSSR = typeof window === 'undefined' || import.meta.env?.SSR;
+    const isPrerenderAgent = typeof navigator !== 'undefined' && /prerender|googlebot|bingbot|headlesschrome/i.test(navigator.userAgent.toLowerCase());
+    
+    if (!isSSR && !isPrerenderAgent) {
+      LightningService.createComponent('c:websiteInquiryForm', 'lwc-container')
+        .catch(() => { })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const phone = settings?.phone || '+91-8855820105';
@@ -44,6 +54,12 @@ export function Contact() {
 
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="Contact Everest HPS | Air Compressor Supplier | +91-8855820105"
+        description="Contact Everest Hydro Pneumatic Solutions for air compressor quotes, product enquiries & after-sales support. Call +91-8855820105. Chakan, Pune 410501."
+        canonical="/contact"
+      />
 
       {/* Hero */}
       <section className="bg-[#0f3460] py-12">

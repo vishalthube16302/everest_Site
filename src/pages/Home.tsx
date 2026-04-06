@@ -5,6 +5,7 @@ import { Category, Testimonial, SiteSettings, Product } from '../types';
 import { Link } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
 import { truncate } from '../lib/format';
+import { SEO } from '../components/SEO';
 
 export function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -52,6 +53,12 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="Air Compressor Supplier Pune | Everest Hydro Pneumatic Solutions"
+        description="Manufacturer & supplier of industrial air compressors, screw & oil-free compressors, and material handling equipment in Pune. Free pan-India delivery."
+        canonical="/"
+      />
 
       {/* ─── HERO ─────────────────────────────────────────── */}
       <section
@@ -166,7 +173,7 @@ export function Home() {
                     {cat.image_url ? (
                       <img
                         src={cat.image_url}
-                        alt={cat.name}
+                        alt={`${cat.name} — Everest HPS products`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (

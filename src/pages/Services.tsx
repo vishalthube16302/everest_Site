@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Service } from '../types';
-import { Zap, Settings, Headphones, BookOpen, ArrowRight } from 'lucide-react';
+import { Zap, Settings, Headphones, BookOpen, ArrowRight, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
+import { buildFAQSchema } from '../lib/schema';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  zap: Zap,
-  settings: Settings,
-  headphones: Headphones,
-  book: BookOpen,
+  zap: Zap as React.ComponentType<{ size?: number; className?: string }>,
+  settings: Settings as React.ComponentType<{ size?: number; className?: string }>,
+  headphones: Headphones as React.ComponentType<{ size?: number; className?: string }>,
+  book: BookOpen as React.ComponentType<{ size?: number; className?: string }>,
 };
 
 const process = [
@@ -18,9 +20,36 @@ const process = [
   { step: '04', title: 'Free Setup', desc: 'Full installation, commissioning, and a demo — all at no extra cost.' },
 ];
 
+/* ── US-012: SEO-optimized FAQ content for Services page ──────── */
+const SERVICE_FAQS = [
+  {
+    question: 'Do you offer free installation for air compressors?',
+    answer: 'Yes. Everest HPS provides completely free on-site installation and commissioning for every air compressor we sell. Our engineers visit your facility, install the unit, connect piping, and run a full commissioning check — all at zero additional cost.',
+  },
+  {
+    question: 'What does your after-sales service include?',
+    answer: 'Our after-sales support includes free first servicing (labour cost waived), ongoing technical assistance, spare parts supply (filters, oil, belts), annual maintenance contracts (AMC), and emergency breakdown support. We aim to respond within 24 hours for service requests in the Pune region.',
+  },
+  {
+    question: 'Can you help configure a compressor for my specific needs?',
+    answer: 'Absolutely. We offer free consultations to assess your air demand (CFM), pressure requirements (bar/PSI), duty cycle, and installation space. Based on this, we recommend the ideal HP rating, tank size, dryer type, and piping layout — ensuring maximum efficiency and minimum energy waste.',
+  },
+  {
+    question: 'Do you provide compressor rental or leasing options?',
+    answer: 'Currently, Everest HPS focuses on outright sales with free installation. For large-volume or project-based requirements, please contact our sales team to discuss custom arrangements tailored to your timeline and budget.',
+  },
+  {
+    question: 'What areas do you serve for installation and service?',
+    answer: 'We provide installation services pan-India. Our primary service region for same-day/next-day support is the Pune–PCMC–Chakan industrial belt. For other locations across Maharashtra and India, we coordinate with our logistics and service network to ensure timely support.',
+  },
+];
+
+const serviceFaqSchema = buildFAQSchema(SERVICE_FAQS);
+
 export function Services() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   useEffect(() => {
     supabase.from('services').select('*').order('sort_order').then(({ data }) => {
@@ -31,6 +60,13 @@ export function Services() {
 
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="Services — Free Installation, After-Sales Support | Everest HPS Pune"
+        description="End-to-end air compressor services: free installation, first servicing at no cost, custom HP configuration, and pan-India delivery from Everest HPS."
+        canonical="/services"
+        schemas={[serviceFaqSchema]}
+      />
 
       {/* Hero */}
       <section className="bg-[#0f3460] py-12">
@@ -134,6 +170,37 @@ export function Services() {
                   <p className="font-semibold text-black text-sm">{title}</p>
                   <p className="text-xs text-gray-500">{sub}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── US-012: FAQ Section ── */}
+      <section className="py-14 bg-white border-t border-gray-100">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-1">Common questions</p>
+            <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-2">
+            {SERVICE_FAQS.map((faq, i) => (
+              <div key={i} className="border border-gray-100 rounded-xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-medium text-sm text-gray-900 pr-4">{faq.question}</span>
+                  <ChevronDown
+                    size={18}
+                    className={`text-gray-400 flex-shrink-0 transition-transform duration-200 ${openFAQ === i ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {openFAQ === i && (
+                  <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -3,7 +3,35 @@ import { supabase } from '../lib/supabase';
 import { Category, Product } from '../types';
 import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { SEO } from '../components/SEO';
+import { buildFAQSchema } from '../lib/schema';
+
+/* ── US-012: SEO-optimized FAQ content for Products page ──────── */
+const PRODUCT_FAQS = [
+  {
+    question: 'Which air compressor is best for industrial use?',
+    answer: 'For industrial use, screw compressors are the most popular choice due to their continuous duty cycle, energy efficiency, and low noise. Everest HPS offers screw compressors from 5 HP to 100 HP, covering small workshops to large manufacturing plants. Oil-free models are recommended for food, pharma, and dental industries.',
+  },
+  {
+    question: 'Do you provide free installation with compressor purchase?',
+    answer: 'Yes. Every air compressor purchased from Everest HPS includes free on-site installation and commissioning by our trained engineers. We also provide a free first servicing to ensure your equipment runs optimally from day one.',
+  },
+  {
+    question: 'What is the price range of industrial air compressors?',
+    answer: 'Industrial air compressor prices at Everest HPS start from approximately Rs 12,000 for small reciprocating units and go up to Rs 8,00,000+ for high-capacity screw compressors. Pricing varies based on HP, tank size, technology (oil-free vs lubricated), and configuration. Contact us for an exact quote.',
+  },
+  {
+    question: 'Do you deliver air compressors across India?',
+    answer: 'Absolutely. Everest HPS offers pan-India delivery with careful packaging and logistics tracking. Whether you are in Pune, Mumbai, Delhi, Bangalore, or any part of India, we ensure safe and timely delivery to your doorstep.',
+  },
+  {
+    question: 'How do I choose the right compressor capacity (CFM/HP)?',
+    answer: 'Choosing the right capacity depends on your air demand (CFM), required working pressure (PSI/bar), duty cycle, and application type. Our team conducts a free consultation to assess your needs and recommend the ideal HP, tank size, and dryer configuration. Contact us for a personalised recommendation.',
+  },
+];
+
+const faqSchema = buildFAQSchema(PRODUCT_FAQS);
 
 export function Products() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -12,6 +40,7 @@ export function Products() {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +87,14 @@ export function Products() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+
+      <SEO
+        title="Industrial Air Compressors & Pneumatic Equipment | Everest HPS"
+        description="Browse 50+ industrial air compressors, screw, oil-free, dental & material handling equipment. Competitive prices & free installation from Everest HPS, Pune."
+        canonical="/products"
+        schemas={[faqSchema]}
+      />
+
       {/* Hero */}
       <section className="bg-[#0f3460] py-10">
         <div className="max-w-7xl mx-auto px-4">
@@ -144,6 +181,37 @@ export function Products() {
           </main>
         </div>
       </div>
+
+      {/* ── US-012: FAQ Section ── */}
+      <section className="py-14 bg-white border-t border-gray-100">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-1">Common questions</p>
+            <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-2">
+            {PRODUCT_FAQS.map((faq, i) => (
+              <div key={i} className="border border-gray-100 rounded-xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-medium text-sm text-gray-900 pr-4">{faq.question}</span>
+                  <ChevronDown
+                    size={18}
+                    className={`text-gray-400 flex-shrink-0 transition-transform duration-200 ${openFAQ === i ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {openFAQ === i && (
+                  <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

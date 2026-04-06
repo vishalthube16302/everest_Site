@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { SiteSettings } from '../types';
 import { CheckCircle2 } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export function About() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -30,6 +31,12 @@ export function About() {
 
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="About Us — Everest Hydro Pneumatic Solutions, Est. 2020, Chakan Pune"
+        description="Established in 2020 in Chakan, Pune — Everest HPS manufactures & supplies industrial air compressors, screw compressors, oil-free compressors & material handling equipment. 50+ products, pan-India delivery."
+        canonical="/about"
+      />
 
       {/* Hero */}
       <section className="bg-[#0f3460] py-14">
