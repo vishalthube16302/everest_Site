@@ -4,46 +4,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Everest Hydro Pneumatic Solutions - Hydraulic & Pneumatic Industrial Products</title>
+
+  <!--
+    Static SEO fallbacks — overridden per-page by react-helmet-async.
+
+    WHY THESE EXIST:
+    Social media crawlers (Facebook, LinkedIn, WhatsApp, Slack) and some
+    SEO tools request the raw HTML before JavaScript executes.  If no
+    static tags are present they display blank previews.
+
+    During vite-react-ssg pre-rendering, react-helmet-async bakes the
+    correct per-page tags into each route's HTML file, making these
+    fallbacks genuinely only used for:
+      • The raw un-rendered HTML during development
+      • Any path that isn't in ssgOptions.includedRoutes
+      • Tools that specifically disable JavaScript
+  -->
+
+  <!-- Primary meta fallbacks -->
+  <title>Everest Hydro Pneumatic Solutions — Air Compressors Pune</title>
   <meta name="description"
-    content="Leading supplier of high-quality hydraulic and pneumatic components. Serving manufacturing, machinery, automation, and industrial sectors with reliable solutions.">
-  <meta name="keywords"
-    content="hydraulic fittings, pneumatic valves, hydraulic hoses, pneumatic cylinders, industrial components">
-  <meta name="author" content="Everest Hydro Pneumatic Solutions">
-  <meta property="og:title" content="Everest Hydro Pneumatic Solutions - Quality Industrial Components">
-  <meta property="og:description" content="Reliable hydraulic and pneumatic solutions for your industrial needs">
-  <meta property="og:type" content="business.business">
-  <meta property="og:image" content="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Everest Hydro Pneumatic Solutions">
-  <meta name="twitter:description" content="Reliable hydraulic and pneumatic solutions">
-  <meta name="twitter:image" content="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg">
-  <link rel="canonical" href="https://everesthps.com">
-  <link rel="preload" href="https://fwseries3-dev-ed.develop.my.site.com/External/lightning/lightning.out.js"
-    as="script">
+    content="Manufacturer and supplier of industrial air compressors, screw compressors, oil-free compressors and material handling equipment. Chakan, Pune, Maharashtra. Free installation. Pan-India delivery." />
+
+  <!-- Canonical fallback — overridden per page by react-helmet-async -->
+  <link rel="canonical" href="https://everesthps.com/" />
+
+  <!-- hreflang — signals to Google this is India-English content -->
+  <link rel="alternate" hreflang="en-IN" href="https://everesthps.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://everesthps.com/" />
+
+  <!-- Open Graph fallbacks -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Everest Hydro Pneumatic Solutions" />
+  <meta property="og:title" content="Everest Hydro Pneumatic Solutions — Air Compressors Pune" />
+  <meta property="og:description"
+    content="Manufacturer and supplier of industrial air compressors, screw compressors and material handling equipment in Pune, India. Free installation. Pan-India delivery." />
+  <meta property="og:url" content="https://everesthps.com/" />
+  <meta property="og:image" content="https://everesthps.com/favicon.svg" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Card fallbacks -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Everest Hydro Pneumatic Solutions" />
+  <meta name="twitter:description"
+    content="Industrial air compressors and material handling equipment. Chakan, Pune, Maharashtra." />
+  <meta name="twitter:image" content="https://everesthps.com/favicon.svg" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Everest Hydro Pneumatic Solutions",
-      "image": "https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg",
-      "description": "Leading supplier of high-quality hydraulic and pneumatic components",
-      "telephone": "+91-9876543210",
-      "email": "info@everesthydro.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Industrial Park",
-        "addressLocality": "Mumbai",
-        "addressCountry": "IN"
-      },
-      "areaServed": ["IN", "Asia"],
-      "priceRange": "₹$$"
-    }
-    </script>
+
+  <!--
+    Google Analytics 4 (GA4) — P1 requirement
+    ─────────────────────────────────────────────────────────────────────────
+    Measurement ID: G-XXXXXXXXXX
+    ─────────────────────────────────────────────────────────────────────────
+    IMPORTANT: Replace G-XXXXXXXXXX with your real GA4 Measurement ID.
+
+    HOW TO GET YOUR ID:
+      1. Go to https://analytics.google.com
+      2. Admin → Property → Data Streams → Web stream
+      3. Copy the Measurement ID (format: G-XXXXXXXXXX)
+      4. Replace the placeholder below in both script src and gtag('config') call.
+
+    WHY IT'S HERE (not in React):
+      Placing GA4 in index.html ensures it fires even before React hydrates,
+      capturing the very first pageview from both regular visitors AND from any
+      server-side or bot traffic. React-based solutions miss the initial pageview
+      because the script runs after hydration.
+
+    PRIVACY NOTE:
+      GA4 is GDPR-compliant by default with IP anonymisation. For Indian users
+      no additional consent is legally required at this stage, but adding a
+      cookie consent banner is recommended for future compliance.
+    ─────────────────────────────────────────────────────────────────────────
+  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Replace G-XXXXXXXXXX with your real Measurement ID
+    gtag('config', 'G-XXXXXXXXXX', {
+      // Anonymise IP addresses (recommended for privacy)
+      anonymize_ip: true,
+      // Send pageview on load (default true — explicit for clarity)
+      send_page_view: true
+    });
+  </script>
+
+  <!--
+    SEO tags that require live Supabase data (dynamic title, description,
+    canonical, per-product og:image, JSON-LD schemas) are all managed
+    at runtime by react-helmet-async (src/components/SEO.tsx) and injected
+    by vite-react-ssg at build time. Do not add additional hardcoded
+    meta or schema tags here; add them in the SEO component or schema.ts.
+  -->
 </head>
 
 <body>
+  <!--
+    noscript fallback: rendered by browsers/crawlers with JS disabled.
+    Provides minimal textual content so the page is not blank for
+    accessibility tools and non-JS crawlers.
+
+    Also serves as a human-readable fallback for the GA4 pixel for
+    environments where JavaScript is blocked.
+  -->
+  <noscript>
+    <div style="font-family:sans-serif;max-width:640px;margin:2rem auto;padding:1rem">
+      <h1>Everest Hydro Pneumatic Solutions</h1>
+      <p>Manufacturer &amp; supplier of industrial air compressors and material handling equipment.</p>
+      <p>Location: Kalp Residency, 109 B Wing, Chakan Shikrapur Road, Chakan, Pune – 410501, Maharashtra, India.</p>
+      <p>Phone: +91-8855820105 &nbsp;|&nbsp; Email: everesthps@gmail.com</p>
+      <p>This website requires JavaScript. Please enable JavaScript to view the full site.</p>
+    </div>
+    <!-- GA4 noscript fallback (fires 1x1 pixel for no-JS environments) -->
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />
+  </noscript>
+
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

@@ -6,83 +6,134 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const currentYear = 2020;
 
   useEffect(() => {
-    const fetchSettings = async () => {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('*')
-        .limit(1)
-        .maybeSingle();
-      if (data) setSettings(data);
-    };
-    fetchSettings();
+    supabase.from('site_settings').select('*').limit(1).maybeSingle()
+      .then(({ data }) => { if (data) setSettings(data); });
   }, []);
 
+  const companyName = settings?.company_name?.trim() || 'Everest HPS';
+  const tagline = settings?.tagline;
+  const primary = settings?.primary_color || '#ffffff';
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* Company Info */}
+    <footer className="bg-[#0a2240] text-white">
+      <div className="max-w-7xl mx-auto px-4 py-10">
+
+        {/* ── Main grid ── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+
+          {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded" style={{ backgroundColor: settings?.accent_color || '#FF6B35' }}></div>
-              <h3 className="font-bold text-lg">{settings?.company_name || 'Everest'}</h3>
+            <div className="flex items-center gap-3 mb-3">
+              {settings?.logo_url && (
+                <img
+                  src={settings.logo_url}
+                  alt={companyName}
+                  className="h-8 w-auto object-contain brightness-0 invert"
+                />
+              )}
+
+              <div className="flex flex-col leading-tight">
+                <span
+                  className="font-extrabold text-4xl tracking-wide leading-none"
+                  //style={{ color: settings?.company_name_color || '#ffffff' }}
+                  style={{ color: '#ffffff' }}
+                >
+                  {companyName}
+                </span>
+
+                {tagline && (
+                  <span
+                    className="text-xs font-medium tracking-wide opacity-80"
+                    style={{ color: primary }}
+                  >
+                    {tagline}
+                  </span>
+                )}
+              </div>
             </div>
-            <p className="text-gray-400 text-sm">{settings?.tagline}</p>
+
+            {settings?.whatsapp && (
+              <a
+                href={`https://wa.me/${settings.whatsapp.replace(/[^\d]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition-all"
+              >
+                WhatsApp Us
+              </a>
+            )}
           </div>
 
-          {/* Quick Links */}
+          {/* Navigation */}
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <div className="flex flex-col gap-2 text-sm text-gray-400">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
-              <Link to="/products" className="hover:text-white transition-colors">Products</Link>
-              <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <h4 className="text-sm font-bold uppercase tracking-wider text-blue-300 mb-4">Navigation</h4>
+            <div className="flex flex-col gap-2">
+              {['/', '/products', '/services', '/about', '/contact'].map((path, i) => {
+                const labels = ['Home', 'Products', 'Services', 'About', 'Contact'];
+                return (
+                  <Link key={path} to={path} className="text-blue-200 hover:text-white text-sm transition-colors">
+                    {labels[i]}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <div className="flex flex-col gap-3 text-sm text-gray-400">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-blue-300 mb-4">Contact</h4>
+            <div className="flex flex-col gap-3">
               {settings?.phone && (
-                <a href={`tel:${settings.phone}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  <Phone size={16} /> {settings.phone}
+                <a href={`tel:${settings.phone}`} className="flex items-center gap-2 text-blue-200 hover:text-white text-sm transition-colors">
+                  <Phone size={14} /> {settings.phone}
                 </a>
               )}
               {settings?.email && (
-                <a href={`mailto:${settings.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                  <Mail size={16} /> {settings.email}
+                <a href={`mailto:${settings.email}`} className="flex items-center gap-2 text-blue-200 hover:text-white text-sm transition-colors">
+                  <Mail size={14} /> {settings.email}
                 </a>
               )}
               {settings?.address && (
-                <div className="flex items-start gap-2">
-                  <MapPin size={16} className="flex-shrink-0 mt-1" />
-                  <span>{settings.address}</span>
+                <div className="flex items-start gap-2 text-blue-200 text-sm">
+                  <MapPin size={14} className="mt-1" />
+                  <span className="leading-relaxed">{settings.address}</span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Hours */}
+          {/* Working Hours */}
           <div>
-            <h4 className="font-semibold mb-4">Working Hours</h4>
-            <p className="text-sm text-gray-400">{settings?.working_hours}</p>
+            <h4 className="text-sm font-bold uppercase tracking-wider text-blue-300 mb-4">Working Hours</h4>
+            <p className="text-blue-200 text-sm leading-relaxed">
+              {settings?.working_hours || 'Mon – Sat: 9:00 AM – 6:30 PM IST'}
+            </p>
+
+            {settings?.gst_number && (
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <p className="text-xs text-blue-400 mb-1">GST Registration</p>
+                <p className="text-sm text-blue-200 font-mono">{settings.gst_number}</p>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-            <p>© {currentYear} {settings?.company_name}. All rights reserved.</p>
-            <div className="flex gap-4">
-              <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
-            </div>
+        {/* Bottom bar */}
+        <div className="border-t border-white/10 pt-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-blue-400">
+          <p>
+            © {currentYear}{' '}
+            <span style={{ color: primary }}>{companyName}</span>. All rights reserved.
+          </p>
+
+          <div className="flex gap-5">
+            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
           </div>
         </div>
+
       </div>
     </footer>
   );
