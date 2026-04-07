@@ -1,16 +1,28 @@
 import { useState, useRef, useEffect } from 'react';
 import { Share2, Mail, MessageCircle, X } from 'lucide-react';
 
+/** Canonical base URL — avoids any reference to window.location during SSG/SSR. */
+const BASE_URL = 'https://everesthps.com';
+
 interface ShareButtonProps {
     productName: string;
     url: string;
+    categoryName?: string;
     description?: string;
-    specifications?: Record<string, any>;
+    specifications?: Record<string, unknown>;
     imageUrl?: string;
     price?: string;
 }
 
-export function ShareButton({ productName, url, description, specifications, imageUrl, price }: ShareButtonProps) {
+export function ShareButton({
+    productName,
+    url,
+    categoryName,
+    description,
+    specifications,
+    imageUrl,
+    price,
+}: ShareButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -20,34 +32,40 @@ export function ShareButton({ productName, url, description, specifications, ima
                 setIsOpen(false);
             }
         }
-
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const getFormattedText = () => {
         let text = `*${productName}*\n`;
 
-        if (price) {
+        if (categoryName) {
+            text += `Category: ${categoryName}\n`;
+        }
+
+        if (price && price !== 'Price on Request') {
             text += `Price: ${price}\n`;
         }
 
         text += `\n`;
 
         if (description) {
-            text += `${description}\n\n`;
+            const firstLine = description.split('\n')[0].trim();
+            if (firstLine) text += `${firstLine}\n\n`;
         }
 
         if (specifications) {
-            // Support both array format [[key,value],...] and legacy object format {key:value,...}
             const specEntries: [string, string][] = Array.isArray(specifications)
                 ? specifications
                 : Object.entries(specifications);
-            if (specEntries.length > 0) {
+
+            const validEntries = specEntries
+                .filter(([, v]) => String(v).trim() && String(v).trim() !== '0')
+                .slice(0, 5);
+
+            if (validEntries.length > 0) {
                 text += `*Specifications:*\n`;
-                specEntries.forEach(([key, value]) => {
+                validEntries.forEach(([key, value]) => {
                     text += `• ${key}: ${value}\n`;
                 });
                 text += `\n`;
@@ -55,8 +73,8 @@ export function ShareButton({ productName, url, description, specifications, ima
         }
 
         text += `Check it out: ${url}`;
+        text += `\n\n*Everest HPS* — +91-8855820105`;
 
-        // Append image URL if available (for WhatsApp preview/text fallback)
         if (imageUrl) {
             text += `\n\nImage: ${imageUrl}`;
         }
@@ -64,23 +82,30 @@ export function ShareButton({ productName, url, description, specifications, ima
         return text;
     };
 
-    const handleNativeShare = async () => {
-        const text = getFormattedText();
-        const shareData: ShareData = {
-            title: productName,
-            text: text,
-            url: url,
-        };
+    /**
+     * SSR/SSG safety: navigator is a browser-only global.
+     * During vite-react-ssg pre-rendering (Node.js environment) it does not
+     * exist.  Wrapping every navigator access with this guard prevents
+     * ReferenceError crashes that would break the pre-render build.
+     */
+    const isClient = typeof window !== 'undefined' && typeof navigator !== 'undefined';
 
-        // Try to share image file if available and supported
-        if (imageUrl && navigator.canShare && navigator.canShare({ files: [new File([], 'test.png')] })) {
+    const handleNativeShare = async () => {
+        if (!isClient) return;
+
+        const text = getFormattedText();
+        const shareData: ShareData = { title: productName, text, url };
+
+        if (
+            imageUrl &&
+            navigator.canShare &&
+            navigator.canShare({ files: [new File([], 'test.png')] })
+        ) {
             try {
                 const response = await fetch(imageUrl);
                 const blob = await response.blob();
                 const file = new File([blob], 'product-image.jpg', { type: blob.type });
-                if (navigator.canShare({ files: [file] })) {
-                    shareData.files = [file];
-                }
+                if (navigator.canShare({ files: [file] })) shareData.files = [file];
             } catch (e) {
                 console.warn('Failed to fetch image for sharing', e);
             }
@@ -90,12 +115,7 @@ export function ShareButton({ productName, url, description, specifications, ima
             try {
                 await navigator.share(shareData);
             } catch (error) {
-                console.log('Error sharing:', error);
-                // Fallback to dropdown if user cancelled or share failed (but not if it's just a cancellation)
-                // Usually AbortError is user cancellation.
-                if ((error as Error).name !== 'AbortError') {
-                    setIsOpen(true);
-                }
+                if ((error as Error).name !== 'AbortError') setIsOpen(true);
             }
         } else {
             setIsOpen(!isOpen);
@@ -104,33 +124,31 @@ export function ShareButton({ productName, url, description, specifications, ima
 
     const handleWhatsAppShare = () => {
         const text = getFormattedText();
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
-        window.open(whatsappUrl, '_blank');
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         setIsOpen(false);
     };
 
     const handleEmailShare = () => {
-        const subject = `Check out ${productName}`;
+        const subject = `Product Enquiry — ${productName}`;
         const body = getFormattedText();
-        const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoUrl;
+        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         setIsOpen(false);
+    };
+
+    const handleShareClick = () => {
+        // Guard: Web Share API and setIsOpen are client-side only
+        if (!isClient) return;
+        if ('share' in navigator) {
+            handleNativeShare();
+        } else {
+            setIsOpen(!isOpen);
+        }
     };
 
     return (
         <div className="relative inline-block text-left" ref={menuRef}>
             <button
-                onClick={() => {
-                    // Check if we should try native share first
-                    // Note: navigator.share requires a secure context (HTTPS) or localhost
-                    const hasShare = 'share' in navigator;
-
-                    if (hasShare) {
-                        handleNativeShare();
-                    } else {
-                        setIsOpen(!isOpen);
-                    }
-                }}
+                onClick={handleShareClick}
                 className="p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-blue-600 transition-colors"
                 aria-label="Share product"
                 title="Share"
@@ -139,7 +157,7 @@ export function ShareButton({ productName, url, description, specifications, ima
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5 animate-in fade-in zoom-in duration-200">
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
                     <div className="py-1">
                         <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-100 flex justify-between items-center">
                             <span>Share via</span>
@@ -167,3 +185,7 @@ export function ShareButton({ productName, url, description, specifications, ima
         </div>
     );
 }
+
+// Re-export BASE_URL so callers (e.g. ProductCard) can build canonical URLs
+// without referencing window.location.origin.
+export { BASE_URL };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { GalleryImage } from '../types';
+import { SEO } from '../components/SEO';
 
 export function Gallery() {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -16,6 +17,13 @@ export function Gallery() {
 
   return (
     <div className="min-h-screen bg-white">
+
+      <SEO
+        title="Gallery — Product Photos & Operations | Everest HPS"
+        description="View photos of industrial air compressors, oil-free compressors, screw compressors & material handling equipment from Everest Hydro Pneumatic Solutions, Pune."
+        canonical="/gallery"
+      />
+
       {/* Hero */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
