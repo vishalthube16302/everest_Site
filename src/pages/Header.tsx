@@ -23,11 +23,7 @@ export function Header() {
   }, []);
 
   // Fallback when company_name is empty string in DB
-  const isSettingsLoaded = settings !== null;
-  const companyName = isSettingsLoaded ? (settings.company_name?.trim() || '') : 'Everest HPS';
-  const tagline = settings?.tagline?.trim() || '';
-  const showText = companyName.length > 0;
-
+  const companyName = settings?.company_name?.trim() || 'Everest HPS';
   const primary = settings?.primary_color || '#0f3460';
   const accent = settings?.accent_color || '#e94560';
   const isActive = (path: string) => location.pathname === path;
@@ -60,37 +56,16 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             {settings?.logo_url ? (
-              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-10 w-auto object-contain" />
+              <img src={settings.logo_url} alt={companyName} className="h-9 w-auto object-contain" />
             ) : (
-              <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ backgroundColor: primary }} />
+              <div className="w-9 h-9 rounded-lg" style={{ backgroundColor: primary }} />
             )}
-            {showText && (
-              <div className="hidden sm:flex flex-col justify-center">
-                {/* <span
-                  className="font-extrabold text-lg tracking-tight leading-none"
-                  style={{ color: settings?.company_name_color || primary }}
-                >
-                  {companyName}
-                </span> */}
-                <div className="flex flex-col leading-tight">
-                  <span
-                    className="font-extrabold text-4xl tracking-wide leading-none"
-                    style={{ color: settings?.company_name_color || '#ffffff' }}
-                  >
-                    {companyName}
-                  </span>
-
-                  {tagline && (
-                    <span
-                      className="text-xs font-medium tracking-wide opacity-80"
-                      style={{ color: primary }}
-                    >
-                      {tagline}
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
+            <span
+              className="hidden sm:inline font-bold text-base tracking-tight"
+              style={{ color: settings?.company_name_color || primary }}
+            >
+              {companyName}
+            </span>
           </Link>
 
           {/* Desktop nav */}
@@ -99,10 +74,11 @@ export function Header() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
-                  ? 'text-white'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive(item.path)
+                    ? 'text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
                 style={isActive(item.path) ? { backgroundColor: primary } : {}}
               >
                 {item.label}
@@ -149,10 +125,11 @@ export function Header() {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(item.path)
-                    ? 'text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    isActive(item.path)
+                      ? 'text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                   style={isActive(item.path) ? { backgroundColor: primary } : {}}
                 >
                   {item.label}

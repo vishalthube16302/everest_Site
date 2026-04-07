@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, Zap, Shield, Truck, Lightbulb } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Truck, Wrench, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Category, Testimonial, SiteSettings, Product } from '../types';
 import { Link } from 'react-router-dom';
+import { ProductCard } from '../components/ProductCard';
+import { truncate } from '../lib/format';
+import { SEO } from '../components/SEO';
 
 export function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -13,126 +16,188 @@ export function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const [settingsRes, categoriesRes, testimonialsRes, productsRes] = await Promise.all([
-          supabase.from('site_settings').select('*').limit(1).maybeSingle(),
-          supabase.from('categories').select('*').order('sort_order'),
-          supabase.from('testimonials').select('*').eq('is_active', true).order('sort_order'),
-          supabase.from('products').select('*').eq('is_featured', true).order('sort_order').limit(6),
-        ]);
-
-        if (settingsRes.data) setSettings(settingsRes.data);
-        if (categoriesRes.data) setCategories(categoriesRes.data);
-        if (testimonialsRes.data) setTestimonials(testimonialsRes.data);
-        if (productsRes.data) setFeaturedProducts(productsRes.data);
-      } finally {
-        setLoading(false);
-      }
+      const [settingsRes, categoriesRes, testimonialsRes, productsRes] = await Promise.all([
+        supabase.from('site_settings').select('*').limit(1).maybeSingle(),
+        supabase.from('categories').select('*').order('sort_order'),
+        supabase.from('testimonials').select('*').eq('is_active', true).order('sort_order'),
+        supabase.from('products').select('*').eq('is_featured', true).order('sort_order').limit(6),
+      ]);
+      if (settingsRes.data) setSettings(settingsRes.data);
+      if (categoriesRes.data) setCategories(categoriesRes.data);
+      if (testimonialsRes.data) setTestimonials(testimonialsRes.data);
+      if (productsRes.data) setFeaturedProducts(productsRes.data);
+      setLoading(false);
     };
     fetchData();
   }, []);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#0f3460] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const primary = settings?.primary_color || '#0f3460';
+  const accent = settings?.accent_color || '#e94560';
+
+  const features = [
+    { icon: Zap, label: 'Wide Range', desc: '50+ product models' },
+    { icon: Shield, label: 'Quality Tested', desc: 'ISO-grade standards' },
+    { icon: Truck, label: 'Fast Delivery', desc: 'Pan-India shipping' },
+    { icon: Wrench, label: 'Free Setup', desc: 'Installation included' },
+  ];
+
+  const industries = ['Manufacturing', 'Automotive', 'Dental & Medical', 'Construction', 'Packaging'];
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative h-96 bg-gradient-to-r from-blue-900 to-blue-700 overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt="Industrial"
-            className="w-full h-full object-cover opacity-30"
-          />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center items-start">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {settings?.tagline || 'Reliable Hydraulic & Pneumatic Solutions'}
-          </h1>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl">
-            Quality industrial components with assured performance. Trusted by leading manufacturers worldwide.
-          </p>
-          <div className="flex gap-4">
-            <Link
-              to="/products"
-              className="px-6 py-3 bg-white text-blue-900 font-semibold rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-2"
+
+      <SEO
+        title="Air Compressor Supplier Pune | Everest Hydro Pneumatic Solutions"
+        description="Manufacturer & supplier of industrial air compressors, screw & oil-free compressors, and material handling equipment in Pune. Free pan-India delivery."
+        canonical="/"
+      />
+
+      {/* ─── HERO ─────────────────────────────────────────── */}
+      <section
+        className="relative min-h-[68vh] flex flex-col justify-center overflow-hidden"
+        style={{ backgroundColor: primary }}
+      >
+        {/* Subtle grid pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: `repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 40px),
+              repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 40px)`,
+          }}
+        />
+
+        <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+          {/* Left */}
+          <div>
+            <div
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 border"
+              style={{ color: accent, borderColor: `${accent}40`, backgroundColor: `${accent}15` }}
             >
-              View Products <ArrowRight size={20} />
-            </Link>
-            <Link
-              to="/contact"
-              className="px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors"
-            >
-              Get Quote
-            </Link>
+              Established 2020 · Pune, India
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4">
+              {settings?.tagline || 'Engineering Power. Delivering Trust.'}
+            </h1>
+            <p className="text-blue-200 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+              Manufacturer &amp; supplier of industrial air compressors and material handling equipment — built for performance, priced for value.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/products"
+                className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-sm rounded-lg text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: accent }}
+              >
+                Explore Products <ArrowRight size={16} />
+              </Link>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-sm rounded-lg border border-white/30 text-white hover:bg-white/10 transition-colors"
+              >
+                About Us
+              </Link>
+            </div>
           </div>
+
+          {/* Right — stat pills */}
+          <div className="hidden md:grid grid-cols-2 gap-4">
+            {[
+              { num: '50+', label: 'Product Models' },
+              { num: '5+', label: 'Years Experience' },
+              { num: '200+', label: 'Happy Clients' },
+              { num: '100%', label: 'Free Installation' },
+            ].map((s) => (
+              <div key={s.label} className="rounded-xl p-5 border border-white/10" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                <div className="text-3xl font-bold text-white mb-1">{s.num}</div>
+                <div className="text-blue-300 text-sm">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll chevron */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+          <ChevronDown size={20} className="text-white/40" />
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="py-12 bg-gray-50">
+      {/* ─── FEATURE STRIP ─────────────────────────────────── */}
+      <section className="border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="inline-block p-3 bg-blue-100 rounded-lg mb-4">
-                <Zap className="text-blue-600" size={32} />
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100">
+            {features.map(({ icon: Icon, label, desc }) => (
+              <div key={label} className="flex items-center gap-4 px-6 py-5">
+                <div className="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primary}12` }}>
+                  <Icon size={20} style={{ color: primary }} />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900 text-sm">{label}</div>
+                  <div className="text-xs text-gray-500">{desc}</div>
+                </div>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Wide Range</h3>
-              <p className="text-gray-600 text-sm">Extensive product selection</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-block p-3 bg-green-100 rounded-lg mb-4">
-                <Shield className="text-green-600" size={32} />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Quality Tested</h3>
-              <p className="text-gray-600 text-sm">Industry standards assured</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-block p-3 bg-orange-100 rounded-lg mb-4">
-                <Truck className="text-orange-600" size={32} />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Fast Delivery</h3>
-              <p className="text-gray-600 text-sm">Timely & reliable shipping</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-block p-3 bg-purple-100 rounded-lg mb-4">
-                <Lightbulb className="text-purple-600" size={32} />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Custom Solutions</h3>
-              <p className="text-gray-600 text-sm">Tailored to your needs</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Product Categories */}
+      {/* ─── PRODUCT CATEGORIES ──────────────────────────────── */}
       {categories.length > 0 && (
-        <section className="py-16">
+        <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-12">Product Categories</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {categories.map((category) => (
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: accent }}>What we offer</p>
+                <h2 className="text-2xl font-bold text-gray-900">Product Categories</h2>
+              </div>
+              <Link to="/products" className="hidden md:flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+                All products <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {categories.map((cat) => (
                 <Link
-                  key={category.id}
-                  to={`/products?category=${category.slug}`}
-                  className="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all"
+                  key={cat.id}
+                  to={`/products?category=${cat.slug}`}
+                  className="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  <div className="relative h-48 bg-gray-200 overflow-hidden">
-                    {category.image_url ? (
+                  {/* Image strip */}
+                  <div className="h-36 bg-gray-100 relative overflow-hidden">
+                    {cat.image_url ? (
                       <img
-                        src={category.image_url}
-                        alt={category.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        src={cat.image_url}
+                        alt={`${cat.name} — Everest HPS products`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
+                      <div className="w-full h-full" style={{ background: `linear-gradient(135deg, ${primary}15, ${primary}30)` }} />
                     )}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-10"
+                      style={{ background: 'linear-gradient(to top, rgba(255,255,255,0.9), transparent)' }}
+                    />
                   </div>
-                  <div className="p-6 bg-white">
-                    <h3 className="font-bold text-lg mb-2 group-hover:text-blue-600 transition-colors">{category.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4">{category.description}</p>
-                    <span className="text-blue-600 font-semibold text-sm flex items-center gap-2">
-                      View Products <ArrowRight size={16} />
+
+                  {/* Body */}
+                  <div className="p-4">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-[#0f3460] transition-colors">
+                      {cat.name}
+                    </h3>
+                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">
+                      {truncate(cat.description, 80)}
+                    </p>
+                    <span
+                      className="inline-flex items-center gap-1 text-xs font-semibold"
+                      style={{ color: accent }}
+                    >
+                      View range <ArrowRight size={12} />
                     </span>
                   </div>
                 </Link>
@@ -142,95 +207,146 @@ export function Home() {
         </section>
       )}
 
-      {/* Featured Products */}
+      {/* ─── FEATURED PRODUCTS ──────────────────────────────── */}
       {featuredProducts.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-16">
           <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-12">Featured Products</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {featuredProducts.map((product) => <div key={product.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                <Link to={`/products/${product.slug}`} className="block">
-                  <div className="h-40 bg-gray-200">
-                    {product.image_url ? (
-                      <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-                    )}
-                  </div>
-                </Link>
-                <div className="p-4">
-                  <Link to={`/products/${product.slug}`}>
-                    <h3 className="font-semibold mb-2 hover:text-blue-600 transition-colors">{product.name}</h3>
-                  </Link>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
-                  <Link
-                    to={`/products/${product.slug}`}
-                    className="inline-block px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors text-sm"
-                  >
-                    View Details
-                  </Link>
-                </div>
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: accent }}>Bestsellers</p>
+                <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
               </div>
-              )}
+              <Link to="/products" className="hidden md:flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+                View all <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {featuredProducts.map((product) => {
+                const cat = categories.find((c) => c.id === product.category_id);
+                return <ProductCard key={product.id} product={product} categoryName={cat?.name} />;
+              })}
+            </div>
+
+            <div className="mt-8 text-center md:hidden">
+              <Link
+                to="/products"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:border-gray-300 transition-colors"
+              >
+                View all products <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* Industries Served */}
-      <section className="py-16">
+      {/* ─── INDUSTRIES ─────────────────────────────────────── */}
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12">Industries We Serve</h2>
-          <div className="grid md:grid-cols-5 gap-4">
-            {['Manufacturing', 'Machinery', 'Automation', 'Automotive', 'Construction'].map((industry) => (
-              <div key={industry} className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg text-center border border-blue-200">
-                <p className="font-semibold text-gray-800">{industry}</p>
-              </div>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-6">Industries we serve</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {industries.map((ind) => (
+              <span
+                key={ind}
+                className="px-4 py-2 rounded-full text-sm font-medium border"
+                style={{ borderColor: `${primary}30`, color: primary, backgroundColor: `${primary}08` }}
+              >
+                {ind}
+              </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 bg-blue-900 text-white">
+      {/* ─── WHY EVEREST ────────────────────────────────────── */}
+      <section className="py-16" style={{ backgroundColor: primary }}>
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12">Why Choose Everest?</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              'Extensive range of hydraulic & pneumatic components',
-              'Quality assured products meeting international standards',
-              'Quick delivery with reliable logistics',
-              'Expert technical support & consultation',
-              'Competitive pricing & volume discounts',
-              'Customized solutions for specific requirements',
-            ].map((item, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="text-orange-400 font-bold text-xl">✓</div>
-                <p>{item}</p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: accent }}>Why choose us</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Built for Industry. Backed by Expertise.</h2>
+              <p className="text-blue-200 text-sm leading-relaxed">
+                From free installation to the first free servicing — we stand behind every machine we deliver.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                'Free installation & commissioning',
+                'First servicing at no labour cost',
+                'Pan-India delivery network',
+                'Customised HP & tank configurations',
+                '3 HP – 75 HP compressor range',
+                'ISO-grade quality assurance',
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}>
+                  <span className="shrink-0 mt-0.5 text-xs font-bold" style={{ color: accent }}>✓</span>
+                  <span className="text-blue-100 text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
+      {/* ─── TESTIMONIALS ───────────────────────────────────── */}
       {testimonials.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-12">What Our Clients Say</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow-md">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-yellow-400">★</span>
+        <section className="py-14 bg-gradient-to-b from-gray-50 to-white">
+          <div className="max-w-6xl mx-auto px-4">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p
+                className="text-[11px] font-semibold tracking-[2px] uppercase mb-2"
+                style={{ color: accent }}
+              >
+                CLIENT REVIEWS
+              </p>
+
+              <h2 className="text-2xl font-semibold text-gray-900 relative inline-block">
+                What Our Clients Say
+                <span className="block h-[2px] w-12 bg-blue-500 mx-auto mt-2 rounded-full"></span>
+              </h2>
+            </div>
+
+            {/* Cards */}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {testimonials.map((t) => (
+                <div
+                  key={t.id}
+                  className="relative bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                >
+                  {/* Quote Icon */}
+                  <div className="absolute -top-3 left-4 text-blue-500 text-3xl opacity-20">
+                    “
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex justify-center mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <span
+                        key={i}
+                        className={`text-sm ${i < t.rating ? 'text-yellow-400' : 'text-gray-300'
+                          }`}
+                      >
+                        ★
+                      </span>
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-4 italic">"{testimonial.content}"</p>
-                  <div className="border-t pt-4">
-                    <p className="font-semibold text-gray-900">{testimonial.author_name}</p>
-                    {testimonial.author_company && <p className="text-sm text-gray-600">{testimonial.author_company}</p>}
-                    {testimonial.author_role && <p className="text-sm text-gray-600">{testimonial.author_role}</p>}
+
+                  {/* Content */}
+                  <p className="text-gray-600 text-sm leading-relaxed text-center mb-4">
+                    {truncate(t.content, 150)}
+                  </p>
+
+                  {/* Author */}
+                  <div className="text-center border-t pt-3">
+                    <p className="text-sm font-semibold text-gray-800">
+                      {t.author_name}
+                    </p>
+                    {t.author_company && (
+                      <p className="text-xs text-gray-500">
+                        {t.author_company}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -239,27 +355,30 @@ export function Home() {
         </section>
       )}
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+      {/* ─── CTA BANNER ───────────────────────────────────────
+      <section className="py-14" style={{ backgroundColor: accent }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-lg mb-8 opacity-90">Contact us today for product information, quotes, or technical consultation.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
-              className="px-8 py-3 bg-white text-orange-600 font-bold rounded-lg hover:bg-gray-100 transition-colors"
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to power your operations?</h2>
+          <p className="text-white/80 text-sm mb-7">Talk to our engineers. Get a customised quote within 24 hours.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              to="/contact"
+              className="px-6 py-3 bg-white font-semibold text-sm rounded-lg transition-opacity hover:opacity-90"
+              style={{ color: accent }}
             >
               Get a Quote
-            </a>
-            <a
-              href={`tel:${settings?.phone}`}
-              className="px-8 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-orange-600 transition-colors"
-            >
-              Call Now
-            </a>
+            </Link>
+            {settings?.phone && (
+              <a
+                href={`tel:${settings.phone}`}
+                className="px-6 py-3 border border-white/40 text-white font-semibold text-sm rounded-lg hover:bg-white/10 transition-colors"
+              >
+                Call {settings.phone}
+              </a>
+            )}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
