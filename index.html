@@ -17,7 +17,7 @@
     correct per-page tags into each route's HTML file, making these
     fallbacks genuinely only used for:
       • The raw un-rendered HTML during development
-      • Any path that isn't in the ssgOptions.includedRoutes list
+      • Any path that isn't in ssgOptions.includedRoutes
       • Tools that specifically disable JavaScript
   -->
 
@@ -25,6 +25,13 @@
   <title>Everest Hydro Pneumatic Solutions — Air Compressors Pune</title>
   <meta name="description"
     content="Manufacturer and supplier of industrial air compressors, screw compressors, oil-free compressors and material handling equipment. Chakan, Pune, Maharashtra. Free installation. Pan-India delivery." />
+
+  <!-- Canonical fallback — overridden per page by react-helmet-async -->
+  <link rel="canonical" href="https://everesthps.com/" />
+
+  <!-- hreflang — signals to Google this is India-English content -->
+  <link rel="alternate" hreflang="en-IN" href="https://everesthps.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://everesthps.com/" />
 
   <!-- Open Graph fallbacks -->
   <meta property="og:type" content="website" />
@@ -47,10 +54,50 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!--
+    Google Analytics 4 (GA4) — P1 requirement
+    ─────────────────────────────────────────────────────────────────────────
+    Measurement ID: G-XXXXXXXXXX
+    ─────────────────────────────────────────────────────────────────────────
+    IMPORTANT: Replace G-XXXXXXXXXX with your real GA4 Measurement ID.
+
+    HOW TO GET YOUR ID:
+      1. Go to https://analytics.google.com
+      2. Admin → Property → Data Streams → Web stream
+      3. Copy the Measurement ID (format: G-XXXXXXXXXX)
+      4. Replace the placeholder below in both script src and gtag('config') call.
+
+    WHY IT'S HERE (not in React):
+      Placing GA4 in index.html ensures it fires even before React hydrates,
+      capturing the very first pageview from both regular visitors AND from any
+      server-side or bot traffic. React-based solutions miss the initial pageview
+      because the script runs after hydration.
+
+    PRIVACY NOTE:
+      GA4 is GDPR-compliant by default with IP anonymisation. For Indian users
+      no additional consent is legally required at this stage, but adding a
+      cookie consent banner is recommended for future compliance.
+    ─────────────────────────────────────────────────────────────────────────
+  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Replace G-XXXXXXXXXX with your real Measurement ID
+    gtag('config', 'G-XXXXXXXXXX', {
+      // Anonymise IP addresses (recommended for privacy)
+      anonymize_ip: true,
+      // Send pageview on load (default true — explicit for clarity)
+      send_page_view: true
+    });
+  </script>
+
+  <!--
     SEO tags that require live Supabase data (dynamic title, description,
     canonical, per-product og:image, JSON-LD schemas) are all managed
     at runtime by react-helmet-async (src/components/SEO.tsx) and injected
-    by vite-react-ssg at build time.  Do not add additional hardcoded
+    by vite-react-ssg at build time. Do not add additional hardcoded
     meta or schema tags here; add them in the SEO component or schema.ts.
   -->
 </head>
@@ -60,6 +107,9 @@
     noscript fallback: rendered by browsers/crawlers with JS disabled.
     Provides minimal textual content so the page is not blank for
     accessibility tools and non-JS crawlers.
+
+    Also serves as a human-readable fallback for the GA4 pixel for
+    environments where JavaScript is blocked.
   -->
   <noscript>
     <div style="font-family:sans-serif;max-width:640px;margin:2rem auto;padding:1rem">
@@ -69,6 +119,9 @@
       <p>Phone: +91-8855820105 &nbsp;|&nbsp; Email: everesthps@gmail.com</p>
       <p>This website requires JavaScript. Please enable JavaScript to view the full site.</p>
     </div>
+    <!-- GA4 noscript fallback (fires 1x1 pixel for no-JS environments) -->
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />
   </noscript>
 
   <div id="root"></div>

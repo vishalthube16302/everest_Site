@@ -1,8 +1,11 @@
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Outlet } from 'react-router-dom';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
+import type { RouteRecord } from 'vite-react-ssg';
 import { buildLocalBusinessSchema } from './lib/schema';
 
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { WhatsAppFAB } from './components/WhatsAppFAB';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Products } from './pages/Products';
@@ -13,114 +16,134 @@ import { Contact } from './pages/Contact';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
 import { NotFound } from './pages/NotFound';
-import { lazy, Suspense } from 'react';
+import { supabase } from './lib/supabase';
 
-const AdminLogin = lazy(() => import('./pages/admin/AdminLogin').then((module) => ({ default: module.AdminLogin })));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then((module) => ({ default: module.AdminDashboard })));
-import { WhatsAppFAB } from './components/WhatsAppFAB';
-
-/**
- * US-007 fix – GlobalSchemas must be synchronous.
- *
- * PREVIOUS APPROACH (broken for SSG):
- *   The component used useState + useEffect to fetch site_settings from
- *   Supabase, then passed the result to buildLocalBusinessSchema().
- *   During SSG pre-rendering, vite-react-ssg takes an HTML snapshot of
- *   the initial render.  Because the Supabase fetch is async, the snapshot
- *   captured settings = null and the schema injected into the HTML was
- *   identical to buildLocalBusinessSchema(null) anyway — but crucially
- *   it was injected *after* the snapshot, so the pre-rendered HTML
- *   contained no LocalBusiness JSON-LD at all.
- *
- * NEW APPROACH (correct for SSG):
- *   Build the schema once at module initialisation time (synchronously).
- *   buildLocalBusinessSchema(null) already uses all real hardcoded fallback
- *   values (phone +91-8855820105, email everesthps@gmail.com, address
- *   Chakan Pune 410501, geo-coords, GST, opening hours).  The output is
- *   therefore identical to what the async Supabase path produced.
- *   Removing useState / useEffect / supabase imports also reduces the JS
- *   bundle size for this component.
- */
+// ─── Static LocalBusiness JSON-LD (synchronous — baked into every pre-rendered page) ───
+//
+// Built once at module init so it is available during vite-react-ssg's initial
+// render snapshot. buildLocalBusinessSchema(null) uses real hardcoded fallbacks
+// (phone, email, address, geo, GST, hours) so no Supabase fetch is required here.
 const STATIC_LOCAL_BUSINESS_SCHEMA = buildLocalBusinessSchema(null);
 
-/**
- * Injects the LocalBusiness JSON-LD schema into <head> on every page.
- * Because STATIC_LOCAL_BUSINESS_SCHEMA is a module-level constant, the
- * schema string is available immediately during the SSG render pass.
- */
-function GlobalSchemas() {
-  return (
-    <Helmet>
-      {/* eslint-disable-next-line react/no-danger */}
-      <script type="application/ld+json">
-        {JSON.stringify(STATIC_LOCAL_BUSINESS_SCHEMA)}
-      </script>
-    </Helmet>
-  );
-}
-
-import { Outlet } from 'react-router-dom';
-import { RouteRecord } from 'vite-react-ssg';
-
-function AppLayout() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <WhatsAppFAB />
-      <Footer />
-    </div>
-  );
-}
-
-export default function App() {
+// ─── Root layout — wraps every public page ───────────────────────────────────────────
+//
+// HelmetProvider MUST live here (inside the RouteRecord element tree) rather than
+// outside ViteReactSSG(), because vite-react-ssg creates the React tree internally
+// from the routes array. Placing HelmetProvider outside ViteReactSSG() would mean
+// it wraps nothing during SSG render.
+function RootLayout() {
   return (
     <HelmetProvider>
-      <GlobalSchemas />
-      <Outlet />
+      {/* Global LocalBusiness JSON-LD — present in every pre-rendered HTML page */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(STATIC_LOCAL_BUSINESS_SCHEMA)}
+        </script>
+      </Helmet>
+
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1">
+          {/* Outlet renders the matched child route */}
+          <Outlet />
+        </main>
+        <WhatsAppFAB />
+        <Footer />
+      </div>
     </HelmetProvider>
   );
 }
 
+// ─── Admin layout — no Header/Footer, no HelmetProvider needed ───────────────────────
+function AdminLayout() {
+  return <Outlet />;
+}
+
+// ─── Route definitions ────────────────────────────────────────────────────────────────
+//
+// RouteRecord = React Router v6 NonIndexRouteObject | IndexRouteObject, extended with:
+//   • entry?: string          — for prehydration style tracking
+//   • getStaticPaths?: ()     — for dynamic segments (/products/:slug)
+//
+// vite-react-ssg reads this array to:
+//   1. Create the browser router at runtime (dev + hydration)
+//   2. Know which paths to crawl for SSG (via includedRoutes + getStaticPaths)
+//
+// Admin routes are children of AdminLayout but intentionally NOT in includedRoutes:
+// they require authentication, so pre-rendering them would waste crawl budget.
 export const routes: RouteRecord[] = [
+  // ── Admin routes (no SSG, no public layout) ─────────────────────────────────
   {
-    path: '/',
-    element: <App />,
+    path: '/admin',
+    element: <AdminLayout />,
     children: [
       {
-        path: 'admin/login',
-        element: (
-          <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading admin panel...</div>}>
-            <AdminLogin />
-          </Suspense>
-        ),
+        path: 'login',
+        lazy: async () => {
+          const { AdminLogin } = await import('./pages/admin/AdminLogin');
+          return { Component: AdminLogin };
+        },
       },
       {
-        path: 'admin/dashboard',
-        element: (
-          <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading admin panel...</div>}>
-            <AdminDashboard />
-          </Suspense>
-        ),
+        path: 'dashboard',
+        lazy: async () => {
+          const { AdminDashboard } = await import('./pages/admin/AdminDashboard');
+          return { Component: AdminDashboard };
+        },
       },
+    ],
+  },
+
+  // ── Public routes (SSG via RootLayout) ──────────────────────────────────────
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      // Static routes — all listed in ssgOptions.includedRoutes
+      { index: true, element: <Home /> },
+      { path: 'about', element: <About /> },
+      { path: 'products', element: <Products /> },
+      { path: 'services', element: <Services /> },
+      { path: 'gallery', element: <Gallery /> },
+      { path: 'contact', element: <Contact /> },
+      { path: 'privacy', element: <Privacy /> },
+      { path: 'terms', element: <Terms /> },
+
+      // Dynamic product detail — getStaticPaths fetches all slugs from Supabase
+      // at BUILD TIME so vite-react-ssg pre-renders a static HTML file for every
+      // product (e.g. /products/3hp-screw-compressor → dist/products/3hp-screw-compressor.html)
       {
-        path: '/',
-        element: <AppLayout />,
-        children: [
-          { index: true, element: <Home /> },
-          { path: 'about', element: <About /> },
-          { path: 'products', element: <Products /> },
-          { path: 'products/:slug', element: <ProductDetail /> },
-          { path: 'services', element: <Services /> },
-          { path: 'gallery', element: <Gallery /> },
-          { path: 'contact', element: <Contact /> },
-          { path: 'privacy', element: <Privacy /> },
-          { path: 'terms', element: <Terms /> },
-          { path: '*', element: <NotFound /> },
-        ],
+        path: 'products/:slug',
+        element: <ProductDetail />,
+        // getStaticPaths runs only during `vite-react-ssg build`, never in the browser.
+        // Returns paths WITHOUT the leading slash — vite-react-ssg prepends the route prefix.
+        getStaticPaths: async () => {
+          try {
+            const { data, error } = await supabase
+              .from('products')
+              .select('slug')
+              .not('slug', 'is', null);
+
+            if (error || !data) {
+              console.warn('[SSG] Could not fetch product slugs:', error?.message);
+              return [];
+            }
+
+            // Return as full paths e.g. "products/3hp-screw-compressor"
+            // vite-react-ssg resolves these relative to the parent route segment.
+            return data
+              .map((row: { slug: string }) => row.slug)
+              .filter(Boolean)
+              .map((slug: string) => `products/${slug}`);
+          } catch (err) {
+            console.warn('[SSG] getStaticPaths error:', err);
+            return [];
+          }
+        },
       },
+
+      // Catch-all 404 — not pre-rendered (noindex by design)
+      { path: '*', element: <NotFound /> },
     ],
   },
 ];
