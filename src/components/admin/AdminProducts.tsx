@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Product, Category } from '../../types';
 import { Trash2, Edit2, Plus, X, GripVertical, ImagePlus, Upload, Loader } from 'lucide-react';
-import ReactQuill from 'react-quill';
+import { lazy, Suspense } from 'react';
+const ReactQuill = lazy(() => import('react-quill'));
 import 'react-quill/dist/quill.snow.css';
 
 interface SpecRow {
@@ -336,14 +337,16 @@ export function AdminProducts() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Detailed Description</label>
                 <div className="border border-gray-300 rounded-lg overflow-hidden">
-                  <ReactQuill
-                    theme="snow"
-                    value={longDesc}
-                    onChange={setLongDesc}
-                    modules={quillModules}
-                    placeholder="Write a detailed product description with formatting…"
-                    style={{ minHeight: '160px' }}
-                  />
+                  <Suspense fallback={<div className="p-4 text-gray-500">Loading editor...</div>}>
+                    <ReactQuill
+                      theme="snow"
+                      value={longDesc}
+                      onChange={setLongDesc}
+                      modules={quillModules}
+                      placeholder="Write a detailed product description with formatting…"
+                      style={{ minHeight: '160px' }}
+                    />
+                  </Suspense>
                 </div>
               </div>
 
