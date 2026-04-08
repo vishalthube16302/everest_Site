@@ -13,6 +13,11 @@ export function ProductCard({ product, categoryName }: Props) {
   const price = formatPrice(product.price_range);
   const isPOR = price === 'Price on Request';
 
+  // Fix 5: descriptive, keyword-aligned alt text with location
+  const imageAlt = categoryName
+    ? `${product.name} — ${categoryName} supplier Pune, Maharashtra`
+    : `${product.name} — industrial equipment supplier Chakan Pune`;
+
   return (
     <div className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       <Link to={`/products/${product.slug}`} className="block relative">
@@ -20,23 +25,22 @@ export function ProductCard({ product, categoryName }: Props) {
           {product.image_url ? (
             <img
               src={product.image_url}
-              alt={product.name}
+              alt={imageAlt}
+              width="400"
+              height="176"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-300">
-              <ShoppingBag size={40} />
+              <ShoppingBag size={40} aria-hidden="true" />
             </div>
           )}
         </div>
       </Link>
 
       <div className="absolute top-2 right-2 z-10">
-        {/*
-          SSR/SSG fix: previously `${window.location.origin}/products/${product.slug}`.
-          window.location is not available during vite-react-ssg pre-rendering (Node.js).
-          Use the imported BASE_URL constant instead.
-        */}
         <ShareButton
           productName={product.name}
           url={`${BASE_URL}/products/${product.slug}`}

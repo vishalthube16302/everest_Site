@@ -2,12 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global bg-white override */
-@layer utilities {
-  .bg-white {
-    background-color: #f3f4f6 !important;
-  }
-}
+/* Fix 6: Removed the .bg-white override that forced #f3f4f6 with !important.
+   It broke intentional white card backgrounds and caused WCAG contrast failures
+   on form inputs, modal backgrounds, and white-on-colored-bg text. */
 
 /* Rich text content styles (for Quill editor output) */
 .prose h1 {
@@ -74,7 +71,7 @@
 }
 
 .prose blockquote {
-    border-left: 3px solid #fafafa;
+    border-left: 3px solid #e5e7eb;
     padding-left: 1rem;
     margin: 1rem 0;
     color: #6b7280;
