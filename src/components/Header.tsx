@@ -60,14 +60,14 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             {settings?.logo_url ? (
-              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-12 w-auto object-contain" />
+              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-16 w-auto object-contain" />
             ) : (
-              <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ backgroundColor: primary }} />
+              <div className="w-12 h-12 rounded-lg flex-shrink-0" style={{ backgroundColor: primary }} />
             )}
             {showText && (
               <div className="hidden sm:flex flex-col justify-center leading-tight">
                 <span
-                  className="font-display font-bold text-xl tracking-tight leading-none"
+                  className="font-display font-bold text-[2rem] tracking-tight leading-none"
                   style={{ color: settings?.company_name_color || primary }}
                 >
                   {companyName}
