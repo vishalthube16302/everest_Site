@@ -126,7 +126,7 @@ export function Home() {
                 All products <ArrowRight size={14} />
               </Link>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
               {categories.map((cat) => (
                 <Link key={cat.id} to={`/products?category=${cat.slug}`}
                   className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-premium-sm hover:shadow-premium-md hover:-translate-y-1 transition-all duration-300">
@@ -134,27 +134,27 @@ export function Home() {
                       banners. object-cover in a short fixed-height box was cropping
                       the tops/bottoms of the machines. object-contain + padding on a
                       taller, aspect-ratio-locked box shows the full image every time. */}
-                  <div className="aspect-[4/3] bg-gray-50 relative overflow-hidden">
+                  <div className="aspect-[16/11] bg-gray-50 relative overflow-hidden">
                     {cat.image_url ? (
                       <img
                         src={cat.image_url}
                         /* Fix 5: keyword-rich alt with location */
                         alt={`${cat.name} — Everest HPS air compressor supplier Pune`}
-                        width="400"
-                        height="300"
+                        width="480"
+                        height="330"
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="w-full h-full" style={{ background: `linear-gradient(135deg, ${primary}15, ${primary}30)` }} aria-hidden="true" />
                     )}
                   </div>
-                  <div className="p-5 border-t border-gray-100">
-                    <h3 className="font-display font-semibold text-gray-900 text-sm mb-1.5 group-hover:text-navy transition-colors">{cat.name}</h3>
-                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{truncate(cat.description, 80)}</p>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold" style={{ color: accent }}>
-                      View range <ArrowRight size={12} />
+                  <div className="p-6 border-t border-gray-100">
+                    <h3 className="font-display font-semibold text-gray-900 text-base mb-2 group-hover:text-navy transition-colors">{cat.name}</h3>
+                    <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed mb-4">{truncate(cat.description, 100)}</p>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold" style={{ color: accent }}>
+                      View range <ArrowRight size={14} />
                     </span>
                   </div>
                 </Link>
