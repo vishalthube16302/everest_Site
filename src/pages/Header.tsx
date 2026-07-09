@@ -52,7 +52,7 @@ export function Header() {
 
       {/* Main header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             {settings?.logo_url ? (
