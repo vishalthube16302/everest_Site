@@ -53,7 +53,7 @@ export function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Contact Everest HPS | Air Compressor Supplier | +91-8855820105"
@@ -62,9 +62,9 @@ export function Contact() {
       />
 
       {/* Hero */}
-      <section className="bg-[#0f3460] py-12">
+      <section className="bg-navy py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="text-[#e94560] text-xs font-semibold uppercase tracking-widest mb-1">Get in touch</p>
+          <p className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">Get in touch</p>
           <h1 className="text-3xl font-bold text-white mb-2">Contact Us</h1>
           <p className="text-blue-200 text-sm">Inquiries, quotes, and support — we respond within 24 hours.</p>
         </div>
@@ -86,7 +86,7 @@ export function Contact() {
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-gray-400 mb-0.5">{label}</p>
                     {href ? (
-                      <a href={href} className="text-sm font-semibold text-black hover:text-[#0f3460] transition-colors break-all">
+                      <a href={href} className="text-sm font-semibold text-black hover:text-navy transition-colors break-all">
                         {value}
                       </a>
                     ) : (
@@ -133,7 +133,7 @@ export function Contact() {
               {/* Spinner while LWC loads */}
               {loading && (
                 <div className="flex-1 flex flex-col items-center justify-center gap-3">
-                  <div className="w-8 h-8 border-2 border-[#0f3460] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-2 border-navy border-t-transparent rounded-full animate-spin" />
                   <p className="text-xs text-gray-400">Loading form…</p>
                 </div>
               )}

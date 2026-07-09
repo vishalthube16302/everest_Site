@@ -11,6 +11,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/sora": "^5.1.0",
     "@supabase/supabase-js": "^2.57.4",
     "@types/dompurify": "^3.0.5",
     "dompurify": "^3.3.0",

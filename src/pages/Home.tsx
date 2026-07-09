@@ -33,7 +33,7 @@ export function Home() {
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-[#0f3460] border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-2 border-navy border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -50,7 +50,7 @@ export function Home() {
   const industries = ['Manufacturing', 'Automotive', 'Dental & Medical', 'Construction', 'Packaging'];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
       <SEO
         title="Air Compressor Supplier Pune | Everest Hydro Pneumatic Solutions"
         description="Manufacturer & supplier of industrial air compressors, screw & oil-free compressors, and material handling equipment in Pune. Free pan-India delivery."
@@ -65,14 +65,14 @@ export function Home() {
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 border" style={{ color: accent, borderColor: `${accent}40`, backgroundColor: `${accent}15` }}>
               Established 2020 · Pune, India
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-4">
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-white leading-[1.15] mb-4 tracking-tight">
               {settings?.tagline || 'Engineering Power. Delivering Trust.'}
             </h1>
             <p className="text-blue-200 text-base md:text-lg leading-relaxed mb-8 max-w-md">
               Manufacturer &amp; supplier of industrial air compressors and material handling equipment — built for performance, priced for value.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link to="/products" className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-sm rounded-lg text-white transition-opacity hover:opacity-90" style={{ backgroundColor: accent }}>
+              <Link to="/products" className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-sm rounded-lg text-white shadow-premium-md transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ backgroundColor: accent }}>
                 Explore Products <ArrowRight size={16} />
               </Link>
               <Link to="/about" className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-sm rounded-lg border border-white/30 text-white hover:bg-white/10 transition-colors">
@@ -82,8 +82,8 @@ export function Home() {
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
             {[{ num: '50+', label: 'Product Models' }, { num: '5+', label: 'Years Experience' }, { num: '200+', label: 'Happy Clients' }, { num: '100%', label: 'Free Installation' }].map((s) => (
-              <div key={s.label} className="rounded-xl p-5 border border-white/10" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                <div className="text-3xl font-bold text-white mb-1">{s.num}</div>
+              <div key={s.label} className="rounded-xl p-5 border border-white/10 backdrop-blur-sm" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                <div className="font-display text-3xl font-bold text-white mb-1">{s.num}</div>
                 <div className="text-blue-300 text-sm">{s.label}</div>
               </div>
             ))}
@@ -99,12 +99,12 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100">
             {features.map(({ icon: Icon, label, desc }) => (
-              <div key={label} className="flex items-center gap-4 px-6 py-5">
+              <div key={label} className="flex items-center gap-4 px-6 py-5 transition-colors hover:bg-gray-50">
                 <div className="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${primary}12` }}>
                   <Icon size={20} style={{ color: primary }} aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900 text-sm">{label}</div>
+                  <div className="font-display font-semibold text-gray-900 text-sm">{label}</div>
                   <div className="text-xs text-gray-500">{desc}</div>
                 </div>
               </div>
@@ -120,38 +120,41 @@ export function Home() {
             <div className="flex items-end justify-between mb-8">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: accent }}>What we offer</p>
-                <h2 className="text-2xl font-bold text-gray-900">Product Categories</h2>
+                <h2 className="font-display section-heading text-2xl font-bold text-gray-900 pb-2">Product Categories</h2>
               </div>
               <Link to="/products" className="hidden md:flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
                 All products <ArrowRight size={14} />
               </Link>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
               {categories.map((cat) => (
                 <Link key={cat.id} to={`/products?category=${cat.slug}`}
-                  className="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                  <div className="h-36 bg-gray-100 relative overflow-hidden">
+                  className="group bg-surface border border-gray-100 rounded-2xl overflow-hidden shadow-premium-sm hover:shadow-premium-md hover:-translate-y-1 transition-all duration-300">
+                  {/* Fix: category photos are product shots (square/portrait), not wide
+                      banners. object-cover in a short fixed-height box was cropping
+                      the tops/bottoms of the machines. object-contain + padding on a
+                      taller, aspect-ratio-locked box shows the full image every time. */}
+                  <div className="aspect-[16/11] bg-gray-50 relative overflow-hidden">
                     {cat.image_url ? (
                       <img
                         src={cat.image_url}
                         /* Fix 5: keyword-rich alt with location */
                         alt={`${cat.name} — Everest HPS air compressor supplier Pune`}
-                        width="400"
-                        height="144"
+                        width="480"
+                        height="330"
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="w-full h-full" style={{ background: `linear-gradient(135deg, ${primary}15, ${primary}30)` }} aria-hidden="true" />
                     )}
-                    <div className="absolute bottom-0 left-0 right-0 h-10" style={{ background: 'linear-gradient(to top, rgba(255,255,255,0.9), transparent)' }} aria-hidden="true" />
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-[#0f3460] transition-colors">{cat.name}</h3>
-                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">{truncate(cat.description, 80)}</p>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold" style={{ color: accent }}>
-                      View range <ArrowRight size={12} />
+                  <div className="p-6 border-t border-gray-100">
+                    <h3 className="font-display font-semibold text-gray-900 text-base mb-2 group-hover:text-navy transition-colors">{cat.name}</h3>
+                    <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed mb-4">{truncate(cat.description, 100)}</p>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold" style={{ color: accent }}>
+                      View range <ArrowRight size={14} />
                     </span>
                   </div>
                 </Link>
@@ -168,7 +171,7 @@ export function Home() {
             <div className="flex items-end justify-between mb-8">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: accent }}>Bestsellers</p>
-                <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
+                <h2 className="font-display section-heading text-2xl font-bold text-gray-900 pb-2">Featured Products</h2>
               </div>
               <Link to="/products" className="hidden md:flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
                 View all <ArrowRight size={14} />
@@ -195,19 +198,19 @@ export function Home() {
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400 mb-6">Industries we serve</p>
           <div className="flex flex-wrap justify-center gap-3">
             {industries.map((ind) => (
-              <span key={ind} className="px-4 py-2 rounded-full text-sm font-medium border" style={{ borderColor: `${primary}30`, color: primary, backgroundColor: `${primary}08` }}>{ind}</span>
+              <span key={ind} className="px-4 py-2 rounded-full text-sm font-medium border transition-colors hover:shadow-premium-sm" style={{ borderColor: `${primary}30`, color: primary, backgroundColor: `${primary}08` }}>{ind}</span>
             ))}
           </div>
         </div>
       </section>
 
       {/* Why Everest */}
-      <section className="py-16" style={{ backgroundColor: primary }}>
+      <section className="py-16" style={{ background: `linear-gradient(135deg, ${primary}, ${primary}dd 60%, ${primary}bb)` }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: accent }}>Why choose us</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Built for Industry. Backed by Expertise.</h2>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-4">Built for Industry. Backed by Expertise.</h2>
               <p className="text-blue-200 text-sm leading-relaxed">From free installation to the first free servicing — we stand behind every machine we deliver.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -228,18 +231,18 @@ export function Home() {
           <div className="max-w-6xl mx-auto px-4">
             <div className="text-center mb-10">
               <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-2" style={{ color: accent }}>CLIENT REVIEWS</p>
-              <h2 className="text-2xl font-semibold text-gray-900 relative inline-block">
+              <h2 className="font-display text-2xl font-semibold text-gray-900 relative inline-block">
                 What Our Clients Say
-                <span className="block h-[2px] w-12 bg-blue-500 mx-auto mt-2 rounded-full" aria-hidden="true"></span>
+                <span className="block h-[3px] w-12 mx-auto mt-3 rounded-full bg-gradient-to-r from-gold to-gold-light" aria-hidden="true"></span>
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {testimonials.map((t) => (
-                <div key={t.id} className="relative bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-                  <div className="absolute -top-3 left-4 text-blue-500 text-3xl opacity-20" aria-hidden="true">"</div>
+                <div key={t.id} className="relative bg-surface border border-gray-100 rounded-xl p-5 shadow-premium-sm hover:shadow-premium-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+                  <div className="absolute -top-3 left-4 text-gold text-3xl opacity-25" aria-hidden="true">"</div>
                   <div className="flex justify-center mb-3" role="img" aria-label={`${t.rating} out of 5 stars`}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-sm ${i < t.rating ? 'text-yellow-400' : 'text-gray-300'}`} aria-hidden="true">★</span>
+                      <span key={i} className={`text-sm ${i < t.rating ? 'text-gold' : 'text-gray-300'}`} aria-hidden="true">★</span>
                     ))}
                   </div>
                   <p className="text-gray-600 text-sm leading-relaxed text-center mb-4">{truncate(t.content, 150)}</p>

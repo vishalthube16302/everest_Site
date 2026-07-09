@@ -24,6 +24,7 @@ export function AdminSettings() {
           primary_color: '#003366',
           secondary_color: '#333333',
           accent_color: '#FF6B35',
+          background_color: '#ffffff',
         };
         const { data: created } = await supabase
           .from('site_settings')
@@ -170,7 +171,7 @@ export function AdminSettings() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-4 gap-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Primary Color</label>
             <div className="flex gap-2">
@@ -221,6 +222,24 @@ export function AdminSettings() {
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Background Color</label>
+            <div className="flex gap-2">
+              <input
+                type="color"
+                value={settings?.background_color || '#ffffff'}
+                onChange={(e) => handleChange('background_color', e.target.value)}
+                className="w-12 h-10 border border-gray-300 rounded"
+              />
+              <input
+                type="text"
+                value={settings?.background_color || '#ffffff'}
+                onChange={(e) => handleChange('background_color', e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Applies to all "white" page/card backgrounds site-wide. Keep it light for text contrast.</p>
           </div>
         </div>
 

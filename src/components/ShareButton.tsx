@@ -157,7 +157,7 @@ export function ShareButton({
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 mt-2 w-48 bg-surface rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
                     <div className="py-1">
                         <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-100 flex justify-between items-center">
                             <span>Share via</span>

@@ -6,6 +6,8 @@ import { buildLocalBusinessSchema } from './lib/schema';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { WhatsAppFAB } from './components/WhatsAppFAB';
+import { ScrollToTop } from './components/ScrollToTop';
+import { SiteThemeVars } from './components/SiteThemeVars';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Products } from './pages/Products';
@@ -42,6 +44,8 @@ function RootLayout() {
       </Helmet>
 
       <div className="flex flex-col min-h-screen">
+        <ScrollToTop />
+        <SiteThemeVars />
         <Header />
         <main className="flex-1">
           {/* Outlet renders the matched child route */}

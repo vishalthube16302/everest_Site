@@ -31,14 +31,13 @@ export function Footer() {
                 <img
                   src={settings.logo_url}
                   alt={companyName}
-                  className="h-8 w-auto object-contain brightness-0 invert"
+                  className="h-10 w-auto object-contain rounded bg-white/95 p-1"
                 />
               )}
 
               <div className="flex flex-col leading-tight">
                 <span
-                  className="font-extrabold text-4xl tracking-wide leading-none"
-                  //style={{ color: settings?.company_name_color || '#ffffff' }}
+                  className="font-display font-bold text-2xl tracking-tight leading-none"
                   style={{ color: '#ffffff' }}
                 >
                   {companyName}
@@ -46,8 +45,7 @@ export function Footer() {
 
                 {tagline && (
                   <span
-                    className="text-xs font-medium tracking-wide opacity-80"
-                    style={{ color: primary }}
+                    className="text-xs font-medium tracking-wide text-blue-300 mt-1"
                   >
                     {tagline}
                   </span>

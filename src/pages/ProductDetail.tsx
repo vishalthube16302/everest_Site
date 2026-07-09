@@ -69,7 +69,7 @@ export function ProductDetail() {
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-[#0f3460] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-navy border-t-transparent rounded-full animate-spin" />
         </div>
     );
     if (!product) return null;
@@ -107,9 +107,9 @@ export function ProductDetail() {
                 schemas={[productSchema, breadcrumbSchema]}
             />
 
-            <div className="bg-white border-b border-gray-100">
+            <div className="bg-surface border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm">
-                    <Link to="/products" className="flex items-center gap-1 text-[#0f3460] hover:underline font-medium">
+                    <Link to="/products" className="flex items-center gap-1 text-navy hover:underline font-medium">
                         <ArrowLeft size={14} /> Back to Products
                     </Link>
                     <span className="text-gray-300">/</span>
@@ -121,7 +121,7 @@ export function ProductDetail() {
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                     {/* Image gallery */}
                     <div>
-                        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden relative mb-3">
+                        <div className="bg-surface border border-gray-200 rounded-2xl overflow-hidden relative mb-3">
                             <div className="aspect-square flex items-center justify-center p-8">
                                 {allImages[selectedIdx]
                                     ? <img
@@ -141,12 +141,12 @@ export function ProductDetail() {
                                 <>
                                     <button onClick={() => setSelectedIdx(i => (i - 1 + allImages.length) % allImages.length)}
                                         aria-label="Previous image"
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
                                         <ChevronLeft size={18} className="text-gray-600" />
                                     </button>
                                     <button onClick={() => setSelectedIdx(i => (i + 1) % allImages.length)}
                                         aria-label="Next image"
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
                                         <ChevronRight size={18} className="text-gray-600" />
                                     </button>
                                 </>
@@ -157,7 +157,7 @@ export function ProductDetail() {
                                 {allImages.map((img, i) => (
                                     <button key={i} onClick={() => setSelectedIdx(i)}
                                         aria-label={`View image ${i + 1}`}
-                                        className={`flex-shrink-0 w-16 h-16 rounded-xl border-2 overflow-hidden transition-all ${selectedIdx === i ? 'border-[#0f3460]' : 'border-gray-200 hover:border-gray-300'}`}>
+                                        className={`flex-shrink-0 w-16 h-16 rounded-xl border-2 overflow-hidden transition-all ${selectedIdx === i ? 'border-navy' : 'border-gray-200 hover:border-gray-300'}`}>
                                         <img src={img} alt={`${product.name} thumbnail ${i + 1}`} width="64" height="64" loading="lazy" className="w-full h-full object-cover" />
                                     </button>
                                 ))}
@@ -179,7 +179,7 @@ export function ProductDetail() {
                             </div>
                         </div>
 
-                        <div className={`flex items-baseline gap-2 px-4 py-2.5 rounded-xl w-fit ${isPOR ? 'bg-gray-100' : 'bg-[#0f3460]/6'}`}>
+                        <div className={`flex items-baseline gap-2 px-4 py-2.5 rounded-xl w-fit ${isPOR ? 'bg-gray-100' : 'bg-navy/6'}`}>
                             <span className={`font-bold ${isPOR ? 'text-gray-400 italic text-sm' : 'text-xl text-gray-900'}`}>{price}</span>
                             {!isPOR && <span className="text-xs text-gray-400">incl. taxes</span>}
                         </div>
@@ -212,14 +212,14 @@ export function ProductDetail() {
                             <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1.5 rounded-full">🚚 Pan-India Delivery</span>
                         </div>
 
-                        <Link to="/contact" className="flex items-center justify-center px-6 py-3.5 bg-[#e94560] hover:bg-[#c73652] text-white font-semibold rounded-xl transition-colors text-sm">
+                        <Link to="/contact" className="flex items-center justify-center px-6 py-3.5 bg-gold hover:bg-gold-dark text-white font-semibold rounded-xl transition-colors text-sm">
                             Request Information
                         </Link>
                     </div>
                 </div>
 
                 {(product.description || cleanLong) && (
-                    <div className="bg-white border border-gray-100 rounded-2xl p-6 mb-8">
+                    <div className="bg-surface border border-gray-100 rounded-2xl p-6 mb-8">
                         <h2 className="text-sm font-bold text-gray-900 mb-3">Description</h2>
                         {product.description && <p className="text-sm text-gray-600 leading-relaxed mb-3">{product.description.split('\n\n')[0]}</p>}
                         {cleanLong && <div className="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none border-t border-gray-50 pt-3" dangerouslySetInnerHTML={{ __html: cleanLong }} />}
@@ -230,14 +230,14 @@ export function ProductDetail() {
                     <div>
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-base font-bold text-gray-900">Similar Products</h2>
-                            <Link to="/products" className="text-sm text-[#0f3460] hover:underline font-medium">View all →</Link>
+                            <Link to="/products" className="text-sm text-navy hover:underline font-medium">View all →</Link>
                         </div>
                         <div className="flex gap-4 overflow-x-auto pb-3">
                             {similarProducts.map((p) => {
                                 const sp = formatPrice(p.price_range);
                                 return (
                                     <Link key={p.id} to={`/products/${p.slug}`}
-                                        className="flex-shrink-0 w-48 bg-white border border-gray-100 rounded-xl overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                                        className="flex-shrink-0 w-48 bg-surface border border-gray-100 rounded-xl overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                                         <div className="h-32 bg-gray-50 overflow-hidden">
                                             {p.image_url
                                                 ? <img src={p.image_url} alt={`${p.name} — Everest HPS Pune`} width="192" height="128" loading="lazy" className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
@@ -246,8 +246,8 @@ export function ProductDetail() {
                                         </div>
                                         <div className="p-3">
                                             <p className="text-xs font-semibold text-gray-900 line-clamp-2 leading-snug mb-1">{p.name}</p>
-                                            <p className={`text-xs font-bold mb-1.5 ${sp === 'Price on Request' ? 'text-gray-400 italic' : 'text-[#0f3460]'}`}>{sp}</p>
-                                            <span className="text-[11px] font-semibold text-[#e94560]">View Details →</span>
+                                            <p className={`text-xs font-bold mb-1.5 ${sp === 'Price on Request' ? 'text-gray-400 italic' : 'text-navy'}`}>{sp}</p>
+                                            <span className="text-[11px] font-semibold text-gold">View Details →</span>
                                         </div>
                                     </Link>
                                 );
