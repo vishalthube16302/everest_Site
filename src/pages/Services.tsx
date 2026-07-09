@@ -59,7 +59,7 @@ export function Services() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Services — Free Installation, After-Sales Support | Everest HPS Pune"
@@ -93,7 +93,7 @@ export function Services() {
               {services.map((s) => {
                 const Icon = iconMap[s.icon] || Settings;
                 return (
-                  <div key={s.id} className="bg-white border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
+                  <div key={s.id} className="bg-surface border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
                     <div className="w-11 h-11 rounded-xl bg-navy/8 flex items-center justify-center flex-shrink-0">
                       <Icon size={20} className="text-navy" />
                     </div>
@@ -114,7 +114,7 @@ export function Services() {
                 { icon: Headphones, title: 'After-Sales Support', desc: 'First servicing at no labour cost. Spare parts, oil, and technical help when you need it.' },
                 { icon: BookOpen, title: 'Custom Configuration', desc: 'HP range, tank size, dryer, pressure setting — we configure to your exact industrial requirement.' },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="bg-white border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
+                <div key={title} className="bg-surface border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
                   <div className="w-11 h-11 rounded-xl bg-navy/8 flex items-center justify-center flex-shrink-0">
                     <Icon size={20} className="text-navy" />
                   </div>
@@ -130,7 +130,7 @@ export function Services() {
       </section>
 
       {/* Process */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-surface">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">How it works</p>
@@ -164,7 +164,7 @@ export function Services() {
               { emoji: '🛠', title: 'Free First Service', sub: 'Labour cost waived' },
               { emoji: '🚚', title: 'Pan-India Delivery', sub: 'Fast & careful dispatch' },
             ].map(({ emoji, title, sub }) => (
-              <div key={title} className="bg-white rounded-xl border border-gray-100 px-6 py-5 flex items-center gap-4">
+              <div key={title} className="bg-surface rounded-xl border border-gray-100 px-6 py-5 flex items-center gap-4">
                 <div className="text-2xl">{emoji}</div>
                 <div>
                   <p className="font-semibold text-black text-sm">{title}</p>
@@ -177,7 +177,7 @@ export function Services() {
       </section>
 
       {/* ── US-012: FAQ Section ── */}
-      <section className="py-14 bg-white border-t border-gray-100">
+      <section className="py-14 bg-surface border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-8">
             <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">Common questions</p>

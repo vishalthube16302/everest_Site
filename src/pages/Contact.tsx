@@ -53,7 +53,7 @@ export function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Contact Everest HPS | Air Compressor Supplier | +91-8855820105"

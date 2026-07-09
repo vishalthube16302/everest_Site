@@ -2,7 +2,7 @@ import { SEO } from '../components/SEO';
 
 export function Terms() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Terms & Conditions | Everest Hydro Pneumatic Solutions"

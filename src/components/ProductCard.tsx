@@ -19,7 +19,7 @@ export function ProductCard({ product, categoryName }: Props) {
     : `${product.name} — industrial equipment supplier Chakan Pune`;
 
   return (
-    <div className="group relative bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group relative bg-surface border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       <Link to={`/products/${product.slug}`} className="block relative">
         <div className="relative h-44 bg-gray-50 overflow-hidden">
           {product.image_url ? (

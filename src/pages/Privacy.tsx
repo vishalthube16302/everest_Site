@@ -2,7 +2,7 @@ import { SEO } from '../components/SEO';
 
 export function Privacy() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Privacy Policy | Everest Hydro Pneumatic Solutions"

@@ -23,6 +23,9 @@ export default {
           DEFAULT: '#64748b',
           light: '#94a3b8',
         },
+        // Dynamic, DB-driven background. Falls back to white so nothing
+        // breaks before settings load or if the fetch fails.
+        surface: 'var(--site-bg, #ffffff)',
       },
       fontFamily: {
         display: ['"Sora"', 'system-ui', 'sans-serif'],

@@ -50,7 +50,7 @@ export function Home() {
   const industries = ['Manufacturing', 'Automotive', 'Dental & Medical', 'Construction', 'Packaging'];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
       <SEO
         title="Air Compressor Supplier Pune | Everest Hydro Pneumatic Solutions"
         description="Manufacturer & supplier of industrial air compressors, screw & oil-free compressors, and material handling equipment in Pune. Free pan-India delivery."
@@ -129,7 +129,7 @@ export function Home() {
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
               {categories.map((cat) => (
                 <Link key={cat.id} to={`/products?category=${cat.slug}`}
-                  className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-premium-sm hover:shadow-premium-md hover:-translate-y-1 transition-all duration-300">
+                  className="group bg-surface border border-gray-100 rounded-2xl overflow-hidden shadow-premium-sm hover:shadow-premium-md hover:-translate-y-1 transition-all duration-300">
                   {/* Fix: category photos are product shots (square/portrait), not wide
                       banners. object-cover in a short fixed-height box was cropping
                       the tops/bottoms of the machines. object-contain + padding on a
@@ -238,7 +238,7 @@ export function Home() {
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {testimonials.map((t) => (
-                <div key={t.id} className="relative bg-white border border-gray-100 rounded-xl p-5 shadow-premium-sm hover:shadow-premium-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+                <div key={t.id} className="relative bg-surface border border-gray-100 rounded-xl p-5 shadow-premium-sm hover:shadow-premium-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
                   <div className="absolute -top-3 left-4 text-gold text-3xl opacity-25" aria-hidden="true">"</div>
                   <div className="flex justify-center mb-3" role="img" aria-label={`${t.rating} out of 5 stars`}>
                     {[...Array(5)].map((_, i) => (

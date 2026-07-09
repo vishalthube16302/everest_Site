@@ -109,7 +109,7 @@ export function Products() {
         <div className="md:hidden mb-4">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700"
+            className="flex items-center gap-2 px-4 py-2 bg-surface border border-gray-200 rounded-lg text-sm font-medium text-gray-700"
           >
             <SlidersHorizontal size={16} />
             {selectedCategory ? selectedCategoryName : 'All Categories'}
@@ -163,7 +163,7 @@ export function Products() {
             {loading ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-white border border-gray-100 rounded-xl h-64 animate-pulse" />
+                  <div key={i} className="bg-surface border border-gray-100 rounded-xl h-64 animate-pulse" />
                 ))}
               </div>
             ) : filteredProducts.length === 0 ? (
@@ -183,7 +183,7 @@ export function Products() {
       </div>
 
       {/* ── US-012: FAQ Section ── */}
-      <section className="py-14 bg-white border-t border-gray-100">
+      <section className="py-14 bg-surface border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-8">
             <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">Common questions</p>

@@ -39,7 +39,7 @@ export function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="About Us — Everest Hydro Pneumatic Solutions, Est. 2020, Chakan Pune"
@@ -75,7 +75,7 @@ export function About() {
       </section>
 
       {/* Who we are */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-surface">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-5 gap-10">
             {/* Text col — 3/5 */}
@@ -142,7 +142,7 @@ export function About() {
       <section className="py-12 bg-gray-50 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-black mb-6 text-center">Company Factsheet</h2>
-          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-gray-100 overflow-hidden">
             <div className="grid md:grid-cols-2">
               <div className="p-6 border-b md:border-b-0 md:border-r border-gray-100">
                 <p className="text-xs font-bold uppercase tracking-widest text-navy mb-4">Business Info</p>
@@ -184,7 +184,7 @@ export function About() {
       </section>
 
       {/* Team strip */}
-      <section className="py-10 bg-white border-t border-gray-100">
+      <section className="py-10 bg-surface border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-6 justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Our team</p>

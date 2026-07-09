@@ -107,7 +107,7 @@ export function ProductDetail() {
                 schemas={[productSchema, breadcrumbSchema]}
             />
 
-            <div className="bg-white border-b border-gray-100">
+            <div className="bg-surface border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm">
                     <Link to="/products" className="flex items-center gap-1 text-navy hover:underline font-medium">
                         <ArrowLeft size={14} /> Back to Products
@@ -121,7 +121,7 @@ export function ProductDetail() {
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                     {/* Image gallery */}
                     <div>
-                        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden relative mb-3">
+                        <div className="bg-surface border border-gray-200 rounded-2xl overflow-hidden relative mb-3">
                             <div className="aspect-square flex items-center justify-center p-8">
                                 {allImages[selectedIdx]
                                     ? <img
@@ -141,12 +141,12 @@ export function ProductDetail() {
                                 <>
                                     <button onClick={() => setSelectedIdx(i => (i - 1 + allImages.length) % allImages.length)}
                                         aria-label="Previous image"
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
                                         <ChevronLeft size={18} className="text-gray-600" />
                                     </button>
                                     <button onClick={() => setSelectedIdx(i => (i + 1) % allImages.length)}
                                         aria-label="Next image"
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-sm hover:shadow-md transition-all">
                                         <ChevronRight size={18} className="text-gray-600" />
                                     </button>
                                 </>
@@ -219,7 +219,7 @@ export function ProductDetail() {
                 </div>
 
                 {(product.description || cleanLong) && (
-                    <div className="bg-white border border-gray-100 rounded-2xl p-6 mb-8">
+                    <div className="bg-surface border border-gray-100 rounded-2xl p-6 mb-8">
                         <h2 className="text-sm font-bold text-gray-900 mb-3">Description</h2>
                         {product.description && <p className="text-sm text-gray-600 leading-relaxed mb-3">{product.description.split('\n\n')[0]}</p>}
                         {cleanLong && <div className="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none border-t border-gray-50 pt-3" dangerouslySetInnerHTML={{ __html: cleanLong }} />}
@@ -237,7 +237,7 @@ export function ProductDetail() {
                                 const sp = formatPrice(p.price_range);
                                 return (
                                     <Link key={p.id} to={`/products/${p.slug}`}
-                                        className="flex-shrink-0 w-48 bg-white border border-gray-100 rounded-xl overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                                        className="flex-shrink-0 w-48 bg-surface border border-gray-100 rounded-xl overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                                         <div className="h-32 bg-gray-50 overflow-hidden">
                                             {p.image_url
                                                 ? <img src={p.image_url} alt={`${p.name} — Everest HPS Pune`} width="192" height="128" loading="lazy" className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />

@@ -51,7 +51,7 @@ export function Header() {
       </div>
 
       {/* Main header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
@@ -118,7 +118,7 @@ export function Header() {
 
         {/* Mobile nav drawer */}
         {isOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white">
+          <div className="md:hidden border-t border-gray-100 bg-surface">
             <nav className="flex flex-col p-3 gap-1">
               {navItems.map((item) => (
                 <Link

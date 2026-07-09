@@ -16,7 +16,7 @@ export function Gallery() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
 
       <SEO
         title="Gallery — Product Photos & Operations | Everest HPS"

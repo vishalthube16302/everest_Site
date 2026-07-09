@@ -80,6 +80,7 @@ export interface SiteSettings {
   vision: string;
   gst_number: string;
   company_name_color: string;
+  background_color?: string;
 }
 
 export interface Page {
