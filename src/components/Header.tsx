@@ -55,40 +55,31 @@ export function Header() {
       </div>
 
       {/* Main header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-6">
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-premium-sm">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             {settings?.logo_url ? (
-              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-10 w-auto object-contain" />
+              <img src={settings.logo_url} alt={companyName || 'Logo'} className="h-12 w-auto object-contain" />
             ) : (
               <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ backgroundColor: primary }} />
             )}
             {showText && (
-              <div className="hidden sm:flex flex-col justify-center">
-                {/* <span
-                  className="font-extrabold text-lg tracking-tight leading-none"
+              <div className="hidden sm:flex flex-col justify-center leading-tight">
+                <span
+                  className="font-display font-bold text-xl tracking-tight leading-none"
                   style={{ color: settings?.company_name_color || primary }}
                 >
                   {companyName}
-                </span> */}
-                <div className="flex flex-col leading-tight">
-                  <span
-                    className="font-extrabold text-4xl tracking-wide leading-none"
-                    style={{ color: settings?.company_name_color || '#ffffff' }}
-                  >
-                    {companyName}
-                  </span>
+                </span>
 
-                  {tagline && (
-                    <span
-                      className="text-xs font-medium tracking-wide opacity-80"
-                      style={{ color: primary }}
-                    >
-                      {tagline}
-                    </span>
-                  )}
-                </div>
+                {tagline && (
+                  <span
+                    className="text-[11px] font-medium tracking-wide text-gray-500 mt-1"
+                  >
+                    {tagline}
+                  </span>
+                )}
               </div>
             )}
           </Link>

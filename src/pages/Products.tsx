@@ -96,9 +96,9 @@ export function Products() {
       />
 
       {/* Hero */}
-      <section className="bg-[#0f3460] py-10">
+      <section className="bg-navy py-10">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="text-[#e94560] text-xs font-semibold uppercase tracking-widest mb-1">Our catalogue</p>
+          <p className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">Our catalogue</p>
           <h1 className="text-3xl font-bold text-white">Products</h1>
           <p className="text-blue-200 text-sm mt-1">Air compressors &amp; material handling equipment</p>
         </div>
@@ -128,7 +128,7 @@ export function Products() {
                 <button
                   onClick={() => handleCategorySelect('')}
                   className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${!selectedCategory
-                    ? 'bg-[#0f3460] text-white font-semibold'
+                    ? 'bg-navy text-white font-semibold'
                     : 'text-gray-600 hover:bg-gray-100'
                     }`}
                 >
@@ -139,7 +139,7 @@ export function Products() {
                     key={cat.id}
                     onClick={() => handleCategorySelect(cat.slug)}
                     className={`text-left px-3 py-2 rounded-lg text-sm transition-colors leading-snug ${selectedCategory === cat.slug
-                      ? 'bg-[#0f3460] text-white font-semibold'
+                      ? 'bg-navy text-white font-semibold'
                       : 'text-gray-600 hover:bg-gray-100'
                       }`}
                   >
@@ -186,7 +186,7 @@ export function Products() {
       <section className="py-14 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-1">Common questions</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">Common questions</p>
             <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
           </div>
           <div className="space-y-2">

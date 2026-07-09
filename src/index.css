@@ -1,3 +1,10 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/sora/600.css';
+@import '@fontsource/sora/700.css';
+@import '@fontsource/sora/800.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +12,39 @@
 /* Fix 6: Removed the .bg-white override that forced #f3f4f6 with !important.
    It broke intentional white card backgrounds and caused WCAG contrast failures
    on form inputs, modal backgrounds, and white-on-colored-bg text. */
+
+/* ── Premium type system ──────────────────────────────────────
+   Sora for headings (confident, geometric, technical feel),
+   Inter for body copy (clean, highly legible at small sizes). */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Sora', system-ui, sans-serif;
+}
+
+/* Section eyebrow + heading underline, used across Home sections */
+.section-heading {
+  position: relative;
+  display: inline-block;
+}
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 42px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #d97706, #f59e0b);
+}
+.section-heading.center::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /* Rich text content styles (for Quill editor output) */
 .prose h1 {

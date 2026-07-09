@@ -49,11 +49,11 @@ export function About() {
       />
 
       {/* Hero */}
-      <section className="bg-[#0f3460] py-14">
+      <section className="bg-navy py-14">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <p className="text-[#e94560] text-xs font-semibold uppercase tracking-widest mb-2">About us</p>
+              <p className="text-gold text-xs font-semibold uppercase tracking-widest mb-2">About us</p>
               <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
                 Everest Hydro Pneumatic Solution
               </h1>
@@ -80,7 +80,7 @@ export function About() {
           <div className="grid md:grid-cols-5 gap-10">
             {/* Text col — 3/5 */}
             <div className="md:col-span-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-2">Who we are</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-2">Who we are</p>
               <h2 className="text-2xl font-bold text-black mb-5">Built on precision. Trusted by industry.</h2>
 
               {settings?.about_text ? (
@@ -103,14 +103,14 @@ export function About() {
               {(settings?.mission || settings?.vision) && (
                 <div className="grid md:grid-cols-2 gap-4 mt-6">
                   {settings.mission && (
-                    <div className="bg-[#0f3460]/4 rounded-xl p-4 border-l-4 border-[#0f3460]">
-                      <p className="text-xs font-bold uppercase tracking-widest text-[#0f3460] mb-2">Mission</p>
+                    <div className="bg-navy/4 rounded-xl p-4 border-l-4 border-navy">
+                      <p className="text-xs font-bold uppercase tracking-widest text-navy mb-2">Mission</p>
                       <p className="text-xs text-gray-600 leading-relaxed">{settings.mission.slice(0, 160)}…</p>
                     </div>
                   )}
                   {settings?.vision && (
-                    <div className="bg-[#e94560]/4 rounded-xl p-4 border-l-4 border-[#e94560]">
-                      <p className="text-xs font-bold uppercase tracking-widest text-[#e94560] mb-2">Vision</p>
+                    <div className="bg-gold/4 rounded-xl p-4 border-l-4 border-gold">
+                      <p className="text-xs font-bold uppercase tracking-widest text-gold mb-2">Vision</p>
                       <p className="text-xs text-gray-600 leading-relaxed">
                         {settings.vision.replace(/To become the most trusted\s*/i, '').slice(0, 160)}…
                       </p>
@@ -145,7 +145,7 @@ export function About() {
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
             <div className="grid md:grid-cols-2">
               <div className="p-6 border-b md:border-b-0 md:border-r border-gray-100">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#0f3460] mb-4">Business Info</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-navy mb-4">Business Info</p>
                 <div className="space-y-3">
                   {[
                     ['Nature of Business', 'Manufacturer & Service Provider'],
@@ -162,7 +162,7 @@ export function About() {
                 </div>
               </div>
               <div className="p-6">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#0f3460] mb-4">Contact Details</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-navy mb-4">Contact Details</p>
                 <div className="space-y-3">
                   {[
                     ['Phone / WhatsApp', settings?.phone || '+91-8855820105'],
@@ -195,15 +195,15 @@ export function About() {
           </div>
           <div className="flex gap-3 flex-wrap">
             <div className="bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-center min-w-[100px]">
-              <div className="text-xl font-bold text-[#0f3460]">5+</div>
+              <div className="text-xl font-bold text-navy">5+</div>
               <div className="text-xs text-gray-500">Years Exp.</div>
             </div>
             <div className="bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-center min-w-[100px]">
-              <div className="text-xl font-bold text-[#0f3460]">11</div>
+              <div className="text-xl font-bold text-navy">11</div>
               <div className="text-xs text-gray-500">Team Size</div>
             </div>
             <div className="bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-center min-w-[100px]">
-              <div className="text-xl font-bold text-[#0f3460]">PAN</div>
+              <div className="text-xl font-bold text-navy">PAN</div>
               <div className="text-xs text-gray-500">India Reach</div>
             </div>
           </div>

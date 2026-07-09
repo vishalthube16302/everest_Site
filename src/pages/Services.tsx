@@ -69,9 +69,9 @@ export function Services() {
       />
 
       {/* Hero */}
-      <section className="bg-[#0f3460] py-12">
+      <section className="bg-navy py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="text-[#e94560] text-xs font-semibold uppercase tracking-widest mb-1">What we do</p>
+          <p className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">What we do</p>
           <h1 className="text-3xl font-bold text-white mb-2">Our Services</h1>
           <p className="text-blue-200 text-sm max-w-xl">
             End-to-end support — from the right product recommendation to installation, commissioning, and beyond.
@@ -94,8 +94,8 @@ export function Services() {
                 const Icon = iconMap[s.icon] || Settings;
                 return (
                   <div key={s.id} className="bg-white border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
-                    <div className="w-11 h-11 rounded-xl bg-[#0f3460]/8 flex items-center justify-center flex-shrink-0">
-                      <Icon size={20} className="text-[#0f3460]" />
+                    <div className="w-11 h-11 rounded-xl bg-navy/8 flex items-center justify-center flex-shrink-0">
+                      <Icon size={20} className="text-navy" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-black text-base mb-1.5">{s.title}</h3>
@@ -115,8 +115,8 @@ export function Services() {
                 { icon: BookOpen, title: 'Custom Configuration', desc: 'HP range, tank size, dryer, pressure setting — we configure to your exact industrial requirement.' },
               ].map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="bg-white border border-gray-100 rounded-2xl p-6 flex gap-5 hover:shadow-sm transition-shadow">
-                  <div className="w-11 h-11 rounded-xl bg-[#0f3460]/8 flex items-center justify-center flex-shrink-0">
-                    <Icon size={20} className="text-[#0f3460]" />
+                  <div className="w-11 h-11 rounded-xl bg-navy/8 flex items-center justify-center flex-shrink-0">
+                    <Icon size={20} className="text-navy" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-black text-base mb-1.5">{title}</h3>
@@ -133,7 +133,7 @@ export function Services() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-1">How it works</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">How it works</p>
             <h2 className="text-2xl font-bold text-black">Our Process</h2>
           </div>
           <div className="grid md:grid-cols-4 gap-0 relative">
@@ -142,8 +142,8 @@ export function Services() {
             {process.map((p, i) => (
               <div key={p.step} className="flex flex-col items-center text-center px-4 relative z-10">
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-sm mb-4 ${i === process.length - 1
-                    ? 'bg-[#e94560] text-white'
-                    : 'bg-[#0f3460] text-white'
+                    ? 'bg-gold text-white'
+                    : 'bg-navy text-white'
                   }`}>
                   {p.step}
                 </div>
@@ -180,7 +180,7 @@ export function Services() {
       <section className="py-14 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#e94560] mb-1">Common questions</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-1">Common questions</p>
             <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
           </div>
           <div className="space-y-2">
@@ -208,12 +208,12 @@ export function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-14 bg-[#0f3460]">
+      <section className="py-14 bg-navy">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-white mb-3">Share your requirements</h2>
           <p className="text-blue-200 text-sm mb-7">We'll configure the right solution and deliver it to your door.</p>
           <Link to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#e94560] text-white font-semibold text-sm rounded-xl hover:bg-[#c73652] transition-colors">
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-white font-semibold text-sm rounded-xl hover:bg-gold-dark transition-colors">
             Get in Touch <ArrowRight size={15} />
           </Link>
         </div>

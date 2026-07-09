@@ -54,7 +54,7 @@ export function ProductCard({ product, categoryName }: Props) {
 
       <div className="p-4 flex flex-col gap-2">
         <Link to={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-gray-900 text-sm leading-snug hover:text-[#0f3460] transition-colors line-clamp-2">
+          <h3 className="font-semibold text-gray-900 text-sm leading-snug hover:text-navy transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>
@@ -62,12 +62,12 @@ export function ProductCard({ product, categoryName }: Props) {
           {truncate(product.description ?? '', 90)}
         </p>
         <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
-          <span className={`text-sm font-semibold ${isPOR ? 'text-gray-400 italic' : 'text-[#0f3460]'}`}>
+          <span className={`text-sm font-semibold ${isPOR ? 'text-gray-400 italic' : 'text-navy'}`}>
             {price}
           </span>
           <Link
             to={`/products/${product.slug}`}
-            className="text-xs font-semibold text-white bg-[#e94560] hover:bg-[#c73652] px-3 py-1.5 rounded-lg transition-colors"
+            className="text-xs font-semibold text-white bg-gold hover:bg-gold-dark px-3 py-1.5 rounded-lg transition-colors"
           >
             View Details
           </Link>
