@@ -27,7 +27,7 @@ export interface SEOProps {
 }
 
 const BASE_URL = 'https://everesthps.com';
-const DEFAULT_OG_IMAGE = `${BASE_URL}/favicon.svg`;
+const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
 
 export function SEO({
   title,
@@ -37,6 +37,7 @@ export function SEO({
   ogType = 'website',
   schemas,
 }: SEOProps) {
+
   const fullCanonical = canonical
     ? `${BASE_URL}${canonical.startsWith('/') ? canonical : `/${canonical}`}`
     : BASE_URL;
@@ -45,32 +46,120 @@ export function SEO({
 
   return (
     <Helmet>
-      {/* Primary */}
+
+      {/* Primary SEO */}
       <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={fullCanonical} />
+
+      <meta
+        name="description"
+        content={description}
+      />
+
+      <meta
+        name="robots"
+        content="index,follow,max-image-preview:large"
+      />
+
+      <meta
+        name="author"
+        content="Everest Hydro Pneumatic Solutions"
+      />
+
+      <meta
+        name="theme-color"
+        content="#D32F2F"
+      />
+
+      <link
+        rel="canonical"
+        href={fullCanonical}
+      />
 
       {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={fullCanonical} />
-      <meta property="og:image" content={resolvedOgImage} />
-      <meta property="og:site_name" content="Everest Hydro Pneumatic Solutions" />
-      <meta property="og:locale" content="en_IN" />
 
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={resolvedOgImage} />
+      <meta
+        property="og:type"
+        content={ogType}
+      />
 
-      {/* JSON-LD Schemas */}
-      {schemas?.map((schema, i) => (
-        <script key={i} type="application/ld+json">
+      <meta
+        property="og:title"
+        content={title}
+      />
+
+      <meta
+        property="og:description"
+        content={description}
+      />
+
+      <meta
+        property="og:url"
+        content={fullCanonical}
+      />
+
+      <meta
+        property="og:image"
+        content={resolvedOgImage}
+      />
+
+      <meta
+        property="og:image:width"
+        content="1200"
+      />
+
+      <meta
+        property="og:image:height"
+        content="630"
+      />
+
+      <meta
+        property="og:image:alt"
+        content="Everest Hydro Pneumatic Solutions"
+      />
+
+      <meta
+        property="og:site_name"
+        content="Everest Hydro Pneumatic Solutions"
+      />
+
+      <meta
+        property="og:locale"
+        content="en_IN"
+      />
+
+      {/* Twitter */}
+
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content={title}
+      />
+
+      <meta
+        name="twitter:description"
+        content={description}
+      />
+
+      <meta
+        name="twitter:image"
+        content={resolvedOgImage}
+      />
+
+      {/* Structured Data */}
+
+      {schemas?.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+        >
           {JSON.stringify(schema)}
         </script>
       ))}
+
     </Helmet>
   );
 }
