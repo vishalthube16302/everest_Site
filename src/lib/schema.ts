@@ -313,3 +313,40 @@ export function buildFAQSchema(faqs: FAQItem[]): Record<string, unknown> {
     })),
   };
 }
+
+/* ──────────────────────────────────────────────────────────────
+ * AI-DISCOVER — ItemList schema for the full catalog page
+ *
+ * Used on /ai-discover — a single static page listing every
+ * product. This schema gives search engines and AI crawlers a
+ * structured, one-shot summary of the entire catalog so they
+ * don't have to piece it together from individual product pages.
+ * ────────────────────────────────────────────────────────────── */
+
+interface ItemListProductInput {
+  name: string;
+  slug: string;
+  description: string;
+  categoryName?: string;
+}
+
+export function buildItemListSchema(products: ItemListProductInput[]): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${BASE_URL}/ai-discover#itemlist`,
+    name: 'Everest HPS — Full Product Catalog',
+    numberOfItems: products.length,
+    itemListElement: products.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Product',
+        name: p.name,
+        description: p.description,
+        category: p.categoryName,
+        url: `${BASE_URL}/products/${p.slug}`,
+      },
+    })),
+  };
+}

@@ -17,6 +17,7 @@ import { Gallery } from './pages/Gallery';
 import { Contact } from './pages/Contact';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
+import { AIDiscovery } from './pages/AIDiscovery';
 import { NotFound } from './pages/NotFound';
 import { supabase } from './lib/supabase';
 
@@ -112,6 +113,12 @@ export const routes: RouteRecord[] = [
       { path: 'contact', element: <Contact /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'terms', element: <Terms /> },
+
+      // Full static catalog page — one page listing every product and
+      // category, aimed at search engines and AI crawlers (see US: AI
+      // discovery). Pre-rendered same as the routes above; also added
+      // to ssgOptions.includedRoutes in vite.config.ts.
+      { path: 'ai-discover', element: <AIDiscovery /> },
 
       // Dynamic product detail — getStaticPaths fetches all slugs from Supabase
       // at BUILD TIME so vite-react-ssg pre-renders a static HTML file for every

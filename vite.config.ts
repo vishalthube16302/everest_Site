@@ -134,6 +134,7 @@ export default defineConfig({
         '/contact',
         '/privacy',
         '/terms',
+        '/ai-discover',
       ];
 
       // Fetch all product slugs from Supabase and build /products/:slug paths

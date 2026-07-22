@@ -38,6 +38,7 @@ const staticRoutes: { path: string; changefreq: string; priority: string }[] = [
   { path: '/contact',  changefreq: 'monthly', priority: '0.6' },
   { path: '/privacy',  changefreq: 'yearly',  priority: '0.3' },
   { path: '/terms',    changefreq: 'yearly',  priority: '0.3' },
+  { path: '/ai-discover', changefreq: 'weekly', priority: '0.6' },
 ];
 
 // ── Fetch product slugs from Supabase REST API ─────────────
