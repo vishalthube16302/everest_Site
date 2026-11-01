@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#shade{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(transparent,rgba(8,9,11,.82))}
+.cap{position:absolute;left:96px;bottom:84px}
+.cap .n{font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.08em}
+.cap .t{font-weight:800;font-size:96px;line-height:1;margin-top:6px}
+.cap .d{font-family:'JetBrains Mono',monospace;font-size:27px;color:#D5D9DE;margin-top:10px}
+#stats{position:absolute;left:96px;right:96px;bottom:84px;display:flex;justify-content:space-between}
+.st .v{font-weight:800;font-size:112px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:24px;color:#D5D9DE;margin-top:6px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#0E0F12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center}
+#end img{width:1120px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:40px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="shade"></div>
+<div id="caps"></div>
+<div id="stats"></div>
+<div id="end"><img src="../images/processed/everest-sticker.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+// Captions, spec numbers and the end card, drawn over the Blender frames.
+window.DURATION = 22;
+const P = PRODUCTS.scale;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const lerp = (a,b,x) => a+(b-a)*x;
+const CAPS = [
+  {from:.3, to:3.1, n:'EVEREST PALLET TRUCK WITH SCALE', t:'LIFT. WEIGH. MOVE.', d:'A scale built into the truck'},
+  {from:3.5, to:6.5, n:'STEP 1', t:'SLIDE UNDER THE PALLET', d:'Forks down, roll straight in'},
+  {from:6.9, to:10.3, n:'STEP 2', t:'PUMP THE HANDLE', d:'Forks rise from 88 mm to 203 mm'},
+  {from:10.6, to:14.3, n:'STEP 3', t:'READ THE WEIGHT', d:'Right on the truck. Sample weight shown'},
+  {from:14.7, to:17.3, n:'STEP 4', t:'MOVE IT', d:'Up to 3,000 kg, by hand'},
+];
+CAPS.forEach((c,i)=>$('caps').insertAdjacentHTML('beforeend',`<div class="cap" id="c${i}"><div class="n">${c.n}</div><div class="t">${c.t}</div><div class="d">${c.d}</div></div>`));
+P.stats.forEach((s,i)=>$('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`));
+$('en').textContent=P.name; $('em').textContent=P.model;
+const num=(s,x)=>{ const v=lerp(s.from||0,s.to,x); return (s.pre||'')+Math.round(v).toLocaleString('en-IN')+(s.suf||''); };
+
+window.seek = t => {
+  let shade = 0;
+  CAPS.forEach((c,i)=>{
+    const a=outE(prog(t,c.from,c.from+.5)), o=1-prog(t,c.to-.4,c.to);
+    $('c'+i).style.opacity=a*o;
+    $('c'+i).style.transform=`translateY(${lerp(18,0,a)}px)`;
+    shade=Math.max(shade,a*o);
+  });
+  const so=prog(t,17.7,18)*(1-prog(t,19.3,19.6));
+  $('stats').style.opacity=so;
+  P.stats.forEach((s,i)=>{
+    $('s'+i).textContent=num(s,outE(prog(t,17.8+i*.15,18.9+i*.15)));
+  });
+  $('shade').style.opacity=Math.max(shade,so);
+  const e=prog(t,19.5,20);
+  $("end").style.opacity=e;
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready=(async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>

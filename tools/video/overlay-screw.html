@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#stage{position:absolute;inset:0;background:#111316;overflow:hidden}
+#grid{position:absolute;inset:-96px;background-image:linear-gradient(#1C2025 1px,transparent 1px),linear-gradient(90deg,#1C2025 1px,transparent 1px);background-size:96px 96px}
+#img{position:absolute;left:0;top:0;width:900px;transform-origin:0 0}
+#logo{position:absolute;left:50%;top:50%;width:880px}
+#head{position:absolute;left:110px;top:230px;font-weight:800;font-size:150px;line-height:.9;letter-spacing:-.5px}
+#head div{white-space:nowrap}
+#tag{position:absolute;left:112px;top:530px;font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.04em}
+#shade{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(transparent,rgba(8,9,11,.82))}
+.cap{position:absolute;left:96px;bottom:84px}
+.cap .n{font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.08em}
+.cap .t{font-weight:800;font-size:96px;line-height:1;margin-top:6px}
+.cap .d{font-family:'JetBrains Mono',monospace;font-size:27px;color:#D5D9DE;margin-top:10px}
+.air{position:absolute;display:flex;gap:10px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:28px;color:#F2F2EF}
+.air i{display:block;width:30px;height:30px;border-top:7px solid #FF6B6E;border-right:7px solid #FF6B6E;transform:rotate(45deg)}
+#stats{position:absolute;left:110px;top:230px;display:flex;flex-direction:column;gap:34px}
+.st .v{font-weight:800;font-size:118px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:24px;color:#A9B0B9;margin-top:4px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#0E0F12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center}
+#end img{width:1120px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:40px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="shade"></div>
+<div id="caps"></div>
+<div class="air" id="in"><span>AIR IN</span><i></i><i></i><i></i></div>
+<div class="air" id="out"><i></i><i></i><i></i><span>8 BAR</span></div>
+<div id="stage">
+  <div id="grid"></div>
+  <img id="img" src="../images/processed/film-screw.webp">
+  <div id="head"></div>
+  <div id="tag"></div>
+  <div id="stats"></div>
+  <img id="logo" src="../images/processed/logo-on-dark.png">
+</div>
+<div id="end"><img src="../images/processed/everest-sticker.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+// Photo opening, captions and end card. The stage hides the Blender rotors except in the middle.
+window.DURATION = 18;
+const P = PRODUCTS.screw;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const lerp = (a,b,x) => a+(b-a)*x;
+const CAPS = [
+  {from:5.4, to:8.4, n:'STEP 1', t:'AIR COMES IN', d:'Two rotors turn together'},
+  {from:8.8, to:11.2, n:'STEP 2', t:'THE ROTORS SQUEEZE IT', d:'The space between them gets smaller'},
+  {from:11.4, to:13.3, n:'STEP 3', t:'READY TO USE', d:'Air at 8 bar working pressure'},
+];
+$('head').innerHTML = P.head.map(l=>`<div>${l}</div>`).join('');
+$('tag').textContent = P.tag;
+CAPS.forEach((c,i)=>$('caps').insertAdjacentHTML('beforeend',`<div class="cap" id="c${i}"><div class="n">${c.n}</div><div class="t">${c.t}</div><div class="d">${c.d}</div></div>`));
+P.stats.forEach((s,i)=>$('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`));
+$('en').textContent=P.name; $('em').textContent=P.model;
+const num=(s,x)=>{ if(s.text) return s.text; const v=lerp(s.from||0,s.to,x); return (s.pre||'')+Math.round(v).toLocaleString('en-IN')+(s.suf||''); };
+// Chevrons run left to right, the way the grooves travel
+const run=(el,t)=>[...el.querySelectorAll('i')].forEach((c,i)=>{ c.style.opacity=.25+.75*Math.max(0,Math.sin(t*5-i*.9)); });
+
+window.seek = t => {
+  $('grid').style.transform=`translateX(${-t*6}px)`;
+  const open=1-prog(t,4.8,5.3), back=prog(t,13.2,13.7);
+  $('stage').style.opacity=Math.max(open,back);
+  const inP=outE(prog(t,1.1,2.5));
+  const x=back>0?lerp(960,940,prog(t,13.2,16)):lerp(1200,960,inP);
+  $('img').style.transform=`translate(${x}px,${back>0?210:lerp(220,210,inP)}px)`;
+  $('img').style.opacity=back>0?1:prog(t,1.1,1.7);
+
+  const lo=prog(t,.1,.7)*(1-prog(t,1.0,1.4));
+  $('logo').style.opacity=lo;
+  $('logo').style.transform=`translate(-50%,-50%) scale(${lerp(.96,1.02,prog(t,0,1.4))})`;
+  const hIn=outE(prog(t,1.5,2.2)), hOut=1-prog(t,4.3,4.8);
+  $('head').style.opacity=hIn*hOut;
+  $('head').style.transform=`translateY(${lerp(28,0,hIn)}px)`;
+  $('tag').style.opacity=outE(prog(t,1.8,2.4))*hOut;
+
+  let shade=0;
+  CAPS.forEach((c,i)=>{
+    const a=outE(prog(t,c.from,c.from+.5)), o=1-prog(t,c.to-.4,c.to);
+    $('c'+i).style.opacity=a*o;
+    $('c'+i).style.transform=`translateY(${lerp(18,0,a)}px)`;
+    shade=Math.max(shade,a*o);
+  });
+  $('shade').style.opacity=shade;
+
+  $('in').style.left='110px'; $('in').style.top='300px';
+  $('in').style.opacity=prog(t,5.6,6.1)*(1-prog(t,8.1,8.5));
+  run($('in'),t);
+  $('out').style.right='110px'; $('out').style.top='300px';
+  $('out').style.opacity=prog(t,11.5,11.9)*(1-prog(t,12.9,13.3));
+  run($('out'),t);
+
+  $('stats').style.opacity=prog(t,13.9,14.2)*(1-prog(t,15.8,16.1));
+  P.stats.forEach((s,i)=>{
+    const el=$('s'+i);
+    el.textContent=num(s,outE(prog(t,14+i*.15,15.1+i*.15)));
+    el.parentNode.style.opacity=prog(t,14+i*.15,14.3+i*.15);
+  });
+  const e=prog(t,16,16.5);
+  $('end').style.opacity=e;
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready=(async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>

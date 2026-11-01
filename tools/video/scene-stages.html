@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#111316;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#grid{position:absolute;inset:-96px;background-image:linear-gradient(#1C2025 1px,transparent 1px),linear-gradient(90deg,#1C2025 1px,transparent 1px);background-size:96px 96px}
+#floor{position:absolute;left:0;right:0;top:896px;height:2px;background:#2E3339}
+#logo{position:absolute;left:50%;top:50%;width:880px}
+#head{position:absolute;left:0;right:0;top:300px;text-align:center;font-weight:800;font-size:190px;line-height:.92}
+#sub{position:absolute;left:0;right:0;top:760px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:28px;color:#FF6B6E;letter-spacing:.04em}
+.panel{position:absolute;top:90px;width:552px;height:1080px}
+.cap{position:absolute;left:0;top:130px;width:552px}
+.cap .n{font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.08em}
+.cap .t{font-weight:800;font-size:76px;line-height:.95;margin-top:6px}
+.cap .d{font-family:'JetBrains Mono',monospace;font-size:24px;color:#A9B0B9;margin-top:12px}
+.shadow{position:absolute;left:0;top:795px;width:552px;height:22px;border-radius:50%;background:radial-gradient(#000 0,#0000 70%);opacity:.55}
+.stage{position:absolute;left:0;top:410px;width:1200px;height:847px;transform:scale(.46);transform-origin:0 0}
+.stage img,.stage .layer{position:absolute;left:0;top:0;width:1200px;height:847px}
+.up{position:absolute;left:0;top:0;width:1200px;height:847px}
+.load{position:absolute;left:470px;top:150px}
+.pal{position:absolute;left:0;top:380px;width:660px;height:92px;background:#B98A52;border:4px solid #7A5A33;border-radius:4px}
+.pal i{position:absolute;top:36px;width:90px;height:56px;background:#111316}
+.box{position:absolute;background:#D2AE78;border:4px solid #8F6B3A}
+.box:after{content:"";position:absolute;left:46%;top:0;bottom:0;width:8%;background:#B89055}
+#stats{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;gap:150px}
+.st{text-align:center}
+.st .v{font-weight:800;font-size:150px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9;margin-top:6px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#111316;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+#end img{width:760px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:22px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="floor"></div>
+<div id="panels"></div>
+<div id="head">PUMP.<br>LIFT. MOVE.</div>
+<div id="sub">EVEREST HYDRAULIC HAND PALLET TRUCK</div>
+<div id="stats"></div>
+<img id="logo" src="../images/processed/logo-on-dark.png">
+<div id="end"><img src="../images/processed/logo-on-dark.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+// Three stages of the real product photo: forks down, pumping, lifted and moving.
+// Photo layers: handle (swings), body (rises), rear wheel (stays on the floor).
+// Lift 85 to 200 mm, drawn at about 1 px per mm in photo space. Specs from PRODUCTS.pallet.
+window.DURATION = 20;
+const P = PRODUCTS.pallet;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const io = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const lerp = (a,b,x) => a+(b-a)*x;
+const RISE = 115;                          // 200 mm - 85 mm
+const IMG = '../images/processed/pallet-side.webp';
+const BODY_CLIP = 'polygon(215px 0,1200px 0,1200px 847px,245px 847px,245px 690px,0 690px,0 530px,215px 530px)';
+const HANDLE_CLIP = 'polygon(0 0,215px 0,215px 530px,0 530px)';
+const WHEEL_CLIP = 'polygon(190px 690px,245px 690px,245px 780px,190px 780px)';
+const X = [90, 684, 1278];
+const CAP = [
+  ['STEP 1', 'FORKS DOWN', 'Slide the forks under the pallet'],
+  ['STEP 2', 'PUMP THE HANDLE', 'Hydraulics do the heavy work'],
+  ['STEP 3', 'LIFT AND MOVE', 'Up to 200 mm lift, 3,000 kg capacity'],
+];
+const START = [3.6, 6.0, 10.4];
+const boxes = `
+  <div class="box" style="left:20px;top:210px;width:190px;height:170px"></div>
+  <div class="box" style="left:235px;top:210px;width:190px;height:170px"></div>
+  <div class="box" style="left:450px;top:210px;width:190px;height:170px"></div>
+  <div class="box" style="left:130px;top:40px;width:190px;height:170px"></div>
+  <div class="box" style="left:345px;top:40px;width:190px;height:170px"></div>`;
+const pallet = `<div class="load"><div class="pal"><i style="left:40px"></i><i style="left:285px"></i><i style="left:530px"></i></div>${boxes}</div>`;
+X.forEach((x,i)=>{
+  $('panels').insertAdjacentHTML('beforeend',`
+  <div class="panel" id="p${i}" style="left:${x}px">
+    <div class="cap"><div class="n">${CAP[i][0]}</div><div class="t">${CAP[i][1]}</div><div class="d">${CAP[i][2]}</div></div>
+    <div class="shadow"></div>
+    <div class="stage" id="st${i}">
+      <div class="up" id="up${i}">
+        ${pallet}
+        <img src="${IMG}" style="clip-path:${BODY_CLIP}">
+        <div class="layer" id="hd${i}" style="transform-origin:185px 520px;clip-path:${HANDLE_CLIP}"><img src="${IMG}"></div>
+      </div>
+      <div class="layer" style="clip-path:${WHEEL_CLIP}"><img src="${IMG}"></div>
+    </div>
+  </div>`);
+});
+P.stats.forEach((s,i)=>$('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`));
+$('en').textContent=P.name; $('em').textContent=P.model;
+const num=(s,x)=>{ const v=lerp(s.from||0,s.to,x); return (s.pre||'')+Math.round(v).toLocaleString('en-IN')+(s.suf||''); };
+
+const STROKES=3, PUMP0=6.9, PUMP1=9.9;
+function lift2(t){
+  if(t<PUMP0) return 0;
+  if(t>=PUMP1) return 1;
+  const k=(t-PUMP0)/(PUMP1-PUMP0)*STROKES, n=Math.floor(k), f=k-n;
+  return (n+io(clamp(f/.6)))/STROKES;
+}
+function stroke(t){
+  if(t<PUMP0||t>PUMP1) return 0;
+  const k=(t-PUMP0)/(PUMP1-PUMP0)*STROKES, f=k-Math.floor(k);
+  return Math.sin(clamp(f/.6)*Math.PI);
+}
+window.seek = t => {
+  $('grid').style.transform=`translateX(${-t*6}px)`;
+  $('floor').style.opacity=prog(t,2.6,3.2)*(1-prog(t,15.4,15.9));
+
+  const lo=prog(t,.1,.7)*(1-prog(t,1.0,1.4));
+  $('logo').style.opacity=lo;
+  $('logo').style.transform=`translate(-50%,-50%) scale(${lerp(.96,1.02,prog(t,0,1.4))})`;
+  const hIn=outE(prog(t,1.5,2.2)), hOut=1-prog(t,3.0,3.5);
+  $('head').style.opacity=hIn*hOut;
+  $('head').style.transform=`translateY(${lerp(28,0,hIn)}px)`;
+  $('sub').style.opacity=outE(prog(t,1.8,2.4))*hOut;
+
+  const lifts=[0,lift2(t),1];
+  const tx=[0,0,70*io(prog(t,11.4,14.2))];
+  const pOff=1-prog(t,15.4,15.9);
+  for(let i=0;i<3;i++){
+    const a=outE(prog(t,START[i],START[i]+.7));
+    const p=$('p'+i);
+    p.style.opacity=a*pOff;
+    p.style.transform=`translateY(${lerp(30,0,a)}px)`;
+    $('up'+i).style.transform=`translateY(${-lifts[i]*RISE}px)`;
+    $('st'+i).style.transform=`translateX(${tx[i]}px) scale(.46)`;
+    $('hd'+i).style.transform=`rotate(${i===1?stroke(t)*9:0}deg)`;
+  }
+  const stOff=1-prog(t,17.9,18.3);
+  $('stats').style.opacity=prog(t,16.2,16.5)*stOff;
+  P.stats.forEach((s,i)=>{
+    const x=outE(prog(t,16.3+i*.18,17.5+i*.18));
+    $('s'+i).textContent=num(s,x);
+    $('s'+i).parentNode.style.opacity=prog(t,16.3+i*.18,16.6+i*.18);
+  });
+  const e=prog(t,18.3,18.9);
+  $('end').style.opacity=e*(1-prog(t,19.5,20));
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready=(async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>

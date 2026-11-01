@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#111316;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#grid{position:absolute;inset:-96px;background-image:linear-gradient(#1C2025 1px,transparent 1px),linear-gradient(90deg,#1C2025 1px,transparent 1px);background-size:96px 96px}
+#logo{position:absolute;left:50%;top:50%;width:880px}
+#kit{position:absolute;left:0;top:0;width:757px;height:750px;transform-origin:0 0}
+#kit img{position:absolute;left:0;top:0;width:757px;height:750px}
+#head{position:absolute;left:110px;top:240px;font-weight:800;font-size:150px;line-height:.9;letter-spacing:-.5px}
+#head div{white-space:nowrap}
+#tag{position:absolute;left:112px;top:540px;font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.04em}
+.co{position:absolute;left:0;top:0;height:0}
+.co .line{position:absolute;left:0;top:-1px;height:2px;background:#E5262A}
+.co .dot{position:absolute;left:-8px;top:-8px;width:16px;height:16px;border-radius:50%;background:#E5262A}
+.co .txt{position:absolute;top:-34px;font-family:'JetBrains Mono',monospace;font-size:27px;line-height:1.28;white-space:nowrap;background:#111316;padding:4px 10px}
+#kitcap{position:absolute;left:110px;top:150px}
+#kitcap .n{font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.08em}
+#kitcap .t{font-weight:800;font-size:96px;line-height:1;margin-top:6px}
+#list{position:absolute;left:110px;top:340px}
+.part{font-weight:700;font-size:64px;line-height:1.28;white-space:nowrap}
+.part b{font-weight:700;color:#FF6B6E;margin-right:18px}
+#stats{position:absolute;left:110px;top:170px;display:flex;flex-direction:column;gap:30px}
+.st .v{font-weight:800;font-size:118px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:24px;color:#A9B0B9;margin-top:4px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#111316;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+#end img{width:760px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:22px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="kit"><img id="base" src="../images/processed/film-motor-kit.webp"></div>
+<div id="head"></div>
+<div id="tag"></div>
+<div id="cos"></div>
+<div id="kitcap"><div class="n">IN THE KIT</div><div class="t">READY TO FIT</div></div>
+<div id="list"></div>
+<div id="stats"></div>
+<img id="logo" src="../images/processed/logo-on-dark.png">
+<div id="end"><img src="../images/processed/logo-on-dark.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+// The real kit photo. The motor gets its callouts, then each accessory lights up in turn.
+// Accessory names come from the products table (model 750). Masks are in photo pixels.
+window.DURATION = 17;
+const P = PRODUCTS.motor;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const io = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const lerp = (a,b,x) => a+(b-a)*x;
+const SHOTS = {
+  intro: {x:1040,y:175,w:790},
+  motor: {x:600,y:30,w:1040},
+  kit:   {x:900,y:90,w:905},
+  stats: {x:1040,y:175,w:790},
+};
+const KIT0=7.9, STEP=1.15, DIM=.2;
+const PARTS = [
+  {name:'CAPACITOR', clip:'polygon(0 700px,50px 640px,125px 520px,170px 515px,240px 570px,190px 700px,95px 750px,0 750px)'},
+  {name:'SILENCER', clip:'ellipse(100px 112px at 636px 562px)'},
+  {name:'ELBOW OUTLET NUT', clip:'polygon(250px 560px,370px 545px,370px 590px,348px 648px,300px 628px,250px 610px,400px 555px,480px 590px,480px 625px,400px 645px)'},
+  {name:'FEET', clip:'polygon(245px 640px,330px 630px,405px 640px,480px 642px,562px 650px,562px 748px,245px 748px)'},
+];
+PARTS.forEach((p,i)=>{
+  $('kit').insertAdjacentHTML('beforeend',`<img id="pl${i}" src="../images/processed/film-motor-kit.webp" style="clip-path:${p.clip}">`);
+  $('list').insertAdjacentHTML('beforeend',`<div class="part" id="pn${i}"><b>+</b>${p.name}</div>`);
+});
+$('head').innerHTML=P.head.map(l=>`<div>${l}</div>`).join('');
+$('tag').textContent=P.tag;
+$('en').textContent=P.name; $('em').textContent=P.model;
+P.specs.forEach((c,i)=>$('cos').insertAdjacentHTML('beforeend',`<div class="co" id="c${i}"><div class="line"></div><div class="dot"></div><div class="txt">${c.text.join('<br>')}</div></div>`));
+P.stats.forEach((s,i)=>$('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`));
+const num=(s,x)=>{ const v=lerp(s.from||0,s.to,x); return (s.pre||'')+Math.round(v).toLocaleString('en-IN')+(s.suf||''); };
+
+function box(t){
+  const {intro:A,motor:B,kit:C,stats:D}=SHOTS;
+  const inP=outE(prog(t,1.1,2.5)), f=io(prog(t,3.5,4.8)), k=io(prog(t,7.3,8.0)), s=io(prog(t,12.9,13.6));
+  let x=lerp(A.x+240,A.x,inP), y=A.y, w=A.w;
+  x=lerp(x,B.x,f); y=lerp(y,B.y,f); w=lerp(w,B.w,f);
+  x=lerp(x,C.x,k); y=lerp(y,C.y,k); w=lerp(w,C.w,k);
+  x=lerp(x,D.x,s); y=lerp(y,D.y,s); w=lerp(w,D.w,s);
+  return {x,y,w};
+}
+window.seek = t => {
+  $('grid').style.transform=`translateX(${-t*6}px)`;
+  const b=box(t), z=b.w/757;
+  $('kit').style.transform=`translate(${b.x}px,${b.y}px) scale(${z})`;
+  $('kit').style.opacity=prog(t,1.1,1.7)*(1-prog(t,15.6,15.7));
+
+  const lo=prog(t,.1,.7)*(1-prog(t,1.0,1.4));
+  $('logo').style.opacity=lo;
+  $('logo').style.transform=`translate(-50%,-50%) scale(${lerp(.96,1.02,prog(t,0,1.4))})`;
+  const hIn=outE(prog(t,1.5,2.2)), hOut=1-prog(t,3.0,3.5);
+  $('head').style.opacity=hIn*hOut;
+  $('head').style.transform=`translateY(${lerp(28,0,hIn)}px)`;
+  $('tag').style.opacity=outE(prog(t,1.8,2.4))*hOut;
+
+  P.specs.forEach((c,i)=>{
+    const el=$('c'+i), start=4.9+i*.55;
+    const v=outE(prog(t,start,start+.5)), off=1-prog(t,6.9,7.25);
+    const x=b.x+b.w*c.ax, y=b.y+b.w*c.ay, len=c.len*v;
+    el.style.transform=`translate(${x}px,${y}px)`;
+    el.style.opacity=(v>0?1:0)*off;
+    const ln=el.querySelector('.line'), tx=el.querySelector('.txt');
+    if(c.side==='r'){ ln.style.left='0'; ln.style.width=len+'px'; tx.style.left=(len+6)+'px'; tx.style.right='auto'; }
+    else { ln.style.left=(-len)+'px'; ln.style.width=len+'px'; tx.style.right=(len+6)+'px'; tx.style.left='auto'; }
+    tx.style.opacity=prog(t,start+.25,start+.6);
+  });
+
+  // The whole photo dims, then each part returns to full brightness with its name
+  const dim=prog(t,7.4,7.9)*(1-prog(t,12.7,13.2));
+  $('base').style.filter=`brightness(${lerp(1,DIM,dim)})`;
+  const after=1-prog(t,12.7,13.2);
+  $('kitcap').style.opacity=prog(t,7.6,8.1)*after;
+  PARTS.forEach((p,i)=>{
+    const s=KIT0+i*STEP, a=outE(prog(t,s,s+.45));
+    $('pl'+i).style.opacity=a*after;
+    $('pn'+i).style.opacity=a*after;
+    $('pn'+i).style.transform=`translateX(${lerp(-18,0,a)}px)`;
+  });
+
+  $('stats').style.opacity=prog(t,13.2,13.5)*(1-prog(t,14.9,15.2));
+  P.stats.forEach((s,i)=>{
+    const el=$('s'+i);
+    el.textContent=num(s,outE(prog(t,13.3+i*.18,14.3+i*.18)));
+    el.parentNode.style.opacity=prog(t,13.3+i*.18,13.6+i*.18);
+  });
+  const e=prog(t,15.1,15.6);
+  $('end').style.opacity=e*(1-prog(t,16.6,17));
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready=(async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>
