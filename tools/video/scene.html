@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#111316;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#grid{position:absolute;inset:-96px;background-image:linear-gradient(#1C2025 1px,transparent 1px),linear-gradient(90deg,#1C2025 1px,transparent 1px);background-size:96px 96px}
+#floor{position:absolute;left:0;right:0;height:2px;background:#2E3339}
+#img{position:absolute;left:0;top:0;transform-origin:0 0}
+#back{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;transform-origin:60% 45%;opacity:0}
+#veil{position:absolute;inset:0;background:linear-gradient(90deg,#111316 0,#111316 30%,rgba(17,19,22,.55) 44%,rgba(17,19,22,0) 60%);opacity:0}
+#logo{position:absolute;left:50%;top:50%;width:880px}
+#head{position:absolute;left:110px;top:150px;font-weight:800;font-size:150px;line-height:.9;letter-spacing:-.5px}
+#head div{white-space:nowrap}
+#tag{position:absolute;left:112px;top:590px;font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.04em}
+.co{position:absolute;left:0;top:0;height:0}
+.co .line{position:absolute;left:0;top:-1px;height:2px;background:#E5262A}
+.co .dot{position:absolute;left:-8px;top:-8px;width:16px;height:16px;border-radius:50%;background:#E5262A}
+.co .txt{position:absolute;top:-34px;font-family:'JetBrains Mono',monospace;font-size:27px;line-height:1.28;white-space:nowrap;background:#111316;padding:4px 10px}
+#stats{position:absolute;left:110px;top:170px;display:flex;flex-direction:column;gap:30px}
+.st .v{font-weight:800;font-size:118px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:24px;color:#A9B0B9;margin-top:4px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#111316;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+#end img{width:760px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:22px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="floor"></div>
+<img id="back">
+<div id="veil"></div>
+<img id="img">
+<div id="head"></div>
+<div id="tag"></div>
+<div id="cos"></div>
+<div id="stats"></div>
+<img id="logo" src="../images/processed/logo-on-dark.png">
+<div id="end"><img src="../images/processed/logo-on-dark.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+const P = PRODUCTS[new URLSearchParams(location.search).get('p')];
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const io = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const lerp = (a,b,x) => a+(b-a)*x;
+
+$('img').src = '../images/processed/' + P.img;
+if (P.back) $('back').src = '../images/processed/' + P.back;
+const PACE = P.pace || 1;                // 1.3 plays the same timeline 30% slower
+window.DURATION = 12 * PACE;
+$('head').innerHTML = P.head.map(l=>`<div>${l}</div>`).join('');
+$('tag').textContent = P.tag;
+$('en').textContent = P.name;
+$('em').textContent = P.model;
+P.callouts.forEach((c,i)=>{ $('cos').insertAdjacentHTML('beforeend',`<div class="co" id="c${i}"><div class="line"></div><div class="dot"></div><div class="txt">${c.text.join('<br>')}</div></div>`) });
+P.stats.forEach((s,i)=>{ $('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`) });
+
+// Image box at each shot, in stage pixels: left, top, width
+function box(t){
+  const A=P.shots.intro, B=P.shots.focus, C=P.shots.stats;
+  const inP = outE(prog(t,1.1,2.5));
+  let x=lerp(A.x+240,A.x,inP), y=A.y, w=A.w;
+  const f = io(prog(t,3.2,5.0));
+  x=lerp(x,B.x,f); y=lerp(y,B.y,f); w=lerp(w,B.w,f);
+  const s = io(prog(t,6.8,7.8));
+  x=lerp(x,C.x,s); y=lerp(y,C.y,s); w=lerp(w,C.w,s);
+  return {x,y,w};
+}
+const num = (s,x) => {
+  const v = lerp(s.from||0,s.to,x);
+  const txt = s.dp ? v.toFixed(s.dp) : Math.round(v).toLocaleString('en-IN');
+  return (s.pre||'')+txt+(s.suf||'');
+};
+window.seek = sec => {
+  const t = sec / PACE;
+  $('grid').style.transform = `translateX(${-t*6}px)`;
+  const b = box(t);
+  const im = $('img');
+  im.style.width = b.w+'px';
+  im.style.transform = `translate(${b.x}px,${b.y}px)`;
+  im.style.opacity = (P.back ? prog(t,3.4,3.9) : prog(t,1.1,1.7))*(1-prog(t,10.2,10.3));
+  if (P.back) {                          // the scene photo fills the frame behind the headline
+    const bo = prog(t,1.0,1.5)*(1-prog(t,3.0,3.5));
+    $('back').style.opacity = bo;
+    $('veil').style.opacity = t>=1 && t<3.5 ? 1 : 0;   // matches the stage, so it never shows an edge
+    $('back').style.transform = `translateX(500px) scale(${lerp(1.02,1.09,prog(t,1,3.5))})`;
+  }
+  const iw=b.w, ih=b.w*P.ratio;
+  $('floor').style.top = (b.y+ih*P.floor)+'px';
+  $('floor').style.opacity = (P.back ? prog(t,3.4,3.9) : prog(t,1.4,2))*(1-prog(t,9.6,10.2));
+
+  const lg=$('logo');
+  const lo = prog(t,.1,.7)*(1-prog(t,1.0,1.4));
+  lg.style.opacity = lo;
+  lg.style.transform = `translate(-50%,-50%) scale(${lerp(.96,1.02,prog(t,0,1.4))})`;
+
+  const hOut = 1-prog(t,3.0,3.5), hIn = outE(prog(t,1.5,2.2));
+  $('head').style.opacity = hIn*hOut;
+  $('head').style.transform = `translateY(${lerp(28,0,hIn)}px)`;
+  $('tag').style.opacity = outE(prog(t,1.8,2.4))*hOut;
+
+  P.callouts.forEach((c,i)=>{
+    const el=$('c'+i), start=4.6+i*.55;
+    const v=outE(prog(t,start,start+.5)), off=1-prog(t,6.6,6.95);
+    const x=b.x+iw*c.ax, y=b.y+ih*c.ay, len=c.len*v;
+    el.style.transform=`translate(${x}px,${y}px)`;
+    el.style.opacity=(v>0?1:0)*off;
+    const ln=el.querySelector('.line'), tx=el.querySelector('.txt');
+    if(c.side==='r'){ ln.style.left='0'; ln.style.width=len+'px'; tx.style.left=(len+6)+'px'; tx.style.right='auto'; }
+    else { ln.style.left=(-len)+'px'; ln.style.width=len+'px'; tx.style.right=(len+6)+'px'; tx.style.left='auto'; }
+    tx.style.opacity=prog(t,start+.25,start+.6);
+  });
+
+  const stOff=1-prog(t,9.4,9.8);
+  $('stats').style.opacity=prog(t,7.2,7.5)*stOff;
+  P.stats.forEach((s,i)=>{
+    const x=outE(prog(t,7.3+i*.18,8.5+i*.18));
+    const el=$('s'+i);
+    el.textContent=num(s,x);
+    el.parentNode.style.opacity=prog(t,7.3+i*.18,7.6+i*.18);
+  });
+
+  const e=prog(t,9.6,10.2);
+  $('end').style.opacity=e*(1-prog(t,11.6,12));
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready = (async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>

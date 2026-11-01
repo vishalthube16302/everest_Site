@@ -4,15 +4,13 @@ Delete an item once it is answered and record the answer in the right file.
 
 ## For the owner
 
+Closed for Phase 1 on 2026-11-01. The owner said to ignore the rest. Only one item is still needed, in Phase 3:
+
 | # | Question | Needed by |
 |---|---|---|
-| 1 | Paste the best Google review text, or connect the Chrome extension so it can be read | Phase 3 |
-| 2 | Check the screw specs in `catalogue.md` and add model numbers | Phase 3 |
-| 3 | Confirm free delivery and free installation terms | Phase 4 |
-| 4 | Confirm whether the 4 database testimonials can be deleted | Phase 3 |
-| 5 | Check that the Google Business profile is under the company's control; Google showed "Own this business?" | Phase 4 |
-| 6 | Update IndiaMART from the Chakan address | Before launch |
-| 7 | Decide whether everesthps.in stays live after launch | Phase 5 |
+| 1 | Google review text. Search cannot read it. Open Google Maps with the Chrome extension on, or paste 3 reviews word for word | Phase 3 |
+
+Answered: installation and nearby delivery are offered (see `verified-facts.md`). Screw specs are checked against the current site; it has no model numbers, so use HP names.
 
 ## To check during work
 

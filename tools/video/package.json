@@ -1,0 +1,9 @@
+{
+  "name": "everest-film-renderer",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "puppeteer-core": "^23.0.0"
+  }
+}

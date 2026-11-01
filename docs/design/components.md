@@ -6,7 +6,7 @@
 2. Hero: headline, portable compressor, yellow pallet truck, spec row
 3. Buyer paths: business, home or workshop, dealership
 4. Range grid: all ranges as tiles
-5. Silent feature: ≤60 dB panel
+5. Silent feature: ≤70 dB panel for the 2 HP model, or ≤60 dB for the 0.75 HP and 1 HP models
 6. Pallet feature: warehouse photo
 7. Proof row
 8. Reviews: IndiaMART and Google ratings, three quotes

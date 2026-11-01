@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#111316;color:#F2F2EF;font-family:'Barlow Condensed',sans-serif}
+#grid{position:absolute;inset:-96px;background-image:linear-gradient(#1C2025 1px,transparent 1px),linear-gradient(90deg,#1C2025 1px,transparent 1px);background-size:96px 96px}
+svg{position:absolute;left:0;top:0}
+text{font-family:'JetBrains Mono',monospace;fill:#F2F2EF}
+#logo{position:absolute;left:50%;top:50%;width:880px}
+#head{position:absolute;left:110px;top:90px;font-weight:800;font-size:120px;line-height:.9}
+#sub{position:absolute;left:112px;top:330px;font-family:'JetBrains Mono',monospace;font-size:26px;color:#FF6B6E;letter-spacing:.04em}
+#stats{position:absolute;left:110px;top:120px;display:flex;flex-direction:column;gap:30px}
+.st .v{font-weight:800;font-size:118px;line-height:.95}
+.st .l{font-family:'JetBrains Mono',monospace;font-size:24px;color:#A9B0B9;margin-top:4px;letter-spacing:.04em}
+#end{position:absolute;inset:0;background:#111316;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+#end img{width:760px;display:block}
+#end .n{font-weight:700;font-size:62px;margin-top:22px}
+#end .m{font-family:'JetBrains Mono',monospace;font-size:26px;color:#A9B0B9}
+#end .c{font-weight:700;font-size:54px;color:#FF6B6E}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <line id="floor" x1="0" x2="1920" y1="880" y2="880" stroke="#2E3339" stroke-width="2"/>
+  <!-- fixed parts: wheels, pump housing, cylinders, oil lines -->
+  <g id="fixed" fill="none" stroke="#A9B0B9" stroke-width="3">
+    <circle cx="560" cy="838" r="42"/>
+    <circle cx="1640" cy="862" r="18"/>
+    <circle cx="1200" cy="862" r="18"/>
+    <rect id="res" x="470" y="560" width="150" height="90" rx="6"/>
+    <rect id="pcyl" x="650" y="620" width="46" height="150" rx="4"/>
+    <rect id="mcyl" x="780" y="620" width="90" height="190" rx="4"/>
+    <path id="line1" d="M620 605 H673 V620" stroke="#E5262A"/>
+    <path id="line2" d="M673 770 V800 H825 V810" stroke="#E5262A"/>
+    <path id="line3" d="M870 700 H900" stroke="none"/>
+  </g>
+  <rect id="oil" x="472" y="600" width="146" height="48" fill="#E5262A" opacity=".28"/>
+  <rect id="moil" x="782" y="760" width="86" height="48" fill="#E5262A" opacity=".28"/>
+  <!-- moving: handle -->
+  <g id="handle" fill="none" stroke="#F2F2EF" stroke-width="10" stroke-linecap="round">
+    <path d="M520 560 L420 150"/>
+    <path d="M420 150 H330 q-30 0 -30 30 v50"/>
+    <path d="M520 560 L673 520" stroke-width="8"/>
+  </g>
+  <!-- plunger and main piston -->
+  <rect id="plunger" x="665" y="520" width="16" height="170" fill="#F2F2EF"/>
+  <rect id="piston" x="815" y="520" width="30" height="240" fill="#F2F2EF"/>
+  <!-- lifting frame: forks and head -->
+  <g id="forks">
+    <path id="forkbody" fill="rgba(242,183,5,.12)" stroke="#F2B705" stroke-width="4" stroke-linejoin="round" d="M470 815 V640 L560 520 H760 L900 755 H1700 q16 0 16 16 v28 q0 16 -16 16 Z"/>
+    <rect id="load" x="920" y="485" width="740" height="270" fill="#1C2025" stroke="#A9B0B9" stroke-width="3" stroke-dasharray="14 8"/>
+    <text id="loadt" x="1290" y="625" font-size="40" text-anchor="middle" font-weight="500">LOAD UP TO 3,000 KG</text>
+  </g>
+  <g id="links" stroke="#A9B0B9" stroke-width="4" fill="none"><path id="lk1"/><path id="lk2"/></g>
+  <g id="dots" fill="#FF6B6E"></g>
+  <g id="labels"></g>
+  <g id="meter"><text id="mt" x="1770" y="300" font-size="30" text-anchor="end" fill="#FF6B6E" style="fill:#FF6B6E"></text></g>
+</svg>
+<div id="head">PUMP.<br>LIFT.<br>MOVE.</div>
+<div id="sub">EVEREST HYDRAULIC HAND PALLET TRUCK</div>
+<div id="stats"></div>
+<img id="logo" src="../images/processed/logo-on-dark.png">
+<div id="end"><img src="../images/processed/logo-on-dark.png"><div class="n" id="en"></div><div class="m" id="em"></div><div class="c">+91 88558 20105</div></div>
+<script src="products.js"></script>
+<script>
+// Cutaway diagram, not footage. Lift range 85 to 200 mm is drawn at 1 px per mm.
+// Spec values come from PRODUCTS.pallet (the products table).
+window.DURATION = 21;
+const P = PRODUCTS.pallet;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const prog = (t,a,b) => clamp((t-a)/(b-a));
+const outE = x => 1-Math.pow(1-x,3.2);
+const io = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const lerp = (a,b,x) => a+(b-a)*x;
+const LOW=85, HIGH=200;
+const STROKES=5, PUMP0=5.6, PUMP1=12.6, RELEASE0=15.0, RELEASE1=17.0;
+
+const NS='http://www.w3.org/2000/svg';
+const LABELS=[
+  {x:300,y:230,tx:130,ty:420,l:['HANDLE','Pump lever'],at:3.2,anchor:'start'},
+  {x:470,y:605,tx:130,ty:610,l:['OIL RESERVOIR'],at:3.5,anchor:'start'},
+  {x:673,y:740,tx:470,ty:960,l:['PUMP PLUNGER'],at:3.8,anchor:'start'},
+  {x:825,y:810,tx:790,ty:1010,l:['LIFT CYLINDER'],at:4.1,anchor:'start'},
+  {x:1500,y:812,tx:1330,ty:960,l:['FORKS'],at:4.4,anchor:'start'},
+];
+LABELS.forEach((c,i)=>{
+  $('labels').insertAdjacentHTML('beforeend',`<g id="lb${i}"><line x1="${c.x}" y1="${c.y}" x2="${c.tx+(c.tx<c.x?100:30)}" y2="${c.ty-8}" stroke="#E5262A" stroke-width="2"/><circle cx="${c.x}" cy="${c.y}" r="7" fill="#E5262A"/>${c.l.map((s,k)=>`<text x="${c.tx}" y="${c.ty+k*32}" font-size="27" ${k?'style="fill:#A9B0B9"':''}>${s}</text>`).join('')}</g>`);
+});
+const STATS = P.stats;
+STATS.forEach((s,i)=>$('stats').insertAdjacentHTML('beforeend',`<div class="st"><div class="v" id="s${i}"></div><div class="l">${s.label}</div></div>`));
+$('en').textContent=P.name; $('em').textContent=P.model;
+
+// Oil particles move along the oil lines
+const PATHS=['line1','line2'].map(id=>$(id));
+const N=7, dots=[];
+for(let i=0;i<N*PATHS.length;i++){ const c=document.createElementNS(NS,'circle'); c.setAttribute('r',6); $('dots').appendChild(c); dots.push(c); }
+const num=(s,x)=>{ const v=lerp(s.from||0,s.to,x); return (s.pre||'')+Math.round(v).toLocaleString('en-IN')+(s.suf||''); };
+
+// 0..1 lift progress with a step per pump stroke
+function lift(t){
+  if(t<PUMP0) return 0;
+  if(t<=PUMP1){
+    const k=(t-PUMP0)/(PUMP1-PUMP0)*STROKES, n=Math.floor(k), f=k-n;
+    return Math.min(1,(n+io(clamp(f/.6)))/STROKES);
+  }
+  if(t<RELEASE0) return 1;
+  return 1-io(prog(t,RELEASE0,RELEASE1));
+}
+// stroke phase: 0 up, 1 down (during pumping only)
+function stroke(t){
+  if(t<PUMP0-.4||t>PUMP1) return 0;
+  const k=(t-PUMP0)/(PUMP1-PUMP0)*STROKES, f=k-Math.floor(k);
+  return Math.sin(clamp(f/.6)*Math.PI);
+}
+
+window.seek = t => {
+  $('grid').style.transform=`translateX(${-t*6}px)`;
+  const draw=outE(prog(t,1.3,3.3));
+  const L=lift(t), S=stroke(t);
+  const rise=L*(HIGH-LOW);
+  const releasing=t>=RELEASE0&&t<RELEASE1;
+  const pumping=t>=PUMP0&&t<=PUMP1&&S>0;
+
+  $('sv').style.opacity=prog(t,1.2,1.8)*(1-prog(t,17.4,17.9));
+  ['fixed','oil','moil','forks','plunger','piston','handle'].forEach(id=>$(id).style.opacity=draw);
+  $('forks').setAttribute('transform',`translate(0 ${-rise})`);
+  // handle swings about its pivot (520,560): down on a stroke
+  $('handle').setAttribute('transform',`rotate(${S*12} 520 560)`);
+  const th=S*12*Math.PI/180, armY=560+153*Math.sin(th)-40*Math.cos(th);
+  $('plunger').setAttribute('y',armY);
+  // piston rises with the forks; the lift cylinder holds oil below it
+  $('piston').setAttribute('y',520-rise);
+  $('piston').setAttribute('height',240+rise);
+  $('moil').setAttribute('y',760-rise*.4);
+  $('moil').setAttribute('height',48+rise*.4);
+  // wheel links stay on the floor and stretch up to the forks as they rise
+  $('lk1').setAttribute('d',`M1200 844 V${815-rise}`);
+  $('lk2').setAttribute('d',`M1640 844 V${815-rise}`);
+  $('links').style.opacity=draw;
+  $('oil').setAttribute('y',600+L*30);
+  $('oil').setAttribute('height',48-L*30);
+
+  // oil particles flow only while pumping, or backwards on release
+  const dir=releasing?-1:1, flow=(pumping||releasing)?1:0;
+  dots.forEach((d,i)=>{
+    const p=PATHS[Math.floor(i/N)], len=p.getTotalLength();
+    let u=((i%N)/N+dir*t*.9)%1; if(u<0)u+=1;
+    const pt=p.getPointAtLength(u*len);
+    d.setAttribute('cx',pt.x); d.setAttribute('cy',pt.y);
+    d.setAttribute('opacity',flow*draw);
+  });
+
+  LABELS.forEach((c,i)=>{
+    const v=outE(prog(t,c.at,c.at+.5))*(1-prog(t,5.2,5.6));
+    $('lb'+i).style.opacity=v;
+  });
+  // note: labels fade as pumping starts so the moving parts stay clear
+
+  const hh=Math.round(LOW+rise);
+  const mOn=prog(t,PUMP0-.3,PUMP0)*(1-prog(t,17.0,17.4));
+  $('mt').textContent=`FORK HEIGHT ${hh} mm`+(L>=.999?'  MAX':'');
+  $('meter').style.opacity=mOn;
+  $('loadt').style.opacity=1;
+
+  const lo=prog(t,.1,.7)*(1-prog(t,1.0,1.4));
+  $('logo').style.opacity=lo;
+  $('logo').style.transform=`translate(-50%,-50%) scale(${lerp(.96,1.02,prog(t,0,1.4))})`;
+  const hIn=outE(prog(t,1.5,2.2)), hOut=1-prog(t,3.0,3.4);
+  $('head').style.opacity=hIn*hOut;
+  $('head').style.transform=`translateY(${lerp(28,0,hIn)}px)`;
+  $('sub').style.opacity=outE(prog(t,1.8,2.4))*hOut;
+
+  const stOff=1-prog(t,19.0,19.4);
+  $('stats').style.opacity=prog(t,17.8,18.1)*stOff;
+  STATS.forEach((s,i)=>{
+    const x=outE(prog(t,17.9+i*.18,19+i*.18));
+    $('s'+i).textContent=num(s,x);
+    $('s'+i).parentNode.style.opacity=prog(t,17.9+i*.18,18.2+i*.18);
+  });
+  const e=prog(t,19.4,20);
+  $('end').style.opacity=e*(1-prog(t,20.6,21));
+  $('end').style.transform=`scale(${lerp(.985,1,outE(e))})`;
+};
+window.ready=(async()=>{ await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode().catch(()=>{}))); seek(0); return true; })();
+</script>
+</body>
+</html>

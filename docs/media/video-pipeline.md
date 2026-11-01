@@ -4,7 +4,7 @@ Each film is an HTML scene rendered frame by frame in Chrome, then encoded to MP
 
 ## Tools
 
-`everest_redesign_samples/tools/video/`
+`tools/video/` in the repo
 
 - `scene.html`: layout and timing
 - `products.js`: product data and callouts
@@ -14,6 +14,7 @@ Install `puppeteer-core` and `ffmpeg-static`, then run:
 
 ```
 node render.mjs pallet
+node render.mjs stages
 node render.mjs compressor --stills 2.8,6,8.8
 ```
 
@@ -37,6 +38,7 @@ Use `--stills` to check frames before a full render.
 
 ## Rules
 
+- Films are for ordinary buyers, not engineers. Use the real product photo and plain captions. Avoid technical diagrams, except where the owner asks for a cutaway.
 - Cutaways are diagrams, not footage.
 - The owner approves each diagram against the real machine.
 - Use only specs from the database.
