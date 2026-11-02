@@ -18,4 +18,4 @@
 
 ## Finished when
 
-The owner approves the full image and film set. Work is complete; approval is pending.
+The owner approves the full image and film set. Work is complete and merged into `redesign/v2` (PR #13). Owner approval is pending.

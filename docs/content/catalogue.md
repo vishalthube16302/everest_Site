@@ -26,7 +26,7 @@ New range specs come from the owner's posters on everesthps.in. Working copy: `e
 
 - Screw CFM stays blank until real figures are known.
 - EMLT-1000-17 minimum height is 500 mm: 1700 maximum less 1200 lift.
-- Semi electric stacker battery shows 12 V only, because capacity is not confirmed.
+- Semi electric stacker battery shows 12 V / 120 Ah, from the owner's listing (2026-11-02).
 - No free commissioning or free first service on the site.
 - Belt compressors from 3 to 10 HP share the same photo.
 
