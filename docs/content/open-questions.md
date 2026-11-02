@@ -4,13 +4,16 @@ Delete an item once it is answered and record the answer in the right file.
 
 ## For the owner
 
-Closed for Phase 1 on 2026-11-01. The owner said to ignore the rest. Only one item is still needed, in Phase 3:
-
-| # | Question | Needed by |
+| # | What | Needed by |
 |---|---|---|
-| 1 | Google review text. Search cannot read it. Open Google Maps with the Chrome extension on, or paste 3 reviews word for word | Phase 3 |
+| 1 | Review the six films in `everest_redesign_samples/web-ready/` | Close of Phase 2 |
+| 2 | Battery operated pallet truck and refrigerated air dryer: owner adds them from the admin panel once the site is built | After Phase 3 |
+| 3 | Google review text (owner will supply later) | Phase 3 |
+| 4 | Cloudflare: owner connects the `redesign/v2` branch after the customer's go-ahead | After go-ahead |
 
-Answered: installation and nearby delivery are offered (see `verified-facts.md`). Screw specs are checked against the current site; it has no model numbers, so use HP names.
+Answered: semi electric stacker battery is 12 V / 120 Ah (owner's listing and poster, 2026-11-02). The old `service_role` key stays as it is, by the owner's choice. Full scale film render skipped for now.
+
+Answered earlier: installation and nearby delivery are offered (see `verified-facts.md`). Screw specs use HP names and no CFM. Lift table EMLT-1000-17 minimum height is 500 mm.
 
 ## To check during work
 

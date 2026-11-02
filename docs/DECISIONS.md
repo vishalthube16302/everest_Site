@@ -2,6 +2,16 @@
 
 Newest first. One line each, with the reason.
 
+## 2026-11-02
+
+- Semi electric stackers show battery 12 V / 120 Ah, from the owner's listing. ESES-15-16 also gets loading centre, fork arm distance, ground clearance and lifting speed from the owner's poster. Reason: owner supplied the figures.
+- The owner adds the battery pallet truck and air dryer from the admin panel after Phase 3.
+
+- Work goes in feature branches, with a pull request into `redesign/v2`. `main` stays untouched until the owner's customer gives the final go-ahead. Reason: owner's rule.
+- Cloudflare is connected only after that go-ahead, by the owner.
+- Scale truck film ships as an 11 s cut from frames already rendered. The full render waits for the owner. Reason: owner asked to stop rendering and use what exists.
+- The site is run locally for the owner to review before any hosting.
+
 ## 2026-11-01
 
 - ui-ux-pro-max is not installed, so Direction A was checked by hand (contrast, states, type scale). Reason: avoids a blocked step.

@@ -19,6 +19,7 @@ Read `STATUS.md` first. Then open only what the task needs.
 | Photos | `media/image-pipeline.md` |
 | Films | `media/video-pipeline.md`, `media/video-status.md` |
 | Projects and hosting names | `ops/environments.md` |
+| Where films are hosted | `ops/film-hosting.md` |
 | Going live | `ops/launch-checklist.md` |
 | Going back | `ops/rollback.md` |
 

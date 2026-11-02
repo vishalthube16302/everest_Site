@@ -26,5 +26,11 @@ Lightning Out app `c:WebsiteInquiryApp` with component `c:websiteInquiryForm`. E
 ## Known temporary items
 
 - `http` extension on Everest V2: remove before launch.
-- Everest V2 images still load from Sydney until Phase 2.
+- Everest V2 images now load from the Everest V2 bucket in Mumbai (done in Phase 2).
 - Everest V2 can pause after 1 week idle. It can be restored.
+
+## Branches and hosting
+
+- `redesign/v2` is the working branch. Work goes through feature branches and pull requests into it.
+- `main` is not touched until the owner's customer gives the final go-ahead.
+- Cloudflare is not connected. The owner connects `redesign/v2` after that confirmation.
