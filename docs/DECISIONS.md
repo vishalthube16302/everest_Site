@@ -4,6 +4,8 @@ Newest first. One line each, with the reason.
 
 ## 2026-11-03
 
+- The old Vite site, its notes, an empty `backup.sql` and Python cache files were deleted from the repo (`chore/remove-old-code`). The old `llms.txt`, `robots.txt`, `sitemap.xml`, Googlebot script and SEO guide moved to `docs/archive/old-site-seo/` for Phase 4. Reason: owner wants no old or dead code before merging to `main`. The old code stays in tag `live-before-v2`. Because the live Cloudflare project still builds the repo root, merging this to `main` makes that build fail until the Cloudflare settings are switched to `web`; the live site keeps serving its last good deployment meanwhile.
+
 - Design pass on every inner page, desktop and phone: shared page header (label, big title, intro, buttons, picture), numbered services, about with facts and a visit card, review score cards, dealer steps, contact with quick actions and map link, captioned gallery, category pages with a cover photo. Only approved facts were used. Reason: owner asked for a premium look on web and mobile.
 - Phone tap targets are at least about 36 to 44 px: footer, breadcrumbs, menu and contact links were enlarged. Reason: small links are hard to tap.
 - Scroll films on phones load every second frame (about 4 MB instead of 8 MB) and draw larger, with part names above the bottom bar. Reason: phone data and space. A true portrait cut is still not made.

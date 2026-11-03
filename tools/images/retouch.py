@@ -1,3 +1,4 @@
+# NOTE: PUB is the old site's public/ folder, removed from this branch. To re-run, restore it from the tag live-before-v2.
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 PUB='D:/Shared Folder/Work Data/Website/everest_Site/public/'
