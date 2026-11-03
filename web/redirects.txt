@@ -1,0 +1,64 @@
+# Old addresses to new ones. The build turns this into public/_redirects (scripts/build-redirects.mjs).
+# One rule per line: old-path new-path. No trailing slashes: the builder adds the slash version too, so every old address reaches the new one in one hop.
+# Where no single model matches, the old address goes to the nearest category.
+
+# Compressor motors
+/products/0-75-hp-oil-free-air-compressor-motor /products/0-75-hp-oil-free-silent-air-compressor-motor
+/products/1hp-oil-free-air-compressor-motor /products/1-hp-oil-free-silent-air-compressor-motor
+/products/1-5hp-oil-free-air-compressor-motor /products/1-5-hp-oil-free-silent-air-compressor-motor
+/products/2-hp-oil-free-air-compressor-motor /products/2-hp-oil-free-silent-air-compressor-motor
+
+# Dental
+/products/0-75hp-25l-dental-oil-free-air-compressor /products/0-75hp-25l-dental-air-compressor
+/products/1hp-25l-dental-oil-free-air-compressor /products/1hp-25l-dental-air-compressor
+/products/1hp-30l-dental-oil-free-air-compressor /products/1hp-30l-dental-air-compressor
+/products/1hp-40l-dental-oil-free-air-compressor /products/1hp-40l-dental-air-compressor
+/products/2hp-50l-dental-oil-free-air-compressor /products/2hp-50l-dental-air-compressor
+/products/1-5hp-50l-dental-oil-free-air-compressor /categories/dental-lab-air-compressors
+
+# Silent oil-free (EP550 = 0.75 HP, EP750 = 1 HP class)
+/products/ep550-30l-oil-free-portable-compressor /products/0-75-hp-25l-30l-portable-oil-free-noise-less-air-compressor
+/products/ep750-30l-oil-free-portable-compressor /products/1-hp-25l-30l-portable-oil-free-noise-less-air-compressor
+/products/ep750-50l-oil-free-air-compressor /products/1-hp-50l-oil-free-noise-less-portable-air-compressor
+/products/ep750-2-50l-oil-free-air-compressor /products/2-hp-50l-oil-free-noise-less-air-compressor-dual-head
+/products/ep750-3-70l-oil-free-air-compressor /products/3hp-70l-silent-oil-free-air-compressor-for-industrial
+/products/ep750-3-90l-oil-free-air-compressor /products/3hp-90l-industrial-oil-free-silent-air-compressor
+/products/oil-free-reciprocating-air-compressor /categories/oil-free-silent-air-compressors
+/products/gahl-oil-free-air-compressor /categories/oil-free-silent-air-compressors
+
+# Screw
+/products/3hp-screw-air-compressor /products/3-hp-screw-air-compressor
+/products/screw-air-compressor /categories/screw-air-compressors
+
+# Reciprocating
+/products/7-5-hp-two-stage-air-compressor /products/7-5-hp-reciprocating-air-compressor
+/products/3-hp-mini-air-compressor /categories/reciprocating-compressors
+/products/piston-air-compressor /categories/reciprocating-compressors
+/products/single-stage-reciprocating-compressor /categories/reciprocating-compressors
+/products/air-cooled-compressor /products
+/products/industrial-air-compressor /products
+
+# Pallet trucks and stackers
+/products/ehp-gmht-20-550-hydraulic-hand-pallet-truck /products/2-ton-550-hydraulic-hand-pallet-truck
+/products/ehp-gmht-20-685-hydraulic-hand-pallet-truck /products/2-ton-685-hydraulic-hand-pallet-truck
+/products/ehp-gmht-25-550-hydraulic-hand-pallet-truck /products/2-5-ton-550-hydraulic-pallet-trolly
+/products/ehp-gmht-25-685-hydraulic-hand-pallet-truck /products/2-5-ton-685-hand-pallet-truck
+/products/ehp-gmht-30-550-hydraulic-hand-pallet-truck /products/3-ton-550-manual-hydraulic-pallet-truck
+/products/ehp-gmht-30-685-hydraulic-hand-pallet-truck /products/3-ton-685-heavy-duty-pallet-truck
+/products/ehp-gmms-10-16-manual-fork-stacker /products/manual-stacker-ems-10-16
+
+# Old admin addresses
+/admin/login /admin
+/admin/dashboard /admin
+
+# Odd addresses that still got visits (Search Console and GA4, Nov 2026)
+/Hand_Pallet_Truck_With_Weighing_Scale /categories/pallet-trucks
+/admin.login /admin
+/og-image /
+/public/og-image.jpg /img/logo-red.png
+/logo.png /img/logo-red.png
+/Top_Logo_jpeg.jpeg /img/logo-red.png
+/favicon.ico /icon.png
+/favicon.svvg /icon.png
+# Cut-off product address that was indexed
+/products/1-hp-25l-30l-portable-oil-free-noise-less-air-compres /products/1-hp-25l-30l-portable-oil-free-noise-less-air-compressor

@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/JsonLd";
 import { ScrollFilm } from "@/components/ScrollFilm";
 import { CategoryTile, ContactPanel, Photo, ReviewCard } from "@/components/ui";
 import { getCategoryTiles, getProducts, getReviews, getSite } from "@/lib/data";
+import { companyJsonLd, pageMeta } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 const storage = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/Product%20Images`;
@@ -19,6 +22,15 @@ const stackerStats = [
   { value: "3,000 mm", label: "Lifting height" },
   { value: "24 V", label: "120 Ah battery" },
 ];
+
+export const metadata: Metadata = {
+  ...pageMeta({
+    title: "Everest Hydro Pneumatic Solutions | Compressors, pallet trucks, stackers",
+    description: "Oil-free silent, dental, screw and reciprocating air compressors, pallet trucks, stackers and lifting tables from Everest, Pimpri-Chinchwad. Get a quote.",
+    path: "/",
+  }),
+  title: { absolute: "Everest Hydro Pneumatic Solutions | Compressors, pallet trucks, stackers" },
+};
 
 export default async function HomePage() {
   const [categories, products, reviews, site] = await Promise.all([getCategoryTiles(), getProducts(), getReviews(), getSite()]);
@@ -38,6 +50,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={companyJsonLd(site)} />
       {/* Hero: title, buttons, both machines and the numbers fit one screen. */}
       <section className="page flex flex-col overflow-hidden pb-6 pt-3 md:min-h-[calc(100svh-92px)] md:max-h-[880px] md:pb-8 md:pt-4">
         <div className="grid flex-1 items-center gap-5 md:grid-cols-[0.8fr_1.2fr] md:gap-8">

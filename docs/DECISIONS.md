@@ -99,3 +99,14 @@ Newest first. One line each, with the reason.
 - CE marks are removed from photos. Reason: no certification is confirmed.
 - Phase 1 is complete. Phase 2 starts next.
 - Owner ignores the remaining open questions. Delivery and installation are published as offered, not as free. Screw compressors are named by HP because no model numbers exist. Google review text is collected in Phase 3.
+- Phase 4 SEO is built in code and stays blocked until `SITE_INDEXABLE=true`: robots.txt disallows everything and the sitemap is empty until then. Reason: owner rule, nothing indexed before launch.
+- Structured data has no prices, no `offers` and no star ratings. Reason: prices stay hidden, and Google does not accept self-published ratings for a business. Product descriptions are built from the product's own specs.
+- Old product addresses redirect to the nearest model by HP, tank size or model code, else to the category. Reason: keeps search value. The EP550 and EP750 matches are guesses for the owner to check.
+- One reviewer's name "KULDIP Enterprises Chakan" is shown as "KULDIP Enterprises". Reason: owner rule, no Chakan wording anywhere. The review text is unchanged.
+- The 4 old testimonials are switched off in Everest V2 (`is_active=false`), not deleted. Reason: reversible, and the site already hid them.
+- Films, posters and scroll frames are read from `NEXT_PUBLIC_FILMS_BASE_URL` when set. Reason: lets the files sit outside git and on cheap storage.
+- Site scans are scripts in `web/scripts/` (`check-site.mjs`, `check-access.mjs`) so they can run again before launch.
+- One address per page: https, no www, no trailing slash, no query string. Reason: Search Console showed the old site twice (www and non-www, slash and no slash, query categories) and only 13 of 158 pages were indexed. Source: Developer Brief, 2026-11-03. Details in `ops/url-hygiene.md`.
+- Redirects are written in `web/redirects.txt` and the build generates `public/_redirects` with slash twins. Reason: one place to edit, and the builder blocks chains and loops.
+- `*.pages.dev` and preview addresses are noindex by header. Reason: they are full copies of the site.
+- Brief items not used here: Chakan address, free installation and prices in schema conflict with `content/verified-facts.md`, so they stay out. Other brief items (new pages, blog, tracking) are outside this task.

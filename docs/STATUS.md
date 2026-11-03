@@ -1,10 +1,10 @@
 # Status
 
-Updated: 2026-11-03
+Updated: 2026-11-03 (later)
 
 **Current phase:** Phase 3 in progress. Public site built in `web/` and running locally. Committed on `feature/phase-3` on 2026-11-03, waiting for the owner to merge into `redesign/v2`.
 
-**Next step:** Owner approves the 7 categories (open question 12), reviews the new page designs on desktop and phone, tests the admin panel locally and changes the starting password. Then the design pass on the other pages. Phases 4 and 5 stay paused.
+**Next step:** Owner reviews the Phase 4 work (redirect guesses, speed) and approves the 7 categories (open question 12). LCP is over budget in the lab and needs a decision. Phase 5 (launch) waits for the owner's go-live word.
 
 **Blocked by:** Owner's review of the trial. The enquiry form cannot be tested until Salesforce accepts a site address. See `content/open-questions.md`.
 
@@ -36,6 +36,11 @@ Updated: 2026-11-03
 - Not checked: a price showing with both switches on, and the Salesforce form. Home JavaScript is 174 KB, over the 170 KB budget.
 - Admin panel built at `/admin` (2026-11-03): products, photos, specs, prices, categories, reviews, services, films, gallery, company details, menu, admin logins, activity, and a Publish button. Database changes in `supabase/migrations/20261103090000_phase3_admin_panel.sql`; functions `publish-site` and `manage-admins` deployed. Build passes. A non-admin test login cannot change anything. Owner admin login created (same email as the old site) and tested: all 11 pages open, adds, edits, logging, removal log, admin list and Publish work. Publish reports "host not connected" until Cloudflare is connected. Owner should change the starting password.
 - Trial exploded films made for the pallet truck and portable compressor, with a local scroll test. Files are in `everest_redesign_samples/flow-trial/final/`. See `media/video-status.md`. Owner has not reviewed them yet.
+
+- Phase 4 code built (2026-11-03, not committed): titles, descriptions and canonicals on every page; sitemap, robots.txt and `llms.txt` built automatically and blocked until `SITE_INDEXABLE=true`; 33 redirects in `web/public/_redirects`; Organization, LocalBusiness, Product and BreadcrumbList data without prices; film address setting `NEXT_PUBLIC_FILMS_BASE_URL`; the 4 old testimonials disabled in Everest V2; Chakan removed from one reviewer name.
+- Phase 4 checks run: claims and brands scan passes on 93 pages; anonymous visitors cannot read leads, admins, change log or prices, and cannot write; WhatsApp and phone links correct. Lighthouse mobile (slow 4G, lab): performance 86 to 93, accessibility 98 to 100, CLS 0, JS 141 KB. **LCP 3.3 to 4.1 s is over the 2.0 s budget.** Home page weighs 2.1 MB against 1.2 MB. Not done: real phones, a real screen reader pass, INP, a visible price test (no price rows exist), the Salesforce form, redirects on the real host.
+
+- Duplicate-address fix built (2026-11-03, not committed), from the Developer Brief: one address per page, redirects generated from `web/redirects.txt` with slash twins, 10 extra old addresses mapped, `*.pages.dev` noindex, stricter scans, `web/scripts/check-hosts.mjs`. The old site fails 15 of 17 of those checks (www answers 200, slash forced, made-up pages answer 200). New build scans pass. Cloudflare host rules and the live host test wait for Cloudflare. See `ops/url-hygiene.md`.
 
 ## Where work lives outside the repo
 

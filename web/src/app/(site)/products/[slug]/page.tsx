@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { Gallery } from "@/components/Gallery";
 import { PriceBlock, ProductCard, SpecTable } from "@/components/ui";
 import { getCategoriesWithProducts, getFilms, getPrice, getProductImages, getProducts, getSite, specRows } from "@/lib/data";
+import { breadcrumbJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,7 +20,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = (await getProducts()).find((p) => p.slug === slug);
-  return { title: product?.name };
+  if (!product) return {};
+  return pageMeta({
+    title: product.name,
+    description: productDescription(product),
+    path: `/products/${product.slug}`,
+    image: product.image_url,
+  });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -45,8 +53,16 @@ export default async function ProductPage({ params }: Props) {
       .map((i, n) => ({ src: i.image_url, alt: i.alt_text ?? `${product.name}, photo ${n + 2}` })),
   ];
 
+  const trail = [
+    { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
+    ...(category ? [{ name: category.name, path: `/categories/${category.slug}` }] : []),
+    { name: product.name, path: `/products/${product.slug}` },
+  ];
+
   return (
     <>
+      <JsonLd data={[productJsonLd(product, category?.name, photos.map((p) => p.src)), breadcrumbJsonLd(trail)]} />
       {/* One screen at 100% zoom: photos left; name, price, every spec and the buttons right. */}
       <section className="page pt-1 md:pt-2">
         <p className="pb-3 text-[14px] text-muted">

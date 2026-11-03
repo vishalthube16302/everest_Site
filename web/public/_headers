@@ -1,0 +1,16 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Films keep one file name per version. Change the name when a film is replaced.
+/films/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The free *.pages.dev addresses and preview builds must never be indexed: they are copies of the real site.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

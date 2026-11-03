@@ -43,3 +43,6 @@ backup.sql
 # Film renderer output (large; see docs/ops/film-hosting.md)
 tools/video/*.mp4
 tools/video/still-*.jpg
+
+# Built from web/redirects.txt on every build
+web/public/_redirects

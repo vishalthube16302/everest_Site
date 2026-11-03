@@ -1,4 +1,4 @@
-import { nav, ratings, site } from "./site";
+import { filmUrl, nav, ratings, site } from "./site";
 
 // Build-time reads from Everest V2. A failed read stops the build, so an empty site is never published.
 // Product description fields are left out on purpose: they hold claims not in docs/content/verified-facts.md.
@@ -79,9 +79,15 @@ export const getProductImages = once(() =>
   rest<ProductImage[]>("product_images?select=product_id,image_url,alt_text,sort_order&order=sort_order"),
 );
 
-export const getFilms = once(() =>
-  rest<Film[]>("product_media?select=category_id,product_id,video_url,video_url_small,poster_url,alt_text"),
-);
+export const getFilms = once(async () => {
+  const rows = await rest<Film[]>("product_media?select=category_id,product_id,video_url,video_url_small,poster_url,alt_text");
+  return rows.map((f) => ({
+    ...f,
+    video_url: filmUrl(f.video_url),
+    video_url_small: f.video_url_small && filmUrl(f.video_url_small),
+    poster_url: f.poster_url && filmUrl(f.poster_url),
+  }));
+});
 
 export const getServices = once(() => rest<{ id: string; title: string }[]>("services?select=id,title&order=sort_order"));
 

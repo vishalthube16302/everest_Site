@@ -17,7 +17,7 @@ Source: https://www.everesthps.in/testimonial.html
 |---|---|---|---|
 | Engineers | Pune | Air Compressor | "Quick Response, Reasonable Rate, Good in After Sales Service, Good negotiation skill, Polite in nature." |
 | New Way Typesetters And Processors | Pune | Oil Free Air Compressor | "I would recommend this service team for future maintenance needs." |
-| KULDIP Enterprises Chakan | Pune | Portable Air Compressor | "Recommended based on quality, functionality, and customer support" |
+| KULDIP Enterprises | Pune | Portable Air Compressor | "Recommended based on quality, functionality, and customer support" |
 | Bhaskar Chandrakant Shingote | Pune | Air Compressor | "Good productivity & service. Commited team." |
 | Yogesh Dhamale | Pune | Reciprocating Air Compressor | "Very nice service and best product I got Thank you" |
 | Rajnikant Bhosale | Pune | Pallet Truck | "Good and fast service" |

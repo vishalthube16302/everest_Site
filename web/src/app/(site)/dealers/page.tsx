@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { CategoryTile, ContactPanel, PageHero, Photo } from "@/components/ui";
 import { getCategoryTiles, getProducts, getSite, storageUrl } from "@/lib/data";
 import { whatsappLink } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Dealers" };
+export const metadata: Metadata = pageMeta({ title: "Dealers: stock Everest", description: "Everest sells to dealers. Ask about trade supply of oil-free compressors, screw compressors, pallet trucks and stackers. We reply within 24 hours.", path: "/dealers" });
 
 const steps = [
   { title: "Tell us", text: "Your area, and the categories you want to stock." },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { filmUrl } from "@/lib/site";
 
 type Part = { name: string; from: number; to?: number };
 
@@ -62,7 +63,7 @@ export function ScrollFilm({
           continue;
         }
         im.decoding = "async";
-        im.src = `/films/scroll/${name}/${String(i + 1).padStart(3, "0")}.jpg`;
+        im.src = filmUrl(`/films/scroll/${name}/${String(i + 1).padStart(3, "0")}.jpg`);
         if (i === 0 || (calm && i === FRAMES - 1)) {
           im.onload = () => draw(calm ? FRAMES - 1 : 0, true);
         }
