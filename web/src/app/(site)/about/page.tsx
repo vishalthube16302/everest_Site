@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { CategoryTile, ContactPanel, PageHero, Photo, StatBlock } from "@/components/ui";
 import { getCategoryTiles, getSite, storageUrl } from "@/lib/data";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = pageMeta({ title: "About Everest", description: "Everest Hydro Pneumatic Solutions: manufacturer, dealer and supplier of air compressors and material handling equipment in Pimpri-Chinchwad since 2020.", path: "/about" });
 
 export default async function AboutPage() {
   const [site, categories] = await Promise.all([getSite(), getCategoryTiles()]);

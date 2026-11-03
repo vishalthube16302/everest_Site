@@ -26,16 +26,10 @@ Every route is built as a full static page, except admin.
 
 ## Redirects
 
-- The old sitemap lists product URLs that no longer exist. Crawl it in Phase 4.
-- Send each dead product URL to its nearest current product or category.
-- Keep the existing trailing-slash behaviour until it is tested on the new host.
-- Fake URLs must return a real 404.
+Edit `web/redirects.txt` only. The build writes `web/public/_redirects` (Cloudflare Pages reads it) and adds the slash twin of each rule. See `../ops/url-hygiene.md`. Built 2026-11-03 from the old sitemap in `archive/old-site-seo/`: 33 of its 35 product addresses no longer exist and now redirect with 301.
 
-Known old URLs to map include:
-
-- `/products/3hp-screw-air-compressor`
-- `/products/10-hp-screw-air-compressor`
-- `/products/screw-air-compressor`
-- `/products/oil-free-reciprocating-air-compressor`
-- `/products/single-stage-reciprocating-compressor`
-- `/products/ehp-gmms-10-16-manual-fork-stacker`
+- Model matches use HP, tank size or model code. EP550 is taken as the 0.75 HP class and EP750 as the 1 HP class. **Owner should check these guesses.**
+- Where no model matches, the address goes to the nearest category, or `/products`.
+- `/admin/login` and `/admin/dashboard` go to `/admin`.
+- New site: no trailing slash. The old site forced a slash, so every old slash address is redirected in one hop. Not yet tested on Cloudflare.
+- Fake URLs return a real 404.

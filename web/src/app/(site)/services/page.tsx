@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { ContactPanel, PageHero } from "@/components/ui";
 import { getServices } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Services" };
+export const metadata: Metadata = pageMeta({ title: "Services", description: "Sales, installation and commissioning, annual maintenance contracts, repair and spare parts, and custom solutions from Everest. Installation and nearby delivery offered.", path: "/services" });
 
 export default async function ServicesPage() {
   const services = await getServices();

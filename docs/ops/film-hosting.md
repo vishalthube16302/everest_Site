@@ -13,6 +13,10 @@ Films are not stored in Supabase or the repo. They go on Cloudflare once the own
 3. `FilmPlayer` shows the poster first and loads the 720p file on phones, 1080p on desktop, only after a tap.
 4. Add `Cache-Control: public, max-age=31536000, immutable` for `/films/*`. Change a film's file name when it is replaced.
 
+## Film address setting
+
+Set `NEXT_PUBLIC_FILMS_BASE_URL` (for example an R2 address) and the site reads every film, poster and scroll frame from there, using the same `/films/...` paths. Leave it empty to use the site's own `public/films`. Change it, rebuild, and the files can sit outside git. The owner still has to upload the files to that address.
+
 ## Rules
 
 - No sound, so no autoplay problems. Respect `prefers-reduced-motion`.

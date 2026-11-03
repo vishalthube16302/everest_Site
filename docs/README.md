@@ -21,6 +21,7 @@ Read `STATUS.md` first. Then open only what the task needs.
 | Projects and hosting names | `ops/environments.md` |
 | Where films are hosted | `ops/film-hosting.md` |
 | Admin panel, logins, publishing | `ops/admin-panel.md` |
+| Why pages showed twice in Google, and the one-address rule | `ops/url-hygiene.md` |
 | Going live | `ops/launch-checklist.md` |
 | Going back | `ops/rollback.md` |
 | New site code | `../web/` |

@@ -35,3 +35,10 @@ export function whatsappLink(number: string, productName?: string) {
     : "Hello Everest, I would like a quote.";
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
+
+// Films and scroll frames are read from one web address. Set NEXT_PUBLIC_FILMS_BASE_URL to move them
+// outside the repo (for example a Cloudflare R2 address). Empty means this site's own /films folder.
+export function filmUrl(path: string) {
+  const base = (process.env.NEXT_PUBLIC_FILMS_BASE_URL ?? "").trim().replace(/\/+$/, "");
+  return base && path.startsWith("/") ? `${base}${path}` : path;
+}

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { PageTitle } from "@/components/ui";
 import { getCategoriesWithProducts, getSite, specRows } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Full catalogue" };
+export const metadata: Metadata = pageMeta({ title: "Full product catalogue", description: "Every Everest product and category on one page, with specifications, for search engines and AI assistants.", path: "/ai-discover" });
 
 export default async function AiDiscoverPage() {
   const [categories, site] = await Promise.all([getCategoriesWithProducts(), getSite()]);

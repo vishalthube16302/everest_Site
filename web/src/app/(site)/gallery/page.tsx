@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { PageHero, Photo } from "@/components/ui";
 import { getGalleryImages, getProducts } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Gallery" };
+export const metadata: Metadata = pageMeta({ title: "Product gallery", description: "Photos of Everest oil-free compressors, screw compressors, pallet trucks, stackers and lifting tables. Tap a photo to open the product.", path: "/gallery" });
 
 // Photos added in the admin panel come first, then one photo per product.
 export default async function GalleryPage() {

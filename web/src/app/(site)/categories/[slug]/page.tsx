@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { ContactPanel, PageHero, Photo, ProductCard } from "@/components/ui";
 import { getCategoriesWithProducts, getFilms } from "@/lib/data";
+import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -16,7 +18,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const category = (await getCategoriesWithProducts()).find((c) => c.slug === slug);
-  return { title: category?.name };
+  if (!category) return {};
+  const n = category.products.length;
+  return pageMeta({
+    title: category.name,
+    description: `${category.name} from Everest: ${n} ${n === 1 ? "model" : "models"} with full specifications. Price on request. Get a quote.`,
+    path: `/categories/${category.slug}`,
+    image: category.image_url ?? category.products[0]?.image_url,
+  });
 }
 
 export default async function CategoryPage({ params }: Props) {
@@ -34,6 +43,13 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+          { name: category.name, path: `/categories/${category.slug}` },
+        ])}
+      />
       <section className="page">
         <p className="pt-3 text-[15px] text-muted">
           <Link prefetch={false} href="/products" className="inline-block py-2 hover:text-brand">Products</Link> / {category.name}
