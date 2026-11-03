@@ -1,8 +1,8 @@
 # Stack
 
-## Current live site
+## Old live site (removed from the repo)
 
-Vite, React 18, TypeScript, Tailwind, `vite-react-ssg` and Supabase. Data loads in the browser, so bots see little content. Hosting appears to be Cloudflare Pages, but this is not confirmed in the dashboard.
+Vite, React 18, TypeScript, Tailwind, `vite-react-ssg` and Supabase. Data loaded in the browser, so bots saw little content. Hosted on Cloudflare Pages (project `everest-site`). Its code is in the tag `live-before-v2`.
 
 ## V2
 

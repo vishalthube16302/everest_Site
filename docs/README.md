@@ -25,6 +25,6 @@ Read `STATUS.md` first. Then open only what the task needs.
 | Going back | `ops/rollback.md` |
 | New site code | `../web/` |
 
-## Older files
+## The old site
 
-`README.md`, `SETUP.md`, `QUICK_START.md`, `START_HERE.txt`, `IMPLEMENTATION_SUMMARY.md` and `WEBSITE_FEATURES.md` in the repo root describe the current live site. They do not describe V2.
+The old Vite site and its notes were removed from this branch on 2026-11-03. They are kept in the tag `live-before-v2` and the branch `backup/main-before-v2`. The old `llms.txt`, `robots.txt`, `sitemap.xml`, the Googlebot check script and the SEO guide are in `archive/old-site-seo/` for Phase 4.

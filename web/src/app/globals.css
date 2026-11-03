@@ -102,12 +102,6 @@ p {
     letter-spacing: -0.025em;
   }
 
-  .hero-title {
-    font-size: clamp(50px, 8.6vw, 124px);
-    line-height: 0.95;
-    font-weight: 800;
-  }
-
   .section-title {
     font-size: clamp(34px, 3.9vw, 56px);
     line-height: 1.05;
@@ -267,25 +261,6 @@ p {
   mix-blend-mode: multiply;
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateX(60px);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-.slide-1 {
-  animation: slide-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-.slide-2 {
-  animation: slide-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
-}
-
 /* Home hero: the pallet truck rolls in from the left, the compressor from the right,
    each with a small settle at the end. The text rises in line by line. */
 @keyframes roll-left {
@@ -337,8 +312,6 @@ p {
   html {
     scroll-behavior: auto;
   }
-  .slide-1,
-  .slide-2,
   .roll-left,
   .roll-right,
   .shadow-in,
