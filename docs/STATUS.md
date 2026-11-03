@@ -2,7 +2,7 @@
 
 Updated: 2026-11-03
 
-**Current phase:** Phase 3 in progress. Public site built in `web/` and running locally. Not committed yet.
+**Current phase:** Phase 3 in progress. Public site built in `web/` and running locally. Committed on `feature/phase-3` on 2026-11-03, waiting for the owner to merge into `redesign/v2`.
 
 **Next step:** Owner approves the 7 categories (open question 12), tests the admin panel locally and changes the starting password. Then the design pass on the other pages. Phases 4 and 5 stay paused.
 
@@ -18,8 +18,8 @@ Updated: 2026-11-03
 - Two first-round sample films made.
 - Scale truck photo retouched.
 - Owner's content answers recorded.
-- This document set written. It is not committed yet.
-- Film and image tools copied into `tools/` (not committed yet).
+- This document set written.
+- Film and image tools copied into `tools/`.
 - Pallet truck film rebuilt in Blender 3D with the owner sticker. Motion preview made (`tools/blender`, `tools/video/compose.mjs`). Full-HD render not yet run.
 - Image set built with `tools/images/build_v2.py`: 158 files reduced to 61 retouched images, 1200x900, 4.1 MB. Owner approved, uploaded and linked in Everest V2.
 - 37 new products added to Everest V2: now 74 products in 13 ranges, 125 images, no links to live storage, no other brand names.

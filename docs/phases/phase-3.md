@@ -4,7 +4,7 @@
 
 ## Tasks
 
-- [ ] Commit the Everest V2 baseline migrations (written, not committed)
+- [x] Commit the Everest V2 baseline migrations (2026-11-03, on `feature/phase-3`)
 - [x] Add the price tables and settings from `../architecture/data-model.md`
 - [x] Replace old security rules (owner ran part 2, checked 2026-11-02)
 - [x] Add new categories and products to Everest V2 (done in Phase 2: 74 products, 13 ranges)
