@@ -20,8 +20,10 @@ Read `STATUS.md` first. Then open only what the task needs.
 | Films | `media/video-pipeline.md`, `media/video-status.md` |
 | Projects and hosting names | `ops/environments.md` |
 | Where films are hosted | `ops/film-hosting.md` |
+| Admin panel, logins, publishing | `ops/admin-panel.md` |
 | Going live | `ops/launch-checklist.md` |
 | Going back | `ops/rollback.md` |
+| New site code | `../web/` |
 
 ## Older files
 

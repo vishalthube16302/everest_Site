@@ -10,6 +10,10 @@ Never store passwords or private keys here.
 | Supabase region | Sydney | Mumbai |
 | Access rule | Read only | Work here |
 
+## Local run
+
+From `web/`: copy `.env.example` to `.env.local`, then `npm run build` and `npx serve out -l 4173`. Copy films into `web/public/films/`; that folder is not in git.
+
 ## Local folder
 
 Branch from `origin/main`, because local `main` was 9 commits behind on 2026-11-01.

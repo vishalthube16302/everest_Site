@@ -10,6 +10,13 @@ Delete an item once it is answered and record the answer in the right file.
 | 2 | Battery operated pallet truck and refrigerated air dryer: owner adds them from the admin panel once the site is built | After Phase 3 |
 | 3 | Google review text (owner will supply later) | Phase 3 |
 | 4 | Cloudflare: owner connects the `redesign/v2` branch after the customer's go-ahead | After go-ahead |
+| 6 | Supply or approve product description text. All 74 long descriptions stay hidden; 37 use words like "best" or "100%" | Before launch |
+| 7 | Approve services and About wording (AMC, repair, spare parts and custom solutions are not on the approved list, though their titles show) | Before launch |
+| 8 | Admin login: which email to use. Owner sets the password | Admin build |
+| 9 | Add the preview address in Salesforce (or `http://localhost:4173` for a local test), under CORS allowed origins | Before form test |
+| 10 | Films are not in the repo, so a Cloudflare build will not have them. Choose R2 or another upload step | Before preview |
+| 11 | Turn off public sign-ups in Supabase Auth for Everest V2 | Before admin testing |
+| 12 | Approve the 7 categories (set in the admin panel, Categories): silent compressors, pallet trucks, stackers and lifting tables, dental and lab, screw, reciprocating (with air receivers), compressor motors. Products sit directly under them; there are no ranges. | Owner | Open |
 
 Answered: semi electric stacker battery is 12 V / 120 Ah (owner's listing and poster, 2026-11-02). The old `service_role` key stays as it is, by the owner's choice. Full scale film render skipped for now.
 
