@@ -4,7 +4,7 @@ Updated: 2026-11-03
 
 **Current phase:** Phase 3 in progress. Public site built in `web/` and running locally. Committed on `feature/phase-3` on 2026-11-03, waiting for the owner to merge into `redesign/v2`.
 
-**Next step:** Owner approves the 7 categories (open question 12), tests the admin panel locally and changes the starting password. Then the design pass on the other pages. Phases 4 and 5 stay paused.
+**Next step:** Owner approves the 7 categories (open question 12), reviews the new page designs on desktop and phone, tests the admin panel locally and changes the starting password. Then the design pass on the other pages. Phases 4 and 5 stay paused.
 
 **Blocked by:** Owner's review of the trial. The enquiry form cannot be tested until Salesforce accepts a site address. See `content/open-questions.md`.
 

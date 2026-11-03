@@ -4,6 +4,11 @@ Newest first. One line each, with the reason.
 
 ## 2026-11-03
 
+- Design pass on every inner page, desktop and phone: shared page header (label, big title, intro, buttons, picture), numbered services, about with facts and a visit card, review score cards, dealer steps, contact with quick actions and map link, captioned gallery, category pages with a cover photo. Only approved facts were used. Reason: owner asked for a premium look on web and mobile.
+- Phone tap targets are at least about 36 to 44 px: footer, breadcrumbs, menu and contact links were enlarged. Reason: small links are hard to tap.
+- Scroll films on phones load every second frame (about 4 MB instead of 8 MB) and draw larger, with part names above the bottom bar. Reason: phone data and space. A true portrait cut is still not made.
+- The enquiry form shows a Try again button as well as WhatsApp and phone when it does not load. Reason: Salesforce may only serve the form to trusted addresses, so it can fail on localhost and previews.
+
 - Ranges are removed. The 7 categories are the only category level and every product sits directly under one. The 13 database ranges were merged into 7 `categories` rows; 6 were deleted. Old range addresses such as `/categories/hydraulic-hand-pallet-trucks` now return 404, which is safe because they were never live. Reason: owner asked for categories only. Unused: `category_groups`, `categories.group_id`, `categories.short_name`.
 - The pallet film moved from the old hand-truck range to the 6 hand pallet trucks, so it no longer plays on the semi-electric trucks. Reason: it shows a hand pump; the category now also holds semi-electric and weighing-scale trucks.
 

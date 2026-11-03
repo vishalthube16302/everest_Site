@@ -50,11 +50,11 @@ export default async function ProductPage({ params }: Props) {
       {/* One screen at 100% zoom: photos left; name, price, every spec and the buttons right. */}
       <section className="page pt-1 md:pt-2">
         <p className="pb-3 text-[14px] text-muted">
-          <Link prefetch={false} href="/products" className="hover:text-brand">Products</Link>
+          <Link prefetch={false} href="/products" className="inline-block py-2 hover:text-brand md:py-0">Products</Link>
           {category && (
             <>
               {" / "}
-              <Link prefetch={false} href={`/categories/${category.slug}`} className="hover:text-brand">{category.name}</Link>
+              <Link prefetch={false} href={`/categories/${category.slug}`} className="inline-block py-2 hover:text-brand md:py-0">{category.name}</Link>
             </>
           )}
         </p>

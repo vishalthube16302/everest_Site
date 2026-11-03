@@ -20,7 +20,14 @@ Branch from `origin/main`, because local `main` was 9 commits behind on 2026-11-
 
 ## Salesforce
 
-Lightning Out app `c:WebsiteInquiryApp` with component `c:websiteInquiryForm`. Endpoint details are in `src/lib/lightning.ts`.
+Lightning Out app `c:WebsiteInquiryApp` with component `c:websiteInquiryForm`. Endpoint details are in `web/src/lib/lightning.ts`.
+
+The form loads from Salesforce, and Salesforce only serves it to addresses it trusts. So it may work on the real domain and fail on `localhost` or a preview address. The owner saw this on the old site. It cannot be proven from this computer.
+
+- The form is on `/contact` only, and loads when the visitor scrolls near it.
+- If it does not load within 15 seconds, the page shows WhatsApp, phone and a **Try the form again** button, so a lead is never lost.
+- Before launch, test on the real address. If the form does not appear, add that address in Salesforce under CORS allowed origins and the Lightning Out trusted sites, then reload.
+- Test the Cloudflare preview address the same way, as soon as it exists.
 
 ## Other public listings
 

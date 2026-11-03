@@ -36,6 +36,33 @@ export function PageTitle({ title, intro }: { title: string; intro?: string }) {
   );
 }
 
+// Top of an inner page: small red label, big title, intro, buttons, and an optional picture on the right.
+export function PageHero({
+  kicker,
+  title,
+  intro,
+  actions,
+  aside,
+}: {
+  kicker?: string;
+  title: string;
+  intro?: string;
+  actions?: React.ReactNode;
+  aside?: React.ReactNode;
+}) {
+  return (
+    <div className={`grid items-center gap-6 pt-5 md:pt-10 ${aside ? "md:grid-cols-[1.05fr_0.95fr] md:gap-12" : ""}`}>
+      <div>
+        {kicker && <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">{kicker}</p>}
+        <h1 className="display section-title mt-2">{title}</h1>
+        {intro && <p className="mt-3 max-w-[56ch] text-lg text-muted">{intro}</p>}
+        {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
+      </div>
+      {aside}
+    </div>
+  );
+}
+
 export function StatBlock({ value, label, dark = false }: { value: string; label: string; dark?: boolean }) {
   return (
     <div>
@@ -71,12 +98,15 @@ export function CategoryTile({ category, wide = false }: { category: CategoryTil
 export function ProductCard({ product }: { product: Product }) {
   const specs = keySpecs(product, 2);
   return (
-    <Link prefetch={false} href={`/products/${product.slug}`} className="tile flex flex-col rounded-card bg-surface p-5">
-      {product.image_url && <Photo src={product.image_url} alt={product.name} className="h-auto w-full object-contain" />}
+    <Link prefetch={false} href={`/products/${product.slug}`} className="tile group flex h-full flex-col rounded-card bg-surface p-5">
+      {product.image_url && (
+        <Photo src={product.image_url} alt={product.name} className="aspect-[4/3] h-auto w-full rounded-xl object-contain" />
+      )}
       <h3 className="mt-3 font-semibold leading-snug">{product.name}</h3>
       {specs.length > 0 && (
         <p className="mt-1 text-[15px] text-muted">{specs.map((s) => `${s.label}: ${s.value}`).join(" · ")}</p>
       )}
+      <span className="mt-auto pt-3 text-[15px] font-semibold text-brand group-hover:underline">See specifications →</span>
     </Link>
   );
 }

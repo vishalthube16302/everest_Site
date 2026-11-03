@@ -12,22 +12,22 @@ export function Footer({ site }: { site: SiteInfo }) {
         </div>
         <div>
           <p>
-            <a href={site.phoneHref} className="hover:text-brand">{site.phoneDisplay}</a>
+            <a href={site.phoneHref} className="inline-block py-2 hover:text-brand">{site.phoneDisplay}</a>
           </p>
           <p>
-            <a href={`mailto:${site.email}`} className="hover:text-brand">{site.email}</a>
+            <a href={`mailto:${site.email}`} className="inline-block py-2 hover:text-brand">{site.email}</a>
           </p>
           <p>{site.hours}</p>
         </div>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-1">
+        <nav aria-label="Footer" className="flex flex-wrap content-start gap-x-5">
           {site.nav.map((item) => (
-            <Link prefetch={false} key={item.href} href={item.href} className="hover:text-brand">{item.label}</Link>
+            <Link prefetch={false} key={item.href} href={item.href} className="inline-block py-2 hover:text-brand">{item.label}</Link>
           ))}
           {!site.nav.some((item) => item.href === "/gallery") && (
-            <Link prefetch={false} href="/gallery" className="hover:text-brand">Gallery</Link>
+            <Link prefetch={false} href="/gallery" className="inline-block py-2 hover:text-brand">Gallery</Link>
           )}
-          <Link prefetch={false} href="/privacy" className="hover:text-brand">Privacy</Link>
-          <Link prefetch={false} href="/terms" className="hover:text-brand">Terms</Link>
+          <Link prefetch={false} href="/privacy" className="inline-block py-2 hover:text-brand">Privacy</Link>
+          <Link prefetch={false} href="/terms" className="inline-block py-2 hover:text-brand">Terms</Link>
         </nav>
       </div>
     </footer>

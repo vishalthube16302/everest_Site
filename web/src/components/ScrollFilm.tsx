@@ -44,6 +44,8 @@ export function ScrollFilm({
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const imgs: HTMLImageElement[] = [];
+    // Phones load every second frame: half the data, and the nearest frame is drawn in between.
+    const step = window.matchMedia("(max-width: 899px)").matches ? 2 : 1;
     let started = false;
     let cur = 0;
     let drawn = -1;
@@ -55,6 +57,10 @@ export function ScrollFilm({
       started = true;
       for (let i = 0; i < FRAMES; i++) {
         const im = new Image();
+        if (i % step !== 0 && i !== FRAMES - 1) {
+          imgs.push(im);
+          continue;
+        }
         im.decoding = "async";
         im.src = `/films/scroll/${name}/${String(i + 1).padStart(3, "0")}.jpg`;
         if (i === 0 || (calm && i === FRAMES - 1)) {
@@ -131,7 +137,7 @@ export function ScrollFilm({
           height={720}
           role="img"
           aria-label={`${title}, shown opening part by part as you scroll`}
-          className="absolute inset-0 h-full w-full object-contain"
+          className="absolute left-1/2 top-[46%] aspect-video w-[122%] max-w-none -translate-x-1/2 -translate-y-1/2 md:inset-0 md:left-0 md:top-0 md:h-full md:w-full md:translate-x-0 md:translate-y-0 md:object-contain"
         />
         <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_40px_#050404]" />
 
@@ -140,13 +146,13 @@ export function ScrollFilm({
           <b className="display mt-1 block text-[clamp(20px,2.4vw,32px)] font-normal">{title}</b>
         </div>
 
-        <ul className="absolute bottom-12 left-4 right-4 z-10 flex flex-wrap gap-x-4 md:bottom-auto md:left-auto md:right-12 md:top-10 md:block md:w-[200px]">
+        <ul className="absolute bottom-[108px] left-4 right-4 z-10 flex flex-wrap gap-x-4 text-[15px] md:bottom-auto md:left-auto md:right-12 md:top-10 md:block md:w-[200px]">
           {parts.map((pt, i) => {
             const on = active.includes(i);
             return (
               <li
                 key={pt.name}
-                className={`items-center justify-between gap-3 py-[3px] text-[12px] transition-opacity duration-300 md:flex md:border-t md:border-white/15 md:py-[11px] md:text-[14px] md:last:border-b ${
+                className={`items-center justify-between gap-3 py-[3px] transition-opacity duration-300 md:flex md:border-t md:border-white/15 md:py-[11px] md:text-[14px] md:last:border-b ${
                   on ? "flex opacity-100" : "hidden opacity-40 md:flex"
                 }`}
               >
@@ -160,14 +166,14 @@ export function ScrollFilm({
         </ul>
 
         <div
-          className={`absolute bottom-[11vh] left-1/2 z-20 -translate-x-1/2 transition-all duration-300 md:bottom-[9vh] ${
+          className={`absolute bottom-[120px] left-1/2 z-20 -translate-x-1/2 transition-all duration-300 md:bottom-[9vh] ${
             quote ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
           }`}
         >
           <a href={quoteHref} className="btn btn-primary">Request a quote</a>
         </div>
 
-        <div className="absolute bottom-5 left-4 right-4 z-10 h-px bg-white/15 md:left-12 md:right-12">
+        <div className="absolute bottom-[92px] left-4 right-4 z-10 h-px bg-white/15 md:bottom-5 md:left-12 md:right-12">
           <span ref={bar} className="absolute inset-y-0 left-0 w-0 bg-brand-on-ink" />
         </div>
       </div>

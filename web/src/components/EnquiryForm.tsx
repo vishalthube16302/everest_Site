@@ -13,6 +13,7 @@ export function EnquiryForm({ productName, whatsapp, phoneDisplay, phoneHref }: 
   const targetId = `enquiry-${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const box = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"waiting" | "ready" | "failed">("waiting");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const element = box.current;
@@ -47,7 +48,7 @@ export function EnquiryForm({ productName, whatsapp, phoneDisplay, phoneHref }: 
       observer.disconnect();
       window.clearTimeout(timer);
     };
-  }, [targetId]);
+  }, [targetId, attempt]);
 
   return (
     <div ref={box}>
@@ -60,6 +61,16 @@ export function EnquiryForm({ productName, whatsapp, phoneDisplay, phoneHref }: 
           <div className="mt-4 flex flex-wrap gap-3">
             <a href={whatsappLink(whatsapp, productName)} className="btn btn-primary">WhatsApp us</a>
             <a href={phoneHref} className="btn btn-outline tabular">{phoneDisplay}</a>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => {
+                setState("waiting");
+                setAttempt((n) => n + 1);
+              }}
+            >
+              Try the form again
+            </button>
           </div>
         </div>
       )}

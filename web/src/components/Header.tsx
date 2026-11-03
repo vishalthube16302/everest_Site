@@ -21,7 +21,7 @@ export function Header({ nav }: { nav: { href: string; label: string }[] }) {
               key={item.href}
               href={item.href}
               aria-current={pathname.startsWith(item.href) ? "page" : undefined}
-              className="hover:text-brand aria-[current=page]:text-brand"
+              className="py-2.5 hover:text-brand aria-[current=page]:text-brand"
             >
               {item.label}
             </Link>

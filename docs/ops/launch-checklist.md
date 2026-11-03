@@ -11,7 +11,7 @@ Only start after the owner says go live.
 - [ ] Remove the `http` extension
 - [ ] Part 2 security rules are applied
 - [ ] Delete or disable the 4 old testimonials
-- [ ] Salesforce accepts the production domain
+- [ ] Salesforce accepts the production domain: open `/contact` on the real address and send one test enquiry. See `environments.md`
 - [ ] Production settings point to Everest V2
 - [ ] Noindex removed from the production build (`SITE_INDEXABLE=true`)
 - [ ] Redirects tested

@@ -182,6 +182,11 @@ export const getGalleryImages = once(() =>
   ),
 );
 
+// Public URL of a photo in the Product Images bucket.
+export function storageUrl(file: string) {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/Product%20Images/${file}`;
+}
+
 export function tidy(text: string) {
   return text.replace(/\s+/g, " ").trim();
 }

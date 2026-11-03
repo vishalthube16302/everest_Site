@@ -7,7 +7,11 @@ export default function NotFound() {
     <SiteFrame>
       <section className="page pb-10">
         <PageTitle title="Page not found." intro="This page does not exist or has moved." />
-        <Link prefetch={false} href="/products" className="btn btn-primary mt-6">See all products</Link>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link prefetch={false} href="/products" className="btn btn-primary">See all products</Link>
+          <Link prefetch={false} href="/" className="btn btn-outline">Go to the home page</Link>
+          <Link prefetch={false} href="/contact" className="btn btn-outline">Contact us</Link>
+        </div>
       </section>
     </SiteFrame>
   );

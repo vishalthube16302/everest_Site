@@ -11,12 +11,12 @@
 - [x] Create the Next.js app in `web/` (on `feature/phase-3`, not merged to `redesign/v2`)
 - [x] Build all public pages in `../architecture/routes.md`
 - [x] Build the admin pages (2026-11-03, `../ops/admin-panel.md`)
-- [ ] Reuse the Salesforce enquiry form (code done; Salesforce blocks localhost, so not proven)
+- [ ] Reuse the Salesforce enquiry form (code done, with a retry button and WhatsApp fallback; Salesforce blocks localhost, so it is proven only on the real or preview address)
 - [x] Rebuild the admin panel, including the price control (tested signed in as admin and as non-admin)
 - [x] Create the new admin login (2026-11-03, same email as the old site; owner changes the starting password)
 - [ ] Connect admin saves to an automatic site rebuild (Publish button and `publish-site` function done; needs the Cloudflare build hook)
 - [x] Owner reviewed the site locally (2026-11-02): not premium enough, hero text too big, needs motion and running numbers
-- [ ] Premium design pass on all public pages, from the owner's review (home, products and product pages done 2026-11-03; scroll films on home; other pages next)
+- [x] Premium design pass on all public pages, desktop and phone (2026-11-03): home, products, product, category, services, about, reviews, dealers, contact, gallery, 404
 - [ ] Set up a noindex Cloudflare preview, only after the owner connects `redesign/v2`
 - [ ] Add the preview domain in Salesforce if needed
 - [x] Add WhatsApp links with the product name filled in
