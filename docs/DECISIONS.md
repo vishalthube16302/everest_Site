@@ -2,7 +2,51 @@
 
 Newest first. One line each, with the reason.
 
+## 2026-11-03
+
+- Design pass on every inner page, desktop and phone: shared page header (label, big title, intro, buttons, picture), numbered services, about with facts and a visit card, review score cards, dealer steps, contact with quick actions and map link, captioned gallery, category pages with a cover photo. Only approved facts were used. Reason: owner asked for a premium look on web and mobile.
+- Phone tap targets are at least about 36 to 44 px: footer, breadcrumbs, menu and contact links were enlarged. Reason: small links are hard to tap.
+- Scroll films on phones load every second frame (about 4 MB instead of 8 MB) and draw larger, with part names above the bottom bar. Reason: phone data and space. A true portrait cut is still not made.
+- The enquiry form shows a Try again button as well as WhatsApp and phone when it does not load. Reason: Salesforce may only serve the form to trusted addresses, so it can fail on localhost and previews.
+
+- Ranges are removed. The 7 categories are the only category level and every product sits directly under one. The 13 database ranges were merged into 7 `categories` rows; 6 were deleted. Old range addresses such as `/categories/hydraulic-hand-pallet-trucks` now return 404, which is safe because they were never live. Reason: owner asked for categories only. Unused: `category_groups`, `categories.group_id`, `categories.short_name`.
+- The pallet film moved from the old hand-truck range to the 6 hand pallet trucks, so it no longer plays on the semi-electric trucks. Reason: it shows a hand pump; the category now also holds semi-electric and weighing-scale trucks.
+
+- Admin panel built at `/admin` (`ops/admin-panel.md`). It manages products, photos, specs, prices, categories, reviews, services, films, gallery, company details, menu and admin logins. Reason: owner wants to manage as much as possible.
+- Main categories, chip names, company details, ratings and the menu now come from the database, not code. Code values stay as fallbacks. Reason: so the admin can change them.
+- Saves reach the live site through one **Publish website** button, not a rebuild per save. Reason: one rebuild for a batch of edits keeps within free build limits, and half-finished edits never go live.
+- Every save is logged by a trigger; removals are logged by `log_removal()` from the panel. Reason: the connector declines delete triggers, and the owner needs to see unpublished changes.
+- Public pages moved into `web/src/app/(site)/` so the admin has its own frame. URLs did not change.
+- Local dev reads the database on every page view. Reason: admin saves show on refresh without a restart.
+
+- On wide screens a spec list over 8 rows shows as two Parameter / Value pairs side by side, and the page spacing is tighter. Reason: the whole product must fit one screen at 100% zoom; tested down to 1280x620.
+- The Salesforce enquiry form shows only on the contact page. Product and dealer pages link to it. Reason: owner's request, the form is slow to load.
+- Product page main photo is not a link; arrows and thumbnails switch it. Reason: owner's request.
+- Product page follows the old site's layout: photo gallery (arrows, clickable thumbnails) on the left; range, name, price, the full bordered spec table and quote buttons on the right, all on one screen for screenshots. Reason: owner's request.
+- Every product photo is a link: home hero, dental and stacker photos go to their product or range, and gallery photos go to their product. Reason: owner's request.
+
+- Home and products pages show 7 main categories, each grouping database ranges (`getMainCategories`). The 13 ranges stay as category pages, linked from chips. Reason: owner has 6 to 7 main categories. Grouping waits for approval (open question 12).
+- Home hero is compact: no eyebrow line, smaller title, both machines staged together, and the numbers all on one screen. Reason: owner's feedback.
+- Hero order is pallet truck left, compressor right. On load the truck rolls in from the left and the compressor from the right, each with a small settle, and the text rises in. Animation is off when the visitor asks for reduced motion. Reason: owner's request.
+- Electric stacker block replaces the "Move 3,000 kg by hand" pallet block. Reason: owner asked for screw or stacker; the pallet truck already shows in the hero and the film. Numbers are from EES-15-30 in the database.
+
 ## 2026-11-02
+
+- Home page shows both trial films as scroll-scrubbed sections after the hero (`web/src/components/ScrollFilm.tsx`). Frames are 120 JPGs at 1280x720 in `web/public/films/scroll/` (git-ignored, 8 MB). Local review only; phone needs a portrait cut. Reason: owner asked to see it on the home page.
+- Trial exploded films are built in-house from cut-out parts (`tools/video/exploded`), not by an AI video tool. Reason: owner's request, and solid parts cannot melt and the logo cannot change.
+- Compressor film uses the owner's ChatGPT exploded image for the tank and every moving part, and the new real photo only for the assembled look at the start. Reason: owner asked for that image, and the photo cut-out left white edges. Pistons and head shapes still need the owner's check.
+- New site lives in `web/` on `feature/phase-3`. Reason: the old site's files stay untouched in the repo root.
+- Static export (`output: export`), with redirects and headers in Cloudflare files. Reason: full static pages, as planned.
+- `prebuild` clears `.next/cache/fetch-cache`. Reason: builds reused old data, so admin saves could fail to appear.
+- Link prefetch is off. Reason: prefetch files failed on the static server, and phones save data.
+- Site shows no product description text. Reason: it holds unapproved claims, such as 40-65 dB against a ≤70 dB spec, and "best".
+- Services page shows titles only, and About shows approved facts only. Reason: database text says "best prices" and "trained engineers".
+- "1 year warranty" is off the home page; it stays in specs where the database lists it. Reason: not on the approved list and not on all products.
+- "Across India" is removed from the hero. Reason: only nearby delivery is confirmed.
+- Compressor, dental and scale films link to one model, and the range page names that model. Reason: their on-screen numbers fit only that model.
+- Pallet, motor and screw films stay on the whole range. Reason: their text fits every model in the range.
+- Phase 3 database change split in two. Reason: the connector declines `drop policy` lines, so the owner runs part 2.
+- Public `inquiries` insert is removed in part 2. Reason: leads go to Salesforce.
 
 - Semi electric stackers show battery 12 V / 120 Ah, from the owner's listing. ESES-15-16 also gets loading centre, fork arm distance, ground clearance and lifting speed from the owner's poster. Reason: owner supplied the figures.
 - The owner adds the battery pallet truck and air dryer from the admin panel after Phase 3.

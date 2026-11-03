@@ -9,9 +9,9 @@
 | Route | Note |
 |---|---|
 | `/` | Direction A home |
-| `/products` | All ranges |
+| `/products` | All categories |
 | `/products/:slug` | Keep all 37 current slugs |
-| `/categories/:slug` | New range pages with clean slugs |
+| `/categories/:slug` | Category pages with clean slugs (7) |
 | `/services` | Keep |
 | `/about` | Keep |
 | `/gallery` | Keep |
@@ -27,7 +27,7 @@ Every route is built as a full static page, except admin.
 ## Redirects
 
 - The old sitemap lists product URLs that no longer exist. Crawl it in Phase 4.
-- Send each dead product URL to its nearest current product or range.
+- Send each dead product URL to its nearest current product or category.
 - Keep the existing trailing-slash behaviour until it is tested on the new host.
 - Fake URLs must return a real 404.
 

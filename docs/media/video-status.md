@@ -13,4 +13,15 @@ One film per main range, not one per product.
 
 Stackers and lifting tables can get films after launch if wanted.
 
+## Trial exploded films
+
+Made with `tools/video/exploded` for the scroll trial. Files are in `everest_redesign_samples/flow-trial/final/`. 1920x1080, 8 s, 30 fps.
+
+| Film | Status |
+|---|---|
+| Pallet truck | Done, awaiting owner review. Pump, wheels, rollers and handle come from the ChatGPT split image |
+| Portable compressor | Done, awaiting owner review. Pistons come from the ChatGPT split image; all other parts are the real photo |
+
+Scroll versions are 19 MB each, too large for the site. They need a smaller web cut after approval. A portrait phone version is also needed.
+
 The weight on the scale film is a sample load and is captioned so. Web files: `node tools/video/web.mjs`.
