@@ -110,3 +110,5 @@ Newest first. One line each, with the reason.
 - Redirects are written in `web/redirects.txt` and the build generates `public/_redirects` with slash twins. Reason: one place to edit, and the builder blocks chains and loops.
 - `*.pages.dev` and preview addresses are noindex by header. Reason: they are full copies of the site.
 - Brief items not used here: Chakan address, free installation and prices in schema conflict with `content/verified-facts.md`, so they stay out. Other brief items (new pages, blog, tracking) are outside this task.
+- Google Search Console and Google Analytics live under the Everest company Google account, never a personal one. Check the signed-in account before setting up any Google tool. Date: 2026-11-03.
+- Analytics: GA4 only, page views plus three click events (`click_call`, `click_whatsapp`, `click_quote`). Loads after the page is idle, on public pages only (not `/admin`). Google signals and ad personalisation are off. No name, phone or enquiry text is sent. Privacy page section 4 says so. No consent banner added; owner to confirm if one is needed. Date: 2026-11-03.

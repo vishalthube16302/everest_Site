@@ -1,3 +1,4 @@
+import { Analytics } from "@/components/Analytics";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StickyBar } from "@/components/StickyBar";
@@ -15,6 +16,7 @@ export async function SiteFrame({ children }: { children: React.ReactNode }) {
       <main id="main">{children}</main>
       <Footer site={site} />
       <StickyBar whatsapp={site.whatsappNumber} />
+      <Analytics />
     </>
   );
 }

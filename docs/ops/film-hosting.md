@@ -1,5 +1,7 @@
 # Film hosting
 
+**Live (2026-11-03):** the films sit in a separate Cloudflare Pages project, `everest-films` (https://everest-films.pages.dev), uploaded as a zip with a `_headers` file (open access, 1-year cache). The main project `everest-site` reads them through the variable `NEXT_PUBLIC_FILMS_BASE_URL`. To replace a film: use a new file name, upload a new zip to `everest-films`, rebuild `everest-site`. Source files stay in `web/public/films` on the owner's computer (not in git).
+
 Films are not stored in Supabase or the repo. They go on Cloudflare once the owner connects it.
 
 ## Files per film

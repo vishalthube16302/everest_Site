@@ -2,7 +2,9 @@
 
 Updated: 2026-11-03 (later)
 
-**Current phase:** Phase 3 in progress. Public site built in `web/` and running locally. Committed on `feature/phase-3` on 2026-11-03, waiting for the owner to merge into `redesign/v2`.
+**LIVE since 2026-11-03.** `main` holds the new site and everesthps.com serves it from Cloudflare project `everest-site` (root `web`, output `out`, Everest V2 data). Old deployment kept for rollback. Search Console Domain property and Google Analytics both belong to the Everest Google account (everesthps@gmail.com), not a personal one. Domain verified by DNS TXT, sitemap submitted. GA4 stream `G-2LYEDVVDGQ`, loaded by `web/src/components/Analytics.tsx` when `NEXT_PUBLIC_GA_ID` is set (Cloudflare Production). check-hosts passes 17/17. Films hosted on Cloudflare project `everest-films` (see ops/film-hosting.md) and verified on the live home and product pages. Open: Preview env key, HTTPS/HSTS and Supabase leaked-password setting, admin password, Salesforce form test, mark call/WhatsApp events as key events in GA4, LCP over budget.
+
+**Earlier phase note:** Phase 3 in progress. Public site built in `web/` and running locally. Committed on `feature/phase-3` on 2026-11-03, waiting for the owner to merge into `redesign/v2`.
 
 **Next step:** Owner reviews the Phase 4 work (redirect guesses, speed) and approves the 7 categories (open question 12). LCP is over budget in the lab and needs a decision. Phase 5 (launch) waits for the owner's go-live word.
 

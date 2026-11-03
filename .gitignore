@@ -46,3 +46,6 @@ tools/video/still-*.jpg
 
 # Built from web/redirects.txt on every build
 web/public/_redirects
+
+# Browser automation scratch files
+.playwright-mcp/
