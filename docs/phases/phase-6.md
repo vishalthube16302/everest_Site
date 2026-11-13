@@ -39,7 +39,7 @@ Claude, in code:
 - [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
 - [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
 - [x] Organization and LocalBusiness `sameAs`: Google Maps, IndiaMART, Justdial, Facebook, Instagram, everesthps.in. Map pin and `hasMap`. Footer "Find us on" links. Maps buttons open the Google profile
-- [ ] `lastmod` in the sitemap: SQL ready in `../ops/pending-db-seo-fields.sql`, waiting for the owner to apply it
+- [x] `lastmod` in the sitemap from real `updated_at` dates (owner applied the database change 2026-11-13; migration `20261113120000_phase6_updated_at_seo_fields.sql`). `priority` removed: Google ignores it
 - Justdial rating on the reviews page: skipped (owner, 2026-11-13)
 
 ## Step 2: Pages people already search for (weeks 2 to 3)
@@ -60,7 +60,7 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 - [x] Category pages: buying guide, matching reviews, FAQ with FAQPage schema
 - [x] Comparison: guides "Oil-free vs oil-lubricated" and "What size air compressor do I need"
 - [x] Reviews that name a product type shown on its category and product pages (word for word)
-- [ ] Admin fields for meta title, description and FAQ per product: same SQL file, waiting for the owner
+- [x] Admin panel, product editor, "Google and AI search": search title, search description, questions and answers (shown first on the product page, FAQ schema)
 - [x] Every build runs `check-site` (titles, descriptions, canonicals, JSON-LD, thin pages under 300 words). A failed check stops the publish, so the live site keeps the last good version
 
 ## Step 4: AI search (GEO) (weeks 4 to 6)

@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = (await getProducts()).find((p) => p.slug === slug);
   if (!product) return {};
   return pageMeta({
-    title: product.name,
-    description: productDescription(product),
+    title: product.seo_title?.trim() || product.name,
+    description: product.seo_description?.trim() || productDescription(product),
     path: `/products/${product.slug}`,
     image: product.image_url,
   });
@@ -60,7 +60,8 @@ export default async function ProductPage({ params }: Props) {
   const guide = category ? categoryGuides[category.slug] : undefined;
   const key = keySpecs(product, 4);
   const specFaq = key.slice(0, 3).map((r) => ({ q: `What is the ${r.label.toLowerCase()} of the ${product.name}?`, a: `${r.value}. See the full table above, or ask us.` }));
-  const faq = [...specFaq, ...(guide?.faq ?? []), { q: `How do I get a price for the ${product.name}?`, a: `Call or WhatsApp ${site.phoneDisplay}, or send an enquiry. We reply within 24 hours.` }];
+  const ownFaq = (product.faq ?? []).filter((f) => f?.q && f?.a);
+  const faq = [...ownFaq, ...specFaq, ...(guide?.faq ?? []), { q: `How do I get a price for the ${product.name}?`, a: `Call or WhatsApp ${site.phoneDisplay}, or send an enquiry. We reply within 24 hours.` }];
   const reviews = matchingReviews(allReviews, guide);
 
   const trail = [

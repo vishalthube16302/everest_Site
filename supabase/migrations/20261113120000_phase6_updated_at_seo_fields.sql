@@ -1,7 +1,5 @@
--- NOT APPLIED. Phase 6 database change, waiting for the owner (2026-11-13).
--- Adds real "last changed" dates (sitemap lastmod) and optional SEO fields per product.
--- To apply: Supabase dashboard, project Everest V2 (gnnqwuwaojttcwfzdrko), SQL Editor, paste, Run.
--- Then tell Claude, who wires the sitemap dates and the admin fields and moves this file to supabase/migrations.
+-- Phase 6: real "last changed" dates (sitemap lastmod) and optional SEO fields per product.
+-- Applied by the owner in the Supabase SQL Editor on 2026-11-13.
 
 alter table public.products add column if not exists updated_at timestamptz not null default now();
 alter table public.categories add column if not exists updated_at timestamptz not null default now();

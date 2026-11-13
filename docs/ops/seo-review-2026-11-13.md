@@ -45,8 +45,9 @@ matches canonicals. Service page per core service (top local factor). `tel:` lin
 
 ## Waiting on the owner's OK
 
-- Database change for sitemap dates and admin SEO fields: `pending-db-seo-fields.sql` (blocked twice by the permission check)
-- Installing the claude-seo skills into `~/.claude/skills` (blocked by the permission check)
+- Done: database change applied by the owner; sitemap dates and admin SEO fields wired
+- Done: 10 claude-seo skill folders (markdown only) installed in `~/.claude/skills` on the owner's request
+- Second pass with the installed skills: `priority` removed from the sitemap, Organization `contactPoint` added, service pages expanded to 480 to 690 words (how it works, know-how, more FAQ)
 
 ## Owner actions, by impact
 
@@ -55,6 +56,6 @@ matches canonicals. Service page per core service (top local factor). `tel:` lin
 3. Apple Business Connect: claim the listing (Apple Maps, Siri)
 4. One business name everywhere (Google says "EVEREST Air Compressor & Material Handling Equipment")
 5. Justdial: some pages still show the old Chakan address
-6. YouTube channel with the product films; LinkedIn company page; Wikidata entry
+6. Skipped by owner: Apple Business Connect, YouTube, LinkedIn. Wikidata not planned
 7. Done: Search Console "Search generative AI" is on Include
 8. Ask happy customers for Google reviews every few weeks; reply to each

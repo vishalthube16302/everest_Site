@@ -20,6 +20,9 @@ type Product = {
   description: string | null;
   long_description: string | null;
   specifications: unknown;
+  seo_title: string | null;
+  seo_description: string | null;
+  faq: { q: string; a: string }[] | null;
 };
 
 type Spec = { key: number; label: string; value: string };
@@ -45,6 +48,9 @@ const blank: Product = {
   description: null,
   long_description: null,
   specifications: [],
+  seo_title: null,
+  seo_description: null,
+  faq: [],
 };
 
 export default function ProductEditor() {
@@ -135,6 +141,9 @@ export default function ProductEditor() {
       description: draft.description?.trim() || null,
       long_description: draft.long_description?.trim() || null,
       specifications: cleanSpecs,
+      seo_title: draft.seo_title?.trim() || null,
+      seo_description: draft.seo_description?.trim() || null,
+      faq: (draft.faq ?? []).map((f) => ({ q: f.q.trim(), a: f.a.trim() })).filter((f) => f.q && f.a),
     };
     let productId = id;
     if (isNew) {
@@ -407,6 +416,32 @@ export default function ProductEditor() {
                 </li>
               ))}
             </ol>
+          </section>
+
+          <section className="acard">
+            <h2 className="mb-1 text-lg font-bold">Google and AI search</h2>
+            <p className="mb-3 text-[13px] text-muted">Optional. Leave empty to use the automatic title and description. Use only facts you can stand behind: no prices, no other brand names.</p>
+            <div className="grid gap-4">
+              <Field label={`Search title (${(draft.seo_title ?? "").length}/60)`}>
+                <input className="ainput" maxLength={70} value={draft.seo_title ?? ""} onChange={(e) => set("seo_title", e.target.value)} placeholder={draft.name} />
+              </Field>
+              <Field label={`Search description (${(draft.seo_description ?? "").length}/160)`}>
+                <textarea className="ainput min-h-[70px]" maxLength={170} value={draft.seo_description ?? ""} onChange={(e) => set("seo_description", e.target.value)} />
+              </Field>
+              <div>
+                <p className="mb-2 text-[14px] font-semibold">Questions and answers (shown first on the product page)</p>
+                <ol className="space-y-3">
+                  {(draft.faq ?? []).map((f, n) => (
+                    <li key={n} className="grid gap-2 rounded-lg border border-line p-3">
+                      <input className="ainput" placeholder="Question" value={f.q} onChange={(e) => set("faq", (draft.faq ?? []).map((x, i) => (i === n ? { ...x, q: e.target.value } : x)))} />
+                      <textarea className="ainput min-h-[60px]" placeholder="Answer" value={f.a} onChange={(e) => set("faq", (draft.faq ?? []).map((x, i) => (i === n ? { ...x, a: e.target.value } : x)))} />
+                      <button type="button" className="abtn abtn-sm abtn-danger justify-self-start" onClick={() => set("faq", (draft.faq ?? []).filter((_, i) => i !== n))}>Remove question</button>
+                    </li>
+                  ))}
+                </ol>
+                <button type="button" className="abtn abtn-sm mt-3" onClick={() => set("faq", [...(draft.faq ?? []), { q: "", a: "" }])}>+ Add question</button>
+              </div>
+            </div>
           </section>
 
           <section className="acard">

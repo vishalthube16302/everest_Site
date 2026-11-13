@@ -13,6 +13,8 @@ export type ServicePage = {
   serviceType: string; // schema.org Service type
   points: { title: string; text: string }[];
   ask: string[]; // what to tell us for a quick quote
+  steps: { title: string; text: string }[]; // how it works, plain steps
+  more: { h: string; p: string }[]; // extra know-how for this service
   links: { href: string; label: string }[];
   faq: Faq[];
   whatsapp: string; // first line of the WhatsApp message
@@ -39,6 +41,16 @@ export const servicePages: ServicePage[] = [
       "What happens: will not start, low pressure, noise, oil in the air, trips, leaks",
       "Your site address",
     ],
+    steps: [
+      { title: "Tell us", text: "Call or WhatsApp with the compressor type, a nameplate photo, what is going wrong and your address." },
+      { title: "We check", text: "We look at the fault on site and tell you what needs repair or which part has to change." },
+      { title: "Quote and repair", text: "You get the price before the work. Parts we supply are fitted on site when possible." },
+      { title: "Keep it running", text: "We tell you the daily and weekly checks that stop the same fault coming back." },
+    ],
+    more: [
+      { h: "Signs your compressor needs service", p: "It takes longer to fill the tank, the motor trips or gets very hot, there is oil or water in the air, a new knocking or hissing noise, the pressure does not reach its normal cut-out, or the safety valve lets air out. Any of these is a reason to call before a small fault becomes a bigger repair." },
+      { h: "Oil-free, reciprocating and screw compressors", p: "Oil-free pumps need clean filters and checks on valves and seals. Oil-lubricated reciprocating pumps also need oil changes and belt checks. Screw compressors need regular filter, oil and separator service on running hours. Tell us which type you have so we come prepared." },
+    ],
     links: [
       { href: "/services/compressor-spare-parts", label: "Compressor spare parts" },
       { href: "/categories/reciprocating-compressors", label: "Reciprocating compressors" },
@@ -50,6 +62,8 @@ export const servicePages: ServicePage[] = [
       { q: "Why does my compressor take too long to fill?", a: "Usually an air leak, a blocked intake filter, worn valves or rings, or more air demand than the compressor can supply. A check on site finds which one." },
       { q: "How much does a repair cost?", a: "It depends on the fault and the parts. Tell us the model and what is wrong, and we give you a quote." },
       { q: "Where are you based?", a: "PAP G-64, Ajantha Nagar, Kasturi Market, Chikhali Akurdi Rd, Thermax Chauk, Pimpri-Chinchwad, Maharashtra 411019. Open Monday to Saturday, 9:00 AM to 7:30 PM." },
+      { q: "Do you service screw compressors too?", a: "Yes. Tell us the HP and running hours, and we plan the service." },
+      { q: "How often should a compressor be serviced?", a: "Daily drain and weekly filter checks by your team, plus a full service at least once a year, or sooner with heavy use or dust." },
     ],
     whatsapp: "Hello Everest, I need compressor repair or servicing.",
   },
@@ -71,6 +85,16 @@ export const servicePages: ServicePage[] = [
       "For a pallet truck or stacker: load in kg, and lift height for a stacker",
       "Start date, how long, and the site address",
     ],
+    steps: [
+      { title: "Tell us what you need", text: "Equipment, load or air need, start date, how long and the site address." },
+      { title: "Quote", text: "We confirm what is available and send a quote for that period." },
+      { title: "Delivery and start", text: "Nearby delivery is offered. We agree the handover with you." },
+      { title: "Return or extend", text: "Tell us early if the job runs longer and we quote the extra time." },
+    ],
+    more: [
+      { h: "Sizing a rental compressor", p: "Add up the air (CFM or LPM) of the tools that run together and add about a quarter for leaks. Check the pressure in bar your tools need. Sandblasting, painting booths and several grinders at once need much more air than a single tool. If you are unsure, tell us the tools and we suggest a size." },
+      { h: "Choosing a rental pallet truck or stacker", p: "Check the heaviest pallet, your pallet size, and for a stacker the top rack height. Smooth floors suit standard wheels. Tell us about ramps or rough floors." },
+    ],
     links: [
       { href: "/categories/pallet-trucks", label: "Pallet trucks" },
       { href: "/categories/stackers-and-lifting-tables", label: "Stackers and lifting tables" },
@@ -81,6 +105,8 @@ export const servicePages: ServicePage[] = [
       { q: "How long can I rent for?", a: "Tell us the dates you need and we quote for that period." },
       { q: "Should I rent or buy a compressor?", a: "Renting suits a short job, a breakdown or a trial of the size you need. If you need air every day for years, buying usually costs less over time. We can quote both." },
       { q: "Do you also sell pallet trucks and stackers?", a: "Yes. See our pallet trucks and stackers pages for models and specifications." },
+      { q: "Can I rent a compressor for a breakdown?", a: "Yes. A rental compressor can keep the plant running while your own compressor is repaired. We also repair compressors on site." },
+      { q: "What do I need to tell you for a quote?", a: "What you need, the load or air need, the dates and the site address." },
     ],
     whatsapp: "Hello Everest, I would like equipment on rent.",
   },
@@ -102,6 +128,16 @@ export const servicePages: ServicePage[] = [
       "Oil-free or oil-lubricated",
       "Your town",
     ],
+    steps: [
+      { title: "Tell us the job", text: "The tools you will run, the pressure, your power supply and your town." },
+      { title: "We check stock", text: "Second-hand stock changes, so we tell you what is available now." },
+      { title: "See it run", text: "Ask to see the compressor running before you decide." },
+      { title: "Service and parts", text: "We repair and service compressors and supply spare parts after you buy." },
+    ],
+    more: [
+      { h: "Who buys a second-hand compressor", p: "Small workshops, garages, tyre shops and plants that need a second or standby compressor often choose used. For daily heavy use, or clean air for a clinic or lab, a new oil-free or screw compressor may suit better." },
+      { h: "Running costs matter too", p: "A compressor's power bill over a year can be more than its price. Compare the air it delivers (CFM or LPM) against its motor power, and check for leaks in your pipes, which waste air whatever compressor you buy." },
+    ],
     links: [
       { href: "/categories/reciprocating-compressors", label: "New reciprocating compressors" },
       { href: "/categories/oil-free-silent-air-compressors", label: "New oil-free silent compressors" },
@@ -111,6 +147,8 @@ export const servicePages: ServicePage[] = [
       { q: "Do you sell used air compressors?", a: "Yes. Everest sells second-hand air compressors. Stock changes, so ask us what is available now." },
       { q: "What should I check in a used compressor?", a: "Running hours, how fast it fills the tank, oil in the air or leaks, tank condition, noise, and that the safety valve and pressure switch work. See it run before you buy." },
       { q: "Used or new: which is better?", a: "Used costs less to buy. New suits daily heavy use and a clinic or lab that needs clean, oil-free air. Tell us the job and we suggest both options." },
+      { q: "Can I see the compressor before buying?", a: "Ask us. We suggest seeing any used compressor run before you buy." },
+      { q: "Do you service the second-hand compressors you sell?", a: "We repair and service air compressors on site and supply spare parts." },
     ],
     whatsapp: "Hello Everest, I am looking for a second-hand air compressor.",
   },
@@ -132,6 +170,16 @@ export const servicePages: ServicePage[] = [
       "How many you need",
       "Your town, for delivery",
     ],
+    steps: [
+      { title: "Send details", text: "Model, power, tank size and a photo of the old part on WhatsApp." },
+      { title: "We match it", text: "We check the part against your compressor and tell you what fits." },
+      { title: "Quote", text: "You get the price for the part, and for fitting if you want it." },
+      { title: "Delivery or fitting", text: "Nearby delivery is offered, or we fit it during an on-site repair." },
+    ],
+    more: [
+      { h: "Common compressor spare parts", p: "Air filter elements, valve plates and reed valves, piston rings, gaskets, belts, pressure switches, safety valves, drain valves, check valves, unloader valves, capacitors, gauges and couplings. Oil-lubricated pumps also use oil and oil filters." },
+      { h: "Why the nameplate matters", p: "Parts differ between models of the same power. The nameplate shows model, power, pressure and voltage, which is what we need to match the right part the first time." },
+    ],
     links: [
       { href: "/categories/oil-free-compressor-motors", label: "Oil-free compressor motors" },
       { href: "/services/air-compressor-repair-and-servicing", label: "Repair and servicing" },
@@ -140,6 +188,8 @@ export const servicePages: ServicePage[] = [
       { q: "Do you sell compressor spare parts?", a: "Yes. Everest supplies spare parts for air compressors. Send the model and a photo of the part on WhatsApp +91 88558 20105." },
       { q: "Which parts wear out first?", a: "Air filters, valves, piston rings, gaskets, belts, drain valves and pressure switches wear with use. Oil-lubricated units also need oil and oil filters." },
       { q: "Can you fit the part?", a: "Yes. We offer on-site repair and servicing." },
+      { q: "Do you have motors for oil-free compressors?", a: "Yes. Our oil-free compressor motors are listed in the catalogue with full specifications." },
+      { q: "What if I do not know the model?", a: "Send photos of the compressor, its nameplate and the part. We work it out from there." },
     ],
     whatsapp: "Hello Everest, I need a compressor spare part.",
   },
@@ -161,6 +211,16 @@ export const servicePages: ServicePage[] = [
       "Where it will stand and how far the air must go",
       "Your site address",
     ],
+    steps: [
+      { title: "Plan", text: "Tell us the compressor, your power supply and where it will stand." },
+      { title: "Delivery", text: "Nearby delivery is offered. Ask us for places further away." },
+      { title: "Install", text: "We place and connect the compressor and set it up for the first run." },
+      { title: "Hand over", text: "Ask us to show your team the daily checks." },
+    ],
+    more: [
+      { h: "Choosing the spot", p: "A compressor needs a firm level floor, fresh cool air, and space around it for cooling and service. Keep it away from dust, rain and heat. A short, wide main pipe with few bends loses less pressure than a long thin one." },
+      { h: "Power supply", p: "Small compressors run on single phase. Larger ones need three phase with the right cable size and protection. Check this before the compressor arrives." },
+    ],
     links: [
       { href: "/products", label: "All products" },
       { href: "/services/air-compressor-repair-and-servicing", label: "Repair and servicing" },
@@ -169,6 +229,8 @@ export const servicePages: ServicePage[] = [
       { q: "Do you install the compressor?", a: "Yes. Installation and nearby delivery are offered. Ask us about your site." },
       { q: "Where should a compressor stand?", a: "On a firm level floor, in a dry place with fresh air, away from heat and dust, with space on all sides to service it." },
       { q: "What should I check every day?", a: "Drain water from the tank, listen for leaks, check the pressure gauge, and for oil-lubricated units check the oil level." },
+      { q: "Do you install compressors bought elsewhere?", a: "Ask us with the model and your site details." },
+      { q: "Is installation free?", a: "Installation is offered. Ask for the price with your quote." },
     ],
     whatsapp: "Hello Everest, I need compressor installation.",
   },

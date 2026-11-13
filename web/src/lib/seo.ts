@@ -122,6 +122,13 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       foundingDate: String(site.established),
       taxID: site.gstin,
       sameAs,
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: phone,
+        email: site.email,
+        contactType: "sales",
+        areaServed: "IN",
+      },
     },
     {
       "@context": "https://schema.org",

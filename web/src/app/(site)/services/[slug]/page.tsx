@@ -95,6 +95,27 @@ export default async function ServicePage({ params }: Props) {
       </section>
 
       <section className="page section">
+        <h2 className="display section-title mb-6">How it works.</h2>
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {s.steps.map((st, i) => (
+            <li key={st.title} className="rounded-card bg-surface p-6">
+              <span className="display tabular text-[15px] font-bold text-brand">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="mt-2 font-semibold">{st.title}</h3>
+              <p className="mt-1 text-muted">{st.text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          {s.more.map((m) => (
+            <div key={m.h} className="rounded-card bg-surface p-6 md:p-8">
+              <h2 className="display card-title">{m.h}</h2>
+              <p className="mt-3 text-muted">{m.p}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="page section">
         <h2 className="display section-title mb-6">Questions.</h2>
         <FaqList faq={s.faq} />
       </section>

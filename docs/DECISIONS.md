@@ -138,3 +138,5 @@ Newest first. One line each, with the reason.
 - Cloudflare Markdown for Agents needs the Pro plan; not bought. Date: 2026-11-13.
 - Bing Webmaster Tools added with the Everest Google account (import from Search Console, view-only access), sitemap submitted. Home title shortened to 61 characters and category and film images given alt text, from Bing's flags. Titles over 70 characters now fail the build check. Date: 2026-11-13.
 - The database change for sitemap dates and admin SEO fields stays unapplied (blocked by the permission check). SQL kept in `ops/pending-db-seo-fields.sql`. Date: 2026-11-13.
+- Owner applied the database change: `updated_at` on products and categories (with triggers, photo changes count), and `seo_title`, `seo_description`, `faq` on products. Sitemap `lastmod` uses these dates; admin "Google and AI search" fields override the automatic title and description and add questions first. Date: 2026-11-13.
+- claude-seo skills installed (10 markdown folders, no scripts or hooks) at the owner's request. Owner skipped Apple Business Connect, YouTube and LinkedIn; owner updates the listings. Date: 2026-11-13.

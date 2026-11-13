@@ -11,6 +11,7 @@ export type Category = {
   slug: string;
   image_url: string | null;
   sort_order: number;
+  updated_at: string;
 };
 
 export type Product = {
@@ -21,6 +22,11 @@ export type Product = {
   image_url: string | null;
   specifications: unknown;
   sort_order: number;
+  updated_at: string;
+  // Optional, set in the admin panel (Google and AI search). Empty means automatic.
+  seo_title: string | null;
+  seo_description: string | null;
+  faq: { q: string; a: string }[] | null;
 };
 
 export type ProductImage = { product_id: string; image_url: string; alt_text: string | null; sort_order: number };
@@ -64,13 +70,13 @@ function once<T>(load: () => Promise<T>) {
 
 export const getCategories = once(() =>
   rest<Category[]>(
-    "categories?select=id,name,slug,image_url,sort_order&is_active=eq.true&order=sort_order",
+    "categories?select=id,name,slug,image_url,sort_order,updated_at&is_active=eq.true&order=sort_order",
   ),
 );
 
 export const getProducts = once(async () => {
   const rows = await rest<Product[]>(
-    "products?select=id,name,slug,category_id,image_url,specifications,sort_order&is_active=eq.true&order=sort_order",
+    "products?select=id,name,slug,category_id,image_url,specifications,sort_order,updated_at,seo_title,seo_description,faq&is_active=eq.true&order=sort_order",
   );
   return rows.map((p) => ({ ...p, name: tidy(p.name) }));
 });
