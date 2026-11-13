@@ -8,7 +8,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const KEY = "80a9fcf5c4fe5b44899155c8dea12c70";
+const KEY = "87969c7d42048a0d075e86f97693d1a1";
 const OUT = "out";
 const site = (process.env.NEXT_PUBLIC_SITE_URL || "https://everesthps.com").replace(/\/+$/, "");
 const branch = process.env.CF_PAGES_BRANCH;
@@ -51,6 +51,16 @@ async function main() {
     // first run: every page counts as new
   }
   const changed = Object.keys(state).filter((url) => before[url] !== state[url]);
+
+  // The engines check the key file on the live site. This build is not live yet, so if the key file is not
+  // already live (a new key), sending now fails and Bing remembers the failure. Skip, and publish the old state
+  // so the next build sends these pages again.
+  const live = await fetch(`${site}/${KEY}.txt`).then((r) => (r.ok ? r.text() : "")).catch(() => "");
+  if (live.trim() !== KEY) {
+    writeFileSync(join(OUT, "indexnow-state.json"), JSON.stringify(before));
+    console.log("IndexNow: key file not live yet, skipped. The next publish sends these pages.");
+    return;
+  }
   if (!changed.length) {
     console.log("IndexNow: no page changed.");
     return;
