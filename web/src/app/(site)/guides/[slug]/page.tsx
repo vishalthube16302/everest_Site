@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { ContactPanel, FaqList, PageHero } from "@/components/ui";
-import { guides } from "@/lib/guides";
+import { guides, guidesPublished } from "@/lib/guides";
 import { abs, breadcrumbJsonLd, faqJsonLd, pageMeta, siteUrl } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -38,6 +38,8 @@ export default async function GuidePage({ params }: Props) {
             url: abs(path),
             author: { "@type": "Organization", name: "Everest Hydro Pneumatic Solutions", url: siteUrl },
             publisher: { "@id": `${siteUrl}/#organization` },
+            datePublished: guidesPublished,
+            dateModified: g.updated ?? guidesPublished,
           },
           faqJsonLd(g.faq),
         ]}
@@ -48,6 +50,10 @@ export default async function GuidePage({ params }: Props) {
             <Link prefetch={false} href="/guides" className="inline-block py-2 hover:text-brand">Guides</Link>
           </p>
           <PageHero kicker="Guide" title={g.title} intro={g.answer} />
+          <p className="mt-4 text-[15px] text-muted">
+            By Everest Hydro Pneumatic Solutions, Pimpri-Chinchwad, Pune. Updated{" "}
+            <time dateTime={g.updated ?? guidesPublished}>{new Date(g.updated ?? guidesPublished).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</time>.
+          </p>
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {g.sections.map((s) => (
               <div key={s.h} className="rounded-card bg-surface p-6 md:p-8">

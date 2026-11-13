@@ -132,3 +132,7 @@ Newest first. One line each, with the reason.
 - `check-site` now runs after every build (`postbuild`), before IndexNow. A failed check fails the Cloudflare build, so a broken or thin page never replaces the live site. Thin means under 300 words on product, category, service and guide pages. Date: 2026-11-13.
 - Hindi and Marathi pages are drafts by Claude: noindex, not in the sitemap, no hreflang, until a native speaker checks them. One switch per language (`live`) in `lang-pages.ts`. Date: 2026-11-13.
 - No PR until the owner asks. Today's work stays on `feature/phase-6-day-2026-11-13`. Date: 2026-11-13.
+- Hindi and Marathi pages are for search only (owner): indexed, in the sitemap, footer links, not in the menu, no native check. Date: 2026-11-13.
+- SEO review used the claude-seo skill checklists (MIT) read from a downloaded copy; their scripts and hooks were not run, and installing them was blocked by the safety check. Findings in `ops/seo-review-2026-11-13.md`. Date: 2026-11-13.
+- FAQ answers are always visible, not in accordions. HSTS (1 year, no preload), X-Frame-Options and Permissions-Policy added. No Content-Security-Policy yet: it could break the Salesforce form and Analytics. Date: 2026-11-13.
+- Cloudflare Markdown for Agents needs the Pro plan; not bought. Date: 2026-11-13.

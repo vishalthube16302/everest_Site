@@ -35,6 +35,8 @@ export function Footer({ site }: { site: SiteInfo }) {
           )}
           <Link prefetch={false} href="/guides" className="inline-block py-2 hover:text-brand">Guides</Link>
           <Link prefetch={false} href="/services/areas-served" className="inline-block py-2 hover:text-brand">Areas served</Link>
+          <Link prefetch={false} href="/hi" lang="hi" className="inline-block py-2 hover:text-brand">हिन्दी</Link>
+          <Link prefetch={false} href="/mr" lang="mr" className="inline-block py-2 hover:text-brand">मराठी</Link>
           <Link prefetch={false} href="/privacy" className="inline-block py-2 hover:text-brand">Privacy</Link>
           <Link prefetch={false} href="/terms" className="inline-block py-2 hover:text-brand">Terms</Link>
         </nav>

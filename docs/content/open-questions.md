@@ -38,5 +38,5 @@ Google's AI Overview mixed in details from everestpump.co.in, which appears to b
 | # | Question | Needed for |
 |---|---|---|
 | 13 | (Skipped by owner 2026-11-13, keep "Everest" in the name.) One business name everywhere? Google says "EVEREST Air Compressor & Material Handling Equipment", the site, IndiaMART and Justdial say "Everest Hydro Pneumatic Solutions". Google prefers the registered name. | Business Profile, schema |
-| 14 | Who checks the Hindi and Marathi text? | Phase 6 step 5 |
-| 15 | Bing Webmaster sign-up (owner, later) | Phase 6 step 6 |
+| 14 | (Answered 2026-11-13: no check needed, the pages are for search only.) | Phase 6 step 5 |
+| 15 | Bing Webmaster and Bing Places sign-up: now top priority for ChatGPT | Phase 6 |

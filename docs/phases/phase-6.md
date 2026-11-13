@@ -35,7 +35,7 @@ Claude, in code:
 - [x] Services list in Everest V2 fixed: AMC and "Custom Solutions" removed; now sales, installation, on-site repair and servicing, spare parts, on rent, second-hand (2026-11-13)
 - [x] Services and reviews descriptions, `llms.txt` services line match the approved facts
 - [x] Content Signals line in `robots.txt` (search, AI answers and training all allowed)
-- [ ] Cloudflare Markdown for Agents (dashboard, if the free plan has it). Browser link dropped 2026-11-13; do next session
+- Cloudflare Markdown for Agents: needs the Pro plan, skipped (checked 2026-11-13)
 - [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
 - [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
 - [x] Organization and LocalBusiness `sameAs`: Google Maps, IndiaMART, Justdial, Facebook, Instagram, everesthps.in. Map pin and `hasMap`. Footer "Find us on" links. Maps buttons open the Google profile
@@ -75,18 +75,22 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 
 ## Step 5: Hindi and Marathi (weeks 6 to 8)
 
-- [x] Hindi and Marathi drafts built: `/hi`, `/hi/air-compressor-repair`, `/hi/rent` and the same under `/mr`. Text in `web/src/lib/lang-pages.ts`. Hidden from Google (noindex, not in sitemap) until checked
-- [x] `hreflang` links added automatically when a language is set `live: true` (tested)
-- [ ] Owner or a native speaker checks every page, then set `live: true` (open question 14)
+- [x] Hindi and Marathi pages: `/hi`, `/hi/air-compressor-repair`, `/hi/rent` and the same under `/mr`. Text in `web/src/lib/lang-pages.ts`. For search only (owner): indexed, in the sitemap, linked from the footer, not in the menu
+- [x] `hreflang` links (en, hi, mr, x-default) on the home, repair and rent pages
+- Native check skipped by the owner: pages are for search, not visitors (2026-11-13)
 
 ## Step 6: Measure every month
 
 - [x] Monthly routine written: `../ops/seo-monthly.md` (Search Console, Bing, GA4, Cloudflare, 20 AI questions, log table)
 - [ ] First monthly check: early December 2026
-- [ ] Bing Webmaster: owner signs up later, imports from Search Console
+- [ ] Bing Webmaster and Bing Places: top priority now (ChatGPT Search leans on Bing). See `../ops/seo-review-2026-11-13.md`
 - [ ] GA4 monthly: enquiries, calls and WhatsApp by source, including AI chat (steps in the routine)
 - [ ] Cloudflare AI Crawl Control monthly: which bots read which pages
 - [ ] Monthly: ask the same 20 questions (list in the routine) in ChatGPT, Gemini and Perplexity. Note if Everest is named.
+
+## Review 2026-11-13
+
+- [x] AI crawler access verified for 18 bots; review with the claude-seo checklists: `../ops/seo-review-2026-11-13.md`. Fixes: visible FAQ answers, guide dates, city in category titles, areaServed, WebSite schema, HSTS
 
 ## Rules
 

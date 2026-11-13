@@ -3,7 +3,11 @@
 
 import type { Faq } from "./service-pages";
 
+// Written 2026-11-13. Change `updated` when a guide's facts change.
+export const guidesPublished = "2026-11-13";
+
 export type Guide = {
+  updated?: string;
   slug: string;
   title: string;
   description: string;

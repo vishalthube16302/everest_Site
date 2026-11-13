@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Product, SiteInfo } from "./data";
 import { keySpecs, specRows } from "./data";
 import { langPath, langs } from "./lang-pages";
+import { serviceAreas as serviceAreasForSchema } from "./service-pages";
 
 // Address of the public site. Canonical links, the sitemap and structured data use it.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://everesthps.com").replace(/\/+$/, "");
@@ -137,6 +138,19 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       sameAs,
       openingHoursSpecification: hoursNode(site.hours),
       parentOrganization: { "@id": `${siteUrl}/#organization` },
+      // Areas from the Google Business Profile; topics from the approved product and service list.
+      areaServed: [...serviceAreasForSchema.map((name) => ({ "@type": "City", name })), { "@type": "State", name: "Maharashtra" }],
+      knowsAbout: ["Air compressors", "Oil-free air compressors", "Dental air compressors", "Screw air compressors", "Reciprocating air compressors", "Air compressor repair", "Pallet trucks", "Stackers", "Hydraulic lifting tables"],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: site.name,
+      alternateName: "Everest",
+      url: siteUrl,
+      inLanguage: ["en-IN", "hi-IN", "mr-IN"],
+      publisher: { "@id": `${siteUrl}/#organization` },
     },
   ];
 }

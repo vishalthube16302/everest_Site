@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {};
   const n = category.products.length;
   return pageMeta({
-    title: category.name,
+    title: `${category.name} in Pune, Pimpri-Chinchwad`,
     description: `${category.name} from Everest, Pimpri-Chinchwad, Pune: ${n} ${n === 1 ? "model" : "models"} with full specifications, a buying guide and answers. Get a quote.`,
     path: `/categories/${category.slug}`,
     image: category.image_url ?? category.products[0]?.image_url,

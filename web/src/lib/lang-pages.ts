@@ -1,6 +1,6 @@
-// Hindi and Marathi pages (Phase 6 step 5). DRAFTS: written by Claude, not yet checked by a native speaker.
-// While `live` is false they are noindex, left out of the sitemap and have no hreflang links.
-// Set live: true for a language only after the owner or a native speaker approves its text (open question 14).
+// Hindi and Marathi pages (Phase 6 step 5). For search only (owner, 2026-11-13): indexed, not in the menu.
+// Setting `live` to false makes a language noindex, drops it from the sitemap and removes its hreflang links.
+// Text written by Claude in plain words; no native check by the owner's choice.
 // Same facts as docs/content/verified-facts.md. No prices, no AMC, no other brands.
 
 export type LangCode = "hi" | "mr";
@@ -22,7 +22,7 @@ export const langs: Lang[] = [
   {
     code: "hi",
     name: "हिन्दी",
-    live: false,
+    live: true,
     ui: {
       call: "कॉल करें",
       whatsapp: "WhatsApp करें",
@@ -38,7 +38,7 @@ export const langs: Lang[] = [
     pages: [
       {
         slug: "",
-        title: "एयर कंप्रेसर, पैलेट ट्रक और स्टैकर | पिंपरी-चिंचवड, पुणे",
+        title: "एयर कंप्रेसर मशीन, पैलेट ट्रक और स्टैकर | पिंपरी-चिंचवड, पुणे",
         description: "Everest, पिंपरी-चिंचवड, पुणे: ऑयल-फ्री, डेंटल, स्क्रू और रेसिप्रोकेटिंग एयर कंप्रेसर, पैलेट ट्रक, स्टैकर। रिपेयर, सर्विस, किराया और स्पेयर पार्ट्स।",
         h1: "एयर कंप्रेसर, पैलेट ट्रक और स्टैकर",
         intro: "Everest Hydro Pneumatic Solutions, पिंपरी-चिंचवड, पुणे। 2020 से। हम एयर कंप्रेसर और मटीरियल हैंडलिंग उपकरण बनाते, बेचते और सर्विस करते हैं।",
@@ -94,7 +94,7 @@ export const langs: Lang[] = [
   {
     code: "mr",
     name: "मराठी",
-    live: false,
+    live: true,
     ui: {
       call: "कॉल करा",
       whatsapp: "WhatsApp करा",
