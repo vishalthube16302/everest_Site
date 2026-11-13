@@ -12,11 +12,13 @@ Publish only what is in the Approved list. A fact can move here only with a sour
 | Phone and WhatsApp +91 88558 20105 | Site settings, Google |
 | everesthps@gmail.com | Site settings |
 | GSTIN 27ATEPT3692E1ZD | Site settings, IndiaMART |
-| Mon to Sat, 9:00 AM to 6:30 PM | Site settings |
+| Mon to Sat, 9:00 AM to 7:30 PM | Owner, 2026-11-13 |
+| Services: compressor repair, servicing, rental, second-hand sales, spare parts | Owner, 2026-11-13 |
+| everesthps.in is the owner's own IndiaMART-built site | Owner, 2026-11-13 |
 | Manufacturer, dealer and end-user supplier | Owner |
 | Sells to dealers | Owner |
 | 5.0 from 39 Google reviews | Owner's screenshot, 2026-11-01 |
-| 4.9 from about 40 IndiaMART reviews | IndiaMART, 2026-11-01 |
+| 4.9 from 41 IndiaMART reviews | IndiaMART, 2026-11-13 |
 | IndiaMART TrustSEAL | IndiaMART |
 | Replies within 24 hours | Current contact page |
 | Product specs in Everest V2 | Database |

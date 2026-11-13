@@ -32,3 +32,11 @@ Answered earlier: installation and nearby delivery are offered (see `verified-fa
 ## Search visibility note
 
 Google's AI Overview mixed in details from everestpump.co.in, which appears to be a different company. Clear company data in Phase 4 should help, but no result is guaranteed.
+
+## Phase 6 (2026-11-13)
+
+| # | Question | Needed for |
+|---|---|---|
+| 13 | (Skipped by owner 2026-11-13, keep "Everest" in the name.) One business name everywhere? Google says "EVEREST Air Compressor & Material Handling Equipment", the site, IndiaMART and Justdial say "Everest Hydro Pneumatic Solutions". Google prefers the registered name. | Business Profile, schema |
+| 14 | Who checks the Hindi and Marathi text? | Phase 6 step 5 |
+| 15 | Bing Webmaster sign-up (owner, later) | Phase 6 step 6 |

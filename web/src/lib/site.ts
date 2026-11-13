@@ -10,7 +10,7 @@ export const site = {
   address:
     "PAP G-64, Ajantha Nagar, Kasturi Market, Chikhali Akurdi Rd, Thermax Chauk, Pimpri-Chinchwad, Maharashtra 411019",
   gstin: "27ATEPT3692E1ZD",
-  hours: "Mon to Sat, 9:00 AM to 6:30 PM",
+  hours: "Mon to Sat, 9:00 AM to 7:30 PM",
   established: 2020,
 };
 
