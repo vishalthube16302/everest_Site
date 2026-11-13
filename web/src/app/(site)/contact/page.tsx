@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pageMeta } from "@/lib/seo";
+import { mapsUrl, pageMeta } from "@/lib/seo";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { PageHero } from "@/components/ui";
 import { getSite } from "@/lib/data";
@@ -9,7 +9,7 @@ export const metadata: Metadata = pageMeta({ title: "Contact and get a quote", d
 
 export default async function ContactPage() {
   const site = await getSite();
-  const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
+  const maps = mapsUrl;
   return (
     <section className="page pb-4">
       <PageHero kicker="Contact" title="Tell us what you need." intro="We reply within 24 hours." />

@@ -124,3 +124,7 @@ Newest first. One line each, with the reason.
 - IndexNow runs after each live build and sends only pages whose visible text changed, using `indexnow-state.json` published with the site. The key is public by design. Date: 2026-11-13.
 - Sitemap `lastmod` postponed: owner declined adding `updated_at` columns. Build dates would be wrong signals, so none are sent. Date: 2026-11-13.
 - Justdial rating not shown on the site (owner: not important). Date: 2026-11-13.
+- Service pages are written in code (`web/src/lib/service-pages.ts`), not the admin `services` table, so wording can be checked against the approved facts. The Services page no longer reads the table; admin edits there do not show. Date: 2026-11-13.
+- Service pages make no claim on price, response time, warranty or AMC. FAQ answers use only approved facts plus general compressor know-how. Date: 2026-11-13.
+- Maps links on Contact and About open the Google Business Profile (place id), not an address search, so visitors land on our reviews. Date: 2026-11-13.
+- No PR until the owner asks; one PR for the day's changes (owner, 2026-11-13).

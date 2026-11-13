@@ -205,3 +205,20 @@ export async function ContactPanel({ productName }: { productName?: string }) {
     </section>
   );
 }
+
+// Questions and answers. Uses <details>, so it works without JavaScript and the answers stay in the page text.
+export function FaqList({ faq }: { faq: { q: string; a: string }[] }) {
+  return (
+    <div className="divide-y divide-line rounded-card bg-surface px-6 md:px-8">
+      {faq.map((f) => (
+        <details key={f.q} className="group py-4">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-1 text-lg font-semibold">
+            <h3>{f.q}</h3>
+            <span aria-hidden className="text-brand transition group-open:rotate-45">+</span>
+          </summary>
+          <p className="mt-2 max-w-[70ch] text-muted">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  );
+}

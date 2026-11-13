@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { SiteInfo } from "@/lib/data";
+import { profiles } from "@/lib/seo";
 
 export function Footer({ site }: { site: SiteInfo }) {
   return (
@@ -9,6 +10,12 @@ export function Footer({ site }: { site: SiteInfo }) {
           <p className="font-semibold text-ink">{site.name}</p>
           <p className="mt-1 max-w-[52ch]">{site.address}</p>
           <p className="mt-1 tabular">GSTIN {site.gstin}</p>
+          <p className="mt-3 flex flex-wrap items-center gap-x-4">
+            <span>Find us on</span>
+            {profiles.map((p) => (
+              <a key={p.label} href={p.url} target="_blank" rel="noopener me" className="inline-block py-2 font-semibold text-ink hover:text-brand">{p.label}</a>
+            ))}
+          </p>
         </div>
         <div>
           <p>

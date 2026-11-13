@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pageMeta } from "@/lib/seo";
+import { mapsUrl, pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { CategoryTile, ContactPanel, PageHero, Photo, StatBlock } from "@/components/ui";
 import { getCategoryTiles, getSite, storageUrl } from "@/lib/data";
@@ -9,7 +9,7 @@ export const metadata: Metadata = pageMeta({ title: "About Everest", description
 export default async function AboutPage() {
   const [site, categories] = await Promise.all([getSite(), getCategoryTiles()]);
   const { ratings } = site;
-  const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
+  const maps = mapsUrl;
   return (
     <>
       <section className="page">

@@ -35,12 +35,19 @@ export function pageMeta({ title, description, path, image }: { title: string; d
   };
 }
 
-// The company's own profiles elsewhere. Add Google, Justdial and Facebook links once confirmed.
-export const sameAs = [
-  "https://www.instagram.com/everestaircompressor/",
-  "https://www.indiamart.com/everesthydro-pneumatic-solution/",
-  "https://www.everesthps.in/",
+// Google Business Profile (place id from Google Maps, owner's account, 2026-11-13) and its map pin.
+export const mapsUrl = "https://maps.google.com/?cid=14653580160157998466";
+const geo = { "@type": "GeoCoordinates", latitude: 18.6641151, longitude: 73.7935742 };
+
+// The company's own profiles elsewhere (owner, 2026-11-13). Shown in the footer and sent as schema sameAs.
+export const profiles = [
+  { label: "Google", url: mapsUrl },
+  { label: "IndiaMART", url: "https://www.indiamart.com/everesthydro-pneumatic-solution/" },
+  { label: "Justdial", url: "https://www.justdial.com/Pune/Everest-Hydro-Pneumatic-Solutions-Thermax-Chauk-Chinchwad-East/020PXX20-XX20-200926192007-Z4N3_BZDET" },
+  { label: "Facebook", url: "https://www.facebook.com/profile.php?id=61593183570687" },
+  { label: "Instagram", url: "https://www.instagram.com/everestaircompressor/" },
 ];
+export const sameAs = [...profiles.map((p) => p.url), "https://www.everesthps.in/"];
 
 const trim = (text: string, max = 158) => (text.length <= max ? text : `${text.slice(0, max - 1).replace(/\s+\S*$/, "")}…`);
 
@@ -115,10 +122,44 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       telephone: phone,
       email: site.email,
       address: addressNode(site.address),
+      geo,
+      hasMap: mapsUrl,
+      sameAs,
       openingHoursSpecification: hoursNode(site.hours),
       parentOrganization: { "@id": `${siteUrl}/#organization` },
     },
   ];
+}
+
+// One service we offer, given by our local business, in the areas on our Google profile.
+// The business is written out in full: the home page node is not on this page.
+export function serviceJsonLd(s: { name: string; serviceType: string; description: string; path: string }, areas: string[], site: SiteInfo): JsonLdNode {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.name,
+    serviceType: s.serviceType,
+    description: s.description,
+    url: abs(s.path),
+    provider: {
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#localbusiness`,
+      name: site.name,
+      url: siteUrl,
+      telephone: site.phoneHref.replace("tel:", ""),
+      address: addressNode(site.address),
+      hasMap: mapsUrl,
+    },
+    areaServed: areas.map((name) => ({ "@type": "City", name })),
+  };
+}
+
+export function faqJsonLd(faq: { q: string; a: string }[]): JsonLdNode {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  };
 }
 
 export function breadcrumbJsonLd(trail: { name: string; path: string }[]): JsonLdNode {

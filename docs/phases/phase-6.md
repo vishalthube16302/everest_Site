@@ -38,19 +38,21 @@ Claude, in code:
 - [ ] Cloudflare Markdown for Agents (dashboard, if the free plan has it)
 - [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
 - [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
-- [x] Organization `sameAs`: Instagram, IndiaMART, everesthps.in. Google, Justdial and Facebook links to add
+- [x] Organization and LocalBusiness `sameAs`: Google Maps, IndiaMART, Justdial, Facebook, Instagram, everesthps.in. Map pin and `hasMap`. Footer "Find us on" links. Maps buttons open the Google profile
 - [ ] `lastmod` in the sitemap: needs a "last changed" date column in Everest V2. Owner declined the database change for now
 - Justdial rating on the reviews page: skipped (owner, 2026-11-13)
 
 ## Step 2: Pages people already search for (weeks 2 to 3)
 
 New pages, each with a short direct answer at the top, an FAQ and a quote button:
-- [ ] Air compressor repair and on-site servicing, Pune and Pimpri-Chinchwad
-- [ ] On rent: large air compressors, hand pallet trucks and stackers
-- [ ] Second-hand air compressors
-- [ ] Compressor spare parts
-- [ ] Installation (no AMC page: owner not offering AMC for now)
-- [ ] Areas served page from the Business Profile list (Pune, Mumbai, Nashik, Satara and others). One page, not a page per city, until we have real work in each city.
+- [x] Air compressor repair and on-site servicing, Pune and Pimpri-Chinchwad
+- [x] On rent: large air compressors, hand pallet trucks and stackers
+- [x] Second-hand air compressors
+- [x] Compressor spare parts
+- [x] Installation (no AMC page: owner not offering AMC for now)
+- [x] Areas served page from the Business Profile list (11 places). One page, not a page per city.
+- [x] Services page cards link to these pages; sitemap and `llms.txt` list them. Service, FAQPage and Breadcrumb schema on each
+- Content lives in `web/src/lib/service-pages.ts` (code, not admin). Built 2026-11-13, not yet merged
 
 ## Step 3: Better product and category pages (weeks 3 to 5)
 

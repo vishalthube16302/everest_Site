@@ -89,7 +89,6 @@ export const getFilms = once(async () => {
   }));
 });
 
-export const getServices = once(() => rest<{ id: string; title: string }[]>("services?select=id,title&order=sort_order"));
 
 // Rows without a source are the 4 old testimonials, which must stay unused.
 export const getReviews = once(() =>
