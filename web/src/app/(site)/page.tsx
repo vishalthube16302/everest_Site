@@ -76,7 +76,9 @@ export default async function HomePage() {
             <Link prefetch={false} href="/categories/pallet-trucks" className="absolute bottom-0 left-[-2%] block w-[66%]">
               <Photo
                 priority
-                src={`${storage}/pallet-107.webp`}
+                src="/img/hero-pallet-truck.webp"
+                srcSet="/img/hero-pallet-truck-600.webp 600w, /img/hero-pallet-truck.webp 1200w"
+                sizes="(min-width: 900px) 45vw, 66vw"
                 alt="Everest yellow hydraulic hand pallet truck"
                 className="on-ground roll-left h-auto w-full"
               />
@@ -84,7 +86,9 @@ export default async function HomePage() {
             <Link prefetch={false} href="/products/2-hp-50l-portable-oil-free-silent-air-compressor" className="absolute bottom-[-1%] right-[-4%] block w-[44%]">
               <Photo
                 priority
-                src={`${storage}/silent-083.webp`}
+                src="/img/hero-compressor.webp"
+                srcSet="/img/hero-compressor-600.webp 600w, /img/hero-compressor.webp 1200w"
+                sizes="(min-width: 900px) 30vw, 44vw"
                 alt="Everest 2 HP 50 litre portable oil-free silent air compressor"
                 className="on-ground roll-right h-auto w-full"
               />

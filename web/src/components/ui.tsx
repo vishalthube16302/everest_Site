@@ -7,15 +7,21 @@ export function Photo({
   alt,
   className = "",
   priority = false,
+  srcSet,
+  sizes,
 }: {
   src: string;
   alt: string;
   className?: string;
   priority?: boolean;
+  srcSet?: string;
+  sizes?: string;
 }) {
   return (
     <img
       src={src}
+      srcSet={srcSet}
+      sizes={sizes}
       alt={alt}
       width={1200}
       height={900}
