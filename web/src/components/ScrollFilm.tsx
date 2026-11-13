@@ -129,7 +129,7 @@ export function ScrollFilm({
     <section
       ref={stage}
       aria-label={title}
-      className="on-ink relative h-[250vh] md:h-[290vh] bg-[#050404] text-white"
+      className="on-ink relative h-[180vh] md:h-[200vh] bg-[#050404] text-white"
     >
       <div className="sticky top-0 h-svh overflow-hidden">
         <canvas

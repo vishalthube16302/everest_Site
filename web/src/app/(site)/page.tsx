@@ -3,6 +3,7 @@ import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { ScrollFilm } from "@/components/ScrollFilm";
 import { CategoryTile, ContactPanel, Photo, ReviewCard } from "@/components/ui";
+import { servicePages } from "@/lib/service-pages";
 import { getCategoryTiles, getProducts, getReviews, getSite } from "@/lib/data";
 import { companyJsonLd, pageMeta } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
@@ -212,6 +213,27 @@ export default async function HomePage() {
             />
           </Link>
         </div>
+      </section>
+
+      <section className="page section">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2 className="display section-title">Repair, rent and spare parts.</h2>
+          <Link prefetch={false} href="/services" className="inline-block py-2 font-semibold hover:text-brand">All services →</Link>
+        </div>
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {servicePages.map((s) => (
+            <li key={s.slug}>
+              <Link prefetch={false} href={`/services/${s.slug}`} className="tile flex h-full flex-col rounded-card bg-surface p-5">
+                <h3 className="display card-title">{s.name}</h3>
+                <span className="mt-auto pt-4 text-[15px] font-semibold text-brand">Read more →</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 flex flex-wrap gap-x-5">
+          <Link prefetch={false} href="/guides" className="inline-block py-2 font-semibold hover:text-brand">Buying guides →</Link>
+          <Link prefetch={false} href="/services/areas-served" className="inline-block py-2 font-semibold hover:text-brand">Areas we serve →</Link>
+        </p>
       </section>
 
       <section className="page section">

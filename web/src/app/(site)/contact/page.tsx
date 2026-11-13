@@ -19,6 +19,11 @@ export default async function ContactPage() {
           <div className="min-h-[360px]">
             <EnquiryForm whatsapp={site.whatsappNumber} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
           </div>
+          <p className="mt-5 border-t border-line pt-4 text-[15px] text-muted">
+            Form not working? Send the same details on{" "}
+            <a href={whatsappLink(site.whatsappNumber)} className="font-semibold text-brand hover:underline">WhatsApp</a> or call{" "}
+            <a href={site.phoneHref} className="tabular font-semibold text-brand hover:underline">{site.phoneDisplay}</a>.
+          </p>
         </div>
 
         <div className="space-y-4">

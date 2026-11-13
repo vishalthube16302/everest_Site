@@ -41,5 +41,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Share pictures are made at build time by scripts/build-share-images.mjs
+/public/img/share/
+
 # Rendered films stay out of the public repo, see docs/ops/film-hosting.md
 /public/films/

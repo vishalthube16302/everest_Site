@@ -82,6 +82,7 @@ export default async function CategoryPage({ params }: Props) {
             ) : undefined
           }
         />
+        <h2 className="sr-only">Models</h2>
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {category.products.map((product) => (
             <ProductCard key={product.id} product={product} />

@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,15 +7,22 @@ import { JsonLd } from "@/components/JsonLd";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { Gallery } from "@/components/Gallery";
 import { GuideSections, matchingReviews } from "@/components/Guide";
+import { ShareButton } from "@/components/ShareButton";
 import { PriceBlock, ProductCard, SpecTable } from "@/components/ui";
 import { categoryGuides } from "@/lib/category-guides";
 import { getCategoriesWithProducts, getFilms, getPrice, getProductImages, getProducts, getReviews, getSite, keySpecs, specRows } from "@/lib/data";
-import { breadcrumbJsonLd, faqJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
+import { abs, breadcrumbJsonLd, faqJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
+import { shareContent } from "@/lib/share";
 import { whatsappLink } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
+
+// The JPG made by scripts/build-share-images.mjs. Without it, the product's own photo is used.
+function sharePicture(product: { slug: string; image_url: string | null }) {
+  return existsSync(join(process.cwd(), "public", "img", "share", `${product.slug}.jpg`)) ? abs(`/img/share/${product.slug}.jpg`) : product.image_url;
+}
 
 export async function generateStaticParams() {
   return (await getProducts()).map((product) => ({ slug: product.slug }));
@@ -27,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: product.seo_title?.trim() || product.name,
     description: product.seo_description?.trim() || productDescription(product),
     path: `/products/${product.slug}`,
-    image: product.image_url,
+    image: sharePicture(product),
   });
 }
 
@@ -64,6 +73,8 @@ export default async function ProductPage({ params }: Props) {
   const faq = [...ownFaq, ...specFaq, ...(guide?.faq ?? []), { q: `How do I get a price for the ${product.name}?`, a: `Call or WhatsApp ${site.phoneDisplay}, or send an enquiry. We reply within 24 hours.` }];
   const reviews = matchingReviews(allReviews, guide);
 
+  const share = shareContent(product, abs(`/products/${product.slug}`), sharePicture(product), site);
+
   const trail = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
@@ -99,6 +110,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="mt-4 flex flex-wrap gap-3">
               <Link prefetch={false} href="/contact" className="btn btn-primary">Get a quote</Link>
               <a href={whatsappLink(site.whatsappNumber, product.name)} className="btn btn-outline">WhatsApp us</a>
+              <ShareButton share={share} />
             </div>
           </div>
         </div>
