@@ -3,7 +3,7 @@ import { pageMeta } from "@/lib/seo";
 import { ContactPanel, PageHero, ReviewCard } from "@/components/ui";
 import { getReviews, getSite } from "@/lib/data";
 
-export const metadata: Metadata = pageMeta({ title: "Customer reviews", description: "What customers say about Everest, with reviews from IndiaMART.", path: "/reviews" });
+export const metadata: Metadata = pageMeta({ title: "Customer reviews", description: "What customers say about Everest air compressors, pallet trucks and service, in real reviews from Google and IndiaMART.", path: "/reviews" });
 
 export default async function ReviewsPage() {
   const [reviews, { ratings }] = await Promise.all([getReviews(), getSite()]);
