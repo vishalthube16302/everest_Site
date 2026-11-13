@@ -124,3 +124,19 @@ Newest first. One line each, with the reason.
 - IndexNow runs after each live build and sends only pages whose visible text changed, using `indexnow-state.json` published with the site. The key is public by design. Date: 2026-11-13.
 - Sitemap `lastmod` postponed: owner declined adding `updated_at` columns. Build dates would be wrong signals, so none are sent. Date: 2026-11-13.
 - Justdial rating not shown on the site (owner: not important). Date: 2026-11-13.
+- Service pages are written in code (`web/src/lib/service-pages.ts`), not the admin `services` table, so wording can be checked against the approved facts. The Services page no longer reads the table; admin edits there do not show. Date: 2026-11-13.
+- Service pages make no claim on price, response time, warranty or AMC. FAQ answers use only approved facts plus general compressor know-how. Date: 2026-11-13.
+- Maps links on Contact and About open the Google Business Profile (place id), not an address search, so visitors land on our reviews. Date: 2026-11-13.
+- No PR until the owner asks; one PR for the day's changes (owner, 2026-11-13).
+- Category guides, guides and the glossary are written in code (`category-guides.ts`, `guides.ts`), from general know-how plus approved facts. Product text is built from database specs only. Date: 2026-11-13.
+- `check-site` now runs after every build (`postbuild`), before IndexNow. A failed check fails the Cloudflare build, so a broken or thin page never replaces the live site. Thin means under 300 words on product, category, service and guide pages. Date: 2026-11-13.
+- Hindi and Marathi pages are drafts by Claude: noindex, not in the sitemap, no hreflang, until a native speaker checks them. One switch per language (`live`) in `lang-pages.ts`. Date: 2026-11-13.
+- No PR until the owner asks. Today's work stays on `feature/phase-6-day-2026-11-13`. Date: 2026-11-13.
+- Hindi and Marathi pages are for search only (owner): indexed, in the sitemap, footer links, not in the menu, no native check. Date: 2026-11-13.
+- SEO review used the claude-seo skill checklists (MIT) read from a downloaded copy; their scripts and hooks were not run, and installing them was blocked by the safety check. Findings in `ops/seo-review-2026-11-13.md`. Date: 2026-11-13.
+- FAQ answers are always visible, not in accordions. HSTS (1 year, no preload), X-Frame-Options and Permissions-Policy added. No Content-Security-Policy yet: it could break the Salesforce form and Analytics. Date: 2026-11-13.
+- Cloudflare Markdown for Agents needs the Pro plan; not bought. Date: 2026-11-13.
+- Bing Webmaster Tools added with the Everest Google account (import from Search Console, view-only access), sitemap submitted. Home title shortened to 61 characters and category and film images given alt text, from Bing's flags. Titles over 70 characters now fail the build check. Date: 2026-11-13.
+- The database change for sitemap dates and admin SEO fields stays unapplied (blocked by the permission check). SQL kept in `ops/pending-db-seo-fields.sql`. Date: 2026-11-13.
+- Owner applied the database change: `updated_at` on products and categories (with triggers, photo changes count), and `seo_title`, `seo_description`, `faq` on products. Sitemap `lastmod` uses these dates; admin "Google and AI search" fields override the automatic title and description and add questions first. Date: 2026-11-13.
+- claude-seo skills installed (10 markdown folders, no scripts or hooks) at the owner's request. Owner skipped Apple Business Connect, YouTube and LinkedIn; owner updates the listings. Date: 2026-11-13.

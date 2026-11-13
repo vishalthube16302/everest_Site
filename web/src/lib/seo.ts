@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { Product, SiteInfo } from "./data";
 import { keySpecs, specRows } from "./data";
+import { langPath, langs } from "./lang-pages";
+import { serviceAreas as serviceAreasForSchema } from "./service-pages";
 
 // Address of the public site. Canonical links, the sitemap and structured data use it.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://everesthps.com").replace(/\/+$/, "");
@@ -16,31 +18,47 @@ export const abs = (path: string) => `${siteUrl}${path === "/" ? "" : path}`;
 const shareImage = { url: abs("/img/og-default.jpg"), width: 1200, height: 630, alt: "Everest air compressors, pallet trucks and stackers" };
 
 // Title, description and canonical for one page. Wording must stay inside docs/content/verified-facts.md.
-export function pageMeta({ title, description, path, image }: { title: string; description: string; path: string; image?: string | null }): Metadata {
+// hreflang links between an English page and its live Hindi and Marathi versions. Drafts get none.
+function languageLinks(path: string): Record<string, string> | undefined {
+  const english = langs.flatMap((l) => l.pages.map((p) => ({ l, p }))).find(({ l, p }) => path === p.english || path === langPath(l.code, p.slug))?.p.english;
+  if (!english) return undefined;
+  const live = langs.flatMap((l) => (l.live ? l.pages.filter((p) => p.english === english).map((p) => [l.code, abs(langPath(l.code, p.slug))]) : []));
+  return live.length ? Object.fromEntries([["en", abs(english)], ...live, ["x-default", abs(english)]]) : undefined;
+}
+
+export function pageMeta({ title, description, path, image, lang }: { title: string; description: string; path: string; image?: string | null; lang?: string }): Metadata {
   const images = image ? [{ url: image }] : [shareImage];
+  const languages = languageLinks(path);
   return {
     title,
     description,
-    alternates: { canonical: abs(path) },
+    alternates: { canonical: abs(path), ...(languages ? { languages } : {}) },
     openGraph: {
       title,
       description,
       url: abs(path),
       siteName: "Everest Hydro Pneumatic Solutions",
       type: "website",
-      locale: "en_IN",
+      locale: lang ? `${lang}_IN` : "en_IN",
       images,
     },
     twitter: { card: "summary_large_image", title, description, images: images.map((i) => i.url) },
   };
 }
 
-// The company's own profiles elsewhere. Add Google, Justdial and Facebook links once confirmed.
-export const sameAs = [
-  "https://www.instagram.com/everestaircompressor/",
-  "https://www.indiamart.com/everesthydro-pneumatic-solution/",
-  "https://www.everesthps.in/",
+// Google Business Profile (place id from Google Maps, owner's account, 2026-11-13) and its map pin.
+export const mapsUrl = "https://maps.google.com/?cid=14653580160157998466";
+const geo = { "@type": "GeoCoordinates", latitude: 18.6641151, longitude: 73.7935742 };
+
+// The company's own profiles elsewhere (owner, 2026-11-13). Shown in the footer and sent as schema sameAs.
+export const profiles = [
+  { label: "Google", url: mapsUrl },
+  { label: "IndiaMART", url: "https://www.indiamart.com/everesthydro-pneumatic-solution/" },
+  { label: "Justdial", url: "https://www.justdial.com/Pune/Everest-Hydro-Pneumatic-Solutions-Thermax-Chauk-Chinchwad-East/020PXX20-XX20-200926192007-Z4N3_BZDET" },
+  { label: "Facebook", url: "https://www.facebook.com/profile.php?id=61593183570687" },
+  { label: "Instagram", url: "https://www.instagram.com/everestaircompressor/" },
 ];
+export const sameAs = [...profiles.map((p) => p.url), "https://www.everesthps.in/"];
 
 const trim = (text: string, max = 158) => (text.length <= max ? text : `${text.slice(0, max - 1).replace(/\s+\S*$/, "")}…`);
 
@@ -104,6 +122,13 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       foundingDate: String(site.established),
       taxID: site.gstin,
       sameAs,
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: phone,
+        email: site.email,
+        contactType: "sales",
+        areaServed: "IN",
+      },
     },
     {
       "@context": "https://schema.org",
@@ -115,10 +140,57 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       telephone: phone,
       email: site.email,
       address: addressNode(site.address),
+      geo,
+      hasMap: mapsUrl,
+      sameAs,
       openingHoursSpecification: hoursNode(site.hours),
       parentOrganization: { "@id": `${siteUrl}/#organization` },
+      // Areas from the Google Business Profile; topics from the approved product and service list.
+      areaServed: [...serviceAreasForSchema.map((name) => ({ "@type": "City", name })), { "@type": "State", name: "Maharashtra" }],
+      knowsAbout: ["Air compressors", "Oil-free air compressors", "Dental air compressors", "Screw air compressors", "Reciprocating air compressors", "Air compressor repair", "Pallet trucks", "Stackers", "Hydraulic lifting tables"],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: site.name,
+      alternateName: "Everest",
+      url: siteUrl,
+      inLanguage: ["en-IN", "hi-IN", "mr-IN"],
+      publisher: { "@id": `${siteUrl}/#organization` },
     },
   ];
+}
+
+// One service we offer, given by our local business, in the areas on our Google profile.
+// The business is written out in full: the home page node is not on this page.
+export function serviceJsonLd(s: { name: string; serviceType: string; description: string; path: string }, areas: string[], site: SiteInfo): JsonLdNode {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.name,
+    serviceType: s.serviceType,
+    description: s.description,
+    url: abs(s.path),
+    provider: {
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#localbusiness`,
+      name: site.name,
+      url: siteUrl,
+      telephone: site.phoneHref.replace("tel:", ""),
+      address: addressNode(site.address),
+      hasMap: mapsUrl,
+    },
+    areaServed: areas.map((name) => ({ "@type": "City", name })),
+  };
+}
+
+export function faqJsonLd(faq: { q: string; a: string }[]): JsonLdNode {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  };
 }
 
 export function breadcrumbJsonLd(trail: { name: string; path: string }[]): JsonLdNode {

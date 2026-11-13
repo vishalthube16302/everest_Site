@@ -1,5 +1,7 @@
 import { getCategoriesWithProducts, getSite } from "@/lib/data";
-import { abs } from "@/lib/seo";
+import { abs, sameAs } from "@/lib/seo";
+import { glossary, guides } from "@/lib/guides";
+import { serviceAreas, servicePages } from "@/lib/service-pages";
 
 export const dynamic = "force-static";
 
@@ -26,10 +28,17 @@ export async function GET() {
     `- [Full catalogue](${abs("/ai-discover")}): all ${total} products with specifications on one page`,
     `- [Products](${abs("/products")}): browse by category`,
     `- [Services](${abs("/services")}): sales, installation, on-site repair and servicing, spare parts, second-hand compressors, and large air compressors, hand pallet trucks and stackers on rent`,
+    ...servicePages.map((s) => `- [${s.title}](${abs(`/services/${s.slug}`)}): ${s.answer.split(". ")[0]}.`),
+    `- [Areas served](${abs("/services/areas-served")}): ${serviceAreas.join(", ")}, Maharashtra`,
     `- [Dealers](${abs("/dealers")}): trade supply`,
     `- [Reviews](${abs("/reviews")}): customer reviews from Google and IndiaMART`,
     `- [About](${abs("/about")}): the company`,
     `- [Contact](${abs("/contact")}): enquiry form, phone and WhatsApp`,
+    "",
+    "## Guides",
+    "",
+    ...guides.map((g) => `- [${g.title}](${abs(`/guides/${g.slug}`)}): ${g.answer}`),
+    `- [Glossary](${abs("/guides#glossary")}): ${glossary.map((t) => t.term).join(", ")}`,
     "",
     "## Categories",
     "",
@@ -38,6 +47,7 @@ export async function GET() {
     "## Other resources",
     "",
     `- [Sitemap](${abs("/sitemap.xml")})`,
+    ...sameAs.map((url) => `- ${url}`),
     "",
   ];
   return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { FilmPlayer } from "@/components/FilmPlayer";
+import { GuideSections, matchingReviews } from "@/components/Guide";
 import { ContactPanel, PageHero, Photo, ProductCard } from "@/components/ui";
-import { getCategoriesWithProducts, getFilms } from "@/lib/data";
-import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
+import { categoryGuides } from "@/lib/category-guides";
+import { getCategoriesWithProducts, getFilms, getReviews } from "@/lib/data";
+import { breadcrumbJsonLd, faqJsonLd, pageMeta } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -21,8 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {};
   const n = category.products.length;
   return pageMeta({
-    title: category.name,
-    description: `${category.name} from Everest: ${n} ${n === 1 ? "model" : "models"} with full specifications. Price on request. Get a quote.`,
+    title: `${category.name} in Pune, Pimpri-Chinchwad`,
+    description: `${category.name} from Everest, Pimpri-Chinchwad, Pune: ${n} ${n === 1 ? "model" : "models"} with full specifications, a buying guide and answers. Get a quote.`,
     path: `/categories/${category.slug}`,
     image: category.image_url ?? category.products[0]?.image_url,
   });
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const [categories, films] = await Promise.all([getCategoriesWithProducts(), getFilms()]);
+  const [categories, films, allReviews] = await Promise.all([getCategoriesWithProducts(), getFilms(), getReviews()]);
   const category = categories.find((c) => c.slug === slug);
   if (!category) notFound();
   const categoryFilm = films.find((f) => f.category_id === category.id);
@@ -40,6 +42,8 @@ export default async function CategoryPage({ params }: Props) {
   const count = category.products.length;
   const cover = category.image_url ?? category.products[0]?.image_url;
   const first = category.products[0];
+  const guide = categoryGuides[category.slug];
+  const reviews = matchingReviews(allReviews, guide);
 
   return (
     <>
@@ -50,6 +54,7 @@ export default async function CategoryPage({ params }: Props) {
           { name: category.name, path: `/categories/${category.slug}` },
         ])}
       />
+      {guide && <JsonLd data={faqJsonLd(guide.faq)} />}
       <section className="page">
         <p className="pt-3 text-[15px] text-muted">
           <Link prefetch={false} href="/products" className="inline-block py-2 hover:text-brand">Products</Link> / {category.name}
@@ -57,7 +62,7 @@ export default async function CategoryPage({ params }: Props) {
         <PageHero
           kicker="Category"
           title={category.name}
-          intro={`${count} ${count === 1 ? "model" : "models"}. Price on request.`}
+          intro={`${guide ? `${guide.who} ` : ""}${count} ${count === 1 ? "model" : "models"}. Price on request.`}
           actions={
             <>
               <Link prefetch={false} href="/contact" className="btn btn-primary">Get a quote</Link>
@@ -72,7 +77,7 @@ export default async function CategoryPage({ params }: Props) {
                 className="block rounded-panel bg-surface p-5 md:p-8"
                 aria-label={`Open ${first.name}`}
               >
-                <Photo priority src={cover} alt="" className="on-ground mx-auto h-auto max-h-[340px] w-full object-contain" />
+                <Photo priority src={cover} alt={`Everest ${category.name.toLowerCase()}`} className="on-ground mx-auto h-auto max-h-[340px] w-full object-contain" />
               </Link>
             ) : undefined
           }
@@ -90,6 +95,7 @@ export default async function CategoryPage({ params }: Props) {
           {filmModel && <p className="mt-3 text-[15px] text-muted">Film shows the {filmModel.name}. Other models differ.</p>}
         </section>
       )}
+      {guide && <GuideSections guide={guide} name={category.name} faq={guide.faq} reviews={reviews} />}
       <ContactPanel />
     </>
   );

@@ -17,6 +17,9 @@ Publish only what is in the Approved list. A fact can move here only with a sour
 | Rental: large air compressors, hand pallet trucks and stackers | Owner, 2026-11-13 |
 | Justdial certificate | Owner, 2026-11-13 |
 | Instagram: instagram.com/everestaircompressor | Owner, 2026-11-13 |
+| Facebook: facebook.com/profile.php?id=61593183570687 | Owner, 2026-11-13 |
+| Google Maps: maps.google.com/?cid=14653580160157998466, pin 18.6641151, 73.7935742 | Owner's Google account, 2026-11-13 |
+| Justdial: Everest-Hydro-Pneumatic-Solutions-Thermax-Chauk-Chinchwad-East listing | Google search, 2026-11-13 |
 | everesthps.in is the owner's own IndiaMART-built site | Owner, 2026-11-13 |
 | Manufacturer, dealer and end-user supplier | Owner |
 | Sells to dealers | Owner |

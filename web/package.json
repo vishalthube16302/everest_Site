@@ -6,7 +6,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/build-redirects.mjs && node -e \"require('fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\"",
     "build": "next build",
-    "postbuild": "node scripts/indexnow.mjs",
+    "postbuild": "node scripts/check-site.mjs && node scripts/indexnow.mjs",
     "start": "next start"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pageMeta } from "@/lib/seo";
+import { mapsUrl, pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { CategoryTile, ContactPanel, PageHero, Photo, StatBlock } from "@/components/ui";
 import { getCategoryTiles, getSite, storageUrl } from "@/lib/data";
@@ -9,7 +9,7 @@ export const metadata: Metadata = pageMeta({ title: "About Everest", description
 export default async function AboutPage() {
   const [site, categories] = await Promise.all([getSite(), getCategoryTiles()]);
   const { ratings } = site;
-  const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
+  const maps = mapsUrl;
   return (
     <>
       <section className="page">
@@ -58,6 +58,37 @@ export default async function AboutPage() {
             <p className="tabular mt-5 text-[15px] text-muted-on-dark">GSTIN {site.gstin}</p>
           </div>
         </div>
+      </section>
+
+      {/* Facts in one place, in plain words, so search engines and AI answers quote them correctly. */}
+      <section className="page section">
+        <h2 className="display section-title mb-6">Quick facts.</h2>
+        <dl className="grid gap-x-8 rounded-card bg-surface p-6 md:grid-cols-2 md:p-8">
+          {[
+            ["Company", site.name],
+            ["Founded", String(site.established)],
+            ["Based in", "Pimpri-Chinchwad, Pune, Maharashtra, India"],
+            ["What we are", "Manufacturer, dealer and end-user supplier. We also sell to dealers."],
+            ["Products", "Oil-free silent, dental and lab, screw and reciprocating air compressors, compressor motors, pallet trucks, stackers and lifting tables"],
+            ["Services", "On-site compressor repair and servicing, installation, spare parts, second-hand compressors"],
+            ["On rent", "Large air compressors, hand pallet trucks and stackers"],
+            ["Areas", "Pune and across Maharashtra"],
+            ["Ratings", `${ratings.google.score} from ${ratings.google.count} Google reviews; ${ratings.indiamart.score} from ${ratings.indiamart.count} IndiaMART reviews`],
+            ["Listings", "IndiaMART TrustSEAL; Justdial certificate"],
+            ["Hours", site.hours],
+            ["Phone and WhatsApp", site.phoneDisplay],
+          ].map(([k, v]) => (
+            <div key={k} className="border-b border-line py-3">
+              <dt className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted">{k}</dt>
+              <dd className="mt-1">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-4 flex flex-wrap gap-x-5">
+          <Link prefetch={false} href="/services" className="inline-block py-2 font-semibold text-brand hover:underline">Services →</Link>
+          <Link prefetch={false} href="/services/areas-served" className="inline-block py-2 font-semibold text-brand hover:underline">Areas served →</Link>
+          <Link prefetch={false} href="/guides" className="inline-block py-2 font-semibold text-brand hover:underline">Guides →</Link>
+        </p>
       </section>
 
       <section className="page section">

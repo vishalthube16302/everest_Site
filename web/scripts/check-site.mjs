@@ -28,7 +28,8 @@ for (const f of files.filter((f) => /\.(html|txt|xml|json)$/.test(f))) {
   const rel = relative(out, f).split("\\").join("/");
   for (const re of banned) if (re.test(text) && !/^_next\//.test(rel)) problems.push(`${rel}: matches ${re}`);
 }
-const expectIndexable = process.env.EXPECT_INDEXABLE === "true";
+// In a host build, EXPECT_INDEXABLE is not set, so the build's own SITE_INDEXABLE decides.
+const expectIndexable = (process.env.EXPECT_INDEXABLE ?? process.env.SITE_INDEXABLE) === "true";
 const pageExists = (path) => path === "/" || existsSync(join(out, path + ".html"));
 for (const f of pages) {
   const html = readFileSync(f, "utf8");
@@ -38,6 +39,9 @@ for (const f of pages) {
   const desc = html.match(/<meta name="description" content="([^"]*)"/)?.[1];
   const canon = html.match(/<link rel="canonical" href="([^"]*)"/)?.[1];
   const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
+  // Hindi and Marathi drafts stay noindex and out of the sitemap until checked (web/src/lib/lang-pages.ts).
+  if (/^(hi|mr)(\/|\.html$)/.test(rel) && noindex) continue;
+  if (title && [...title].length > 70) problems.push(`${rel}: title is ${[...title].length} characters (Bing flags over 70)`);
   if (!title) problems.push(`${rel}: no title`); else titles.set(title, [...(titles.get(title) ?? []), rel]);
   if (!desc) problems.push(`${rel}: no description`); else descs.set(desc, [...(descs.get(desc) ?? []), rel]);
   if (!canon) problems.push(`${rel}: no canonical`);
@@ -60,6 +64,12 @@ for (const f of pages) {
     if (/[A-Z]/.test(href)) problems.push(`${rel}: link with capitals ${href}`);
     if (!/^\/admin/.test(href) && !pageExists(href.split("?")[0])) problems.push(`${rel}: link to missing page ${href}`);
   }
+  // Thin pages do not get indexed (Phase 6). Products, categories, services and guides need real text.
+  if (/^(products|categories|services|guides)\//.test(rel)) {
+    const words = html.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+    if (words < 300) problems.push(`${rel}: thin page, ${words} words`);
+  }
+  if (desc && desc.length < 70) problems.push(`${rel}: description is only ${desc.length} characters`);
   if (desc && desc.length > 170) problems.push(`${rel}: description is ${desc.length} characters`);
   if (expectIndexable && noindex) problems.push(`${rel}: noindex while indexable`);
   if (!expectIndexable && !noindex) problems.push(`${rel}: missing noindex while blocked`);

@@ -87,7 +87,7 @@ export function CategoryTile({ category, wide = false }: { category: CategoryTil
       {category.image && (
         <Photo
           src={category.image}
-          alt=""
+          alt={`Everest ${category.name.toLowerCase()}`}
           className={`on-ground pointer-events-none mt-auto h-auto w-full object-contain pt-3 ${wide ? "sm:mx-auto sm:max-w-[62%]" : ""}`}
         />
       )}
@@ -203,5 +203,19 @@ export async function ContactPanel({ productName }: { productName?: string }) {
         </div>
       </div>
     </section>
+  );
+}
+
+// Questions and answers, all visible. Text hidden in accordions counts for less with Google and AI answers.
+export function FaqList({ faq }: { faq: { q: string; a: string }[] }) {
+  return (
+    <dl className="divide-y divide-line rounded-card bg-surface px-6 md:px-8">
+      {faq.map((f) => (
+        <div key={f.q} className="py-5">
+          <dt className="text-lg font-semibold">{f.q}</dt>
+          <dd className="mt-2 max-w-[70ch] text-muted">{f.a}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
