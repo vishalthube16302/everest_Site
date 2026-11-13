@@ -12,8 +12,12 @@ export const indexable = process.env.SITE_INDEXABLE === "true";
 // so the sitemap, structured data and llms.txt print it the same way. One page, one string.
 export const abs = (path: string) => `${siteUrl}${path === "/" ? "" : path}`;
 
+// Share picture for pages without their own photo. Made by tools/images/og_image.py.
+const shareImage = { url: abs("/img/og-default.jpg"), width: 1200, height: 630, alt: "Everest air compressors, pallet trucks and stackers" };
+
 // Title, description and canonical for one page. Wording must stay inside docs/content/verified-facts.md.
 export function pageMeta({ title, description, path, image }: { title: string; description: string; path: string; image?: string | null }): Metadata {
+  const images = image ? [{ url: image }] : [shareImage];
   return {
     title,
     description,
@@ -25,10 +29,18 @@ export function pageMeta({ title, description, path, image }: { title: string; d
       siteName: "Everest Hydro Pneumatic Solutions",
       type: "website",
       locale: "en_IN",
-      ...(image ? { images: [{ url: image }] } : {}),
+      images,
     },
+    twitter: { card: "summary_large_image", title, description, images: images.map((i) => i.url) },
   };
 }
+
+// The company's own profiles elsewhere. Add Google, Justdial and Facebook links once confirmed.
+export const sameAs = [
+  "https://www.instagram.com/everestaircompressor/",
+  "https://www.indiamart.com/everesthydro-pneumatic-solution/",
+  "https://www.everesthps.in/",
+];
 
 const trim = (text: string, max = 158) => (text.length <= max ? text : `${text.slice(0, max - 1).replace(/\s+\S*$/, "")}…`);
 
@@ -91,6 +103,7 @@ export function companyJsonLd(site: SiteInfo): JsonLdNode[] {
       telephone: phone,
       foundingDate: String(site.established),
       taxID: site.gstin,
+      sameAs,
     },
     {
       "@context": "https://schema.org",

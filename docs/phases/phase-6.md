@@ -18,9 +18,9 @@ Started 2026-11-13 after an audit of the live site, Search Console, Cloudflare a
 Google Business Profile (done by Claude in the owner's browser 2026-11-13, pending Google review):
 - [x] Website: `https://everesthps.com` (was `http://www.`)
 - [x] Hours: Mon to Sat, 9:00 AM to 7:30 PM
-- [x] Description rewritten: products, services (repair, rent, second-hand, spare parts, AMC), areas
+- [x] Description rewritten: products, services (on-site repair, rent, second-hand, spare parts), areas. AMC removed 2026-11-13
 - [x] Categories added: Equipment rental agency, Industrial equipment supplier, Hydraulic equipment supplier
-- [x] 11 services added (rent, second-hand, spare parts, installation and AMC, product lines, lifting tables, scale pallet trucks)
+- [x] 13 services added (compressor rent, pallet truck and stacker rent, second-hand, spare parts, installation and on-site servicing, product lines, lifting tables, scale pallet trucks)
 - [ ] Owner: add products with photos, post one update a week, reply to every review
 - [ ] Owner: business name stays as is for now (owner, 2026-11-13)
 
@@ -31,21 +31,25 @@ Owner, elsewhere:
 
 Claude, in code:
 - [x] Rebuilt the live site (Cloudflare retry deployment, 2026-11-13): 29 new reviews and hours live
-- [ ] Commit the 7:30 PM text in code (contact page description still says 6:30 until then)
-- [ ] Cloudflare: turn on Content Signals and Markdown for Agents (free)
-- [ ] IndexNow key file and a ping on every publish (Bing, Yandex, no login)
-- [ ] Share image (og:image) on home and every main page
-- [ ] `lastmod` dates in the sitemap
-- [ ] Justdial rating on the reviews page
+- [x] 7:30 PM text in code (PR #19)
+- [x] Services list in Everest V2 fixed: AMC and "Custom Solutions" removed; now sales, installation, on-site repair and servicing, spare parts, on rent, second-hand (2026-11-13)
+- [x] Services and reviews descriptions, `llms.txt` services line match the approved facts
+- [x] Content Signals line in `robots.txt` (search, AI answers and training all allowed)
+- [ ] Cloudflare Markdown for Agents (dashboard, if the free plan has it)
+- [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
+- [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
+- [x] Organization `sameAs`: Instagram, IndiaMART, everesthps.in. Google, Justdial and Facebook links to add
+- [ ] `lastmod` in the sitemap: needs a "last changed" date column in Everest V2. Owner declined the database change for now
+- Justdial rating on the reviews page: skipped (owner, 2026-11-13)
 
 ## Step 2: Pages people already search for (weeks 2 to 3)
 
 New pages, each with a short direct answer at the top, an FAQ and a quote button:
-- [ ] Air compressor repair and servicing, Pune and Pimpri-Chinchwad
-- [ ] Air compressor on rent
+- [ ] Air compressor repair and on-site servicing, Pune and Pimpri-Chinchwad
+- [ ] On rent: large air compressors, hand pallet trucks and stackers
 - [ ] Second-hand air compressors
-- [ ] Compressor spare parts (filters, valves, motors, oil)
-- [ ] Installation and AMC
+- [ ] Compressor spare parts
+- [ ] Installation (no AMC page: owner not offering AMC for now)
 - [ ] Areas served page from the Business Profile list (Pune, Mumbai, Nashik, Satara and others). One page, not a page per city, until we have real work in each city.
 
 ## Step 3: Better product and category pages (weeks 3 to 5)
@@ -61,8 +65,8 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 
 - [ ] Guides that answer real questions: what size compressor, oil-free vs oil, how to maintain, why a compressor will not start, pallet truck capacity
 - [ ] Glossary: CFM, LPM, bar, dB, duty cycle, oil-free
-- [ ] Clear facts block on About: founded 2020, location, what we make, sell and service
-- [ ] Organization schema with `sameAs` links to Google, IndiaMART, Justdial, Instagram, Facebook
+- [ ] Clear facts block on About: founded 2020, location, what we make, sell and service, IndiaMART TrustSEAL and Justdial certificate
+- [ ] Organization schema with `sameAs` links to Google, IndiaMART, Justdial, Instagram (instagram.com/everestaircompressor), Facebook (link needed)
 - [ ] Keep `llms.txt` and `/ai-discover` up to date with the new pages
 - [ ] Wikidata entry for the company
 - [ ] YouTube: upload the product films with descriptions and chapters

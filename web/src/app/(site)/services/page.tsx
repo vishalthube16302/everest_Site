@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ContactPanel, PageHero } from "@/components/ui";
 import { getServices } from "@/lib/data";
 
-export const metadata: Metadata = pageMeta({ title: "Services", description: "Sales, installation and commissioning, annual maintenance contracts, repair and spare parts, and custom solutions from Everest. Installation and nearby delivery offered.", path: "/services" });
+export const metadata: Metadata = pageMeta({ title: "Services", description: "Air compressor repair and on-site servicing, installation, spare parts, second-hand compressors, and compressors, pallet trucks and stackers on rent.", path: "/services" });
 
 export default async function ServicesPage() {
   const services = await getServices();

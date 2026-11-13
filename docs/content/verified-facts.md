@@ -13,7 +13,10 @@ Publish only what is in the Approved list. A fact can move here only with a sour
 | everesthps@gmail.com | Site settings |
 | GSTIN 27ATEPT3692E1ZD | Site settings, IndiaMART |
 | Mon to Sat, 9:00 AM to 7:30 PM | Owner, 2026-11-13 |
-| Services: compressor repair, servicing, rental, second-hand sales, spare parts | Owner, 2026-11-13 |
+| Services: on-site compressor repair and servicing, installation, second-hand sales, spare parts | Owner, 2026-11-13 |
+| Rental: large air compressors, hand pallet trucks and stackers | Owner, 2026-11-13 |
+| Justdial certificate | Owner, 2026-11-13 |
+| Instagram: instagram.com/everestaircompressor | Owner, 2026-11-13 |
 | everesthps.in is the owner's own IndiaMART-built site | Owner, 2026-11-13 |
 | Manufacturer, dealer and end-user supplier | Owner |
 | Sells to dealers | Owner |
@@ -38,6 +41,7 @@ Ratings change, so refresh them before launch.
 | 50+ products | Products, About | Check after the catalogue update |
 | Free pan-India delivery | Home | Owner must confirm |
 | Free installation | Products, `llms.txt` | Owner must confirm scope |
+| AMC (annual maintenance contract) | Business Profile draft | Not offered for now (owner, 2026-11-13) |
 | Screw compressors 5 to 100 HP | Products FAQ | Listings show other ranges |
 | Price range | Products FAQ | Prices stay hidden |
 | Certifications | Plan text | None confirmed |

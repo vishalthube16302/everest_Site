@@ -117,3 +117,10 @@ Newest first. One line each, with the reason.
 - Opening hours are Mon to Sat, 9:00 AM to 7:30 PM (owner, 2026-11-13). Database, fallback and contact text updated.
 - Product schema stays without price or rating. Google's product warning is accepted while prices are hidden. Ratings from Google or IndiaMART are not marked up, because Google does not accept ratings copied from other sites. Date: 2026-11-13.
 - Service pages (repair, rent, second-hand, spare parts) are allowed: owner confirmed all are offered. One areas-served page, not one page per city, to avoid thin doorway pages. Date: 2026-11-13.
+- Cloudflare Preview builds failed (no Supabase key). Added `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `NEXT_PUBLIC_FILMS_BASE_URL` to Preview. `SITE_INDEXABLE` stays unset there, so previews are not indexed. Date: 2026-11-13.
+- No AMC for now (owner). Removed from the Business Profile and the plan. Rental covers large air compressors, hand pallet trucks and stackers. Date: 2026-11-13.
+- Services rows in Everest V2 rewritten to the approved list: AMC and "Custom Solutions" were showing on the live Services page. Date: 2026-11-13.
+- Content-Signal in `robots.txt` set to search, ai-input and ai-train all "yes": the goal is to be found and quoted by AI chat. `robots.ts` replaced by a route so the line can be written. Date: 2026-11-13.
+- IndexNow runs after each live build and sends only pages whose visible text changed, using `indexnow-state.json` published with the site. The key is public by design. Date: 2026-11-13.
+- Sitemap `lastmod` postponed: owner declined adding `updated_at` columns. Build dates would be wrong signals, so none are sent. Date: 2026-11-13.
+- Justdial rating not shown on the site (owner: not important). Date: 2026-11-13.
