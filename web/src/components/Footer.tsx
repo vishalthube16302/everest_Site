@@ -33,6 +33,8 @@ export function Footer({ site }: { site: SiteInfo }) {
           {!site.nav.some((item) => item.href === "/gallery") && (
             <Link prefetch={false} href="/gallery" className="inline-block py-2 hover:text-brand">Gallery</Link>
           )}
+          <Link prefetch={false} href="/guides" className="inline-block py-2 hover:text-brand">Guides</Link>
+          <Link prefetch={false} href="/services/areas-served" className="inline-block py-2 hover:text-brand">Areas served</Link>
           <Link prefetch={false} href="/privacy" className="inline-block py-2 hover:text-brand">Privacy</Link>
           <Link prefetch={false} href="/terms" className="inline-block py-2 hover:text-brand">Terms</Link>
         </nav>

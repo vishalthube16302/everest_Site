@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Product, SiteInfo } from "./data";
 import { keySpecs, specRows } from "./data";
+import { langPath, langs } from "./lang-pages";
 
 // Address of the public site. Canonical links, the sitemap and structured data use it.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://everesthps.com").replace(/\/+$/, "");
@@ -16,19 +17,28 @@ export const abs = (path: string) => `${siteUrl}${path === "/" ? "" : path}`;
 const shareImage = { url: abs("/img/og-default.jpg"), width: 1200, height: 630, alt: "Everest air compressors, pallet trucks and stackers" };
 
 // Title, description and canonical for one page. Wording must stay inside docs/content/verified-facts.md.
-export function pageMeta({ title, description, path, image }: { title: string; description: string; path: string; image?: string | null }): Metadata {
+// hreflang links between an English page and its live Hindi and Marathi versions. Drafts get none.
+function languageLinks(path: string): Record<string, string> | undefined {
+  const english = langs.flatMap((l) => l.pages.map((p) => ({ l, p }))).find(({ l, p }) => path === p.english || path === langPath(l.code, p.slug))?.p.english;
+  if (!english) return undefined;
+  const live = langs.flatMap((l) => (l.live ? l.pages.filter((p) => p.english === english).map((p) => [l.code, abs(langPath(l.code, p.slug))]) : []));
+  return live.length ? Object.fromEntries([["en", abs(english)], ...live, ["x-default", abs(english)]]) : undefined;
+}
+
+export function pageMeta({ title, description, path, image, lang }: { title: string; description: string; path: string; image?: string | null; lang?: string }): Metadata {
   const images = image ? [{ url: image }] : [shareImage];
+  const languages = languageLinks(path);
   return {
     title,
     description,
-    alternates: { canonical: abs(path) },
+    alternates: { canonical: abs(path), ...(languages ? { languages } : {}) },
     openGraph: {
       title,
       description,
       url: abs(path),
       siteName: "Everest Hydro Pneumatic Solutions",
       type: "website",
-      locale: "en_IN",
+      locale: lang ? `${lang}_IN` : "en_IN",
       images,
     },
     twitter: { card: "summary_large_image", title, description, images: images.map((i) => i.url) },

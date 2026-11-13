@@ -49,6 +49,16 @@ export default async function AreasPage() {
           <p className="mt-3 text-lg">{site.address}</p>
           <p className="mt-2 text-muted">{site.hours}</p>
         </div>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="rounded-card bg-surface p-6 md:p-8">
+            <h2 className="display card-title">Near our base</h2>
+            <p className="mt-3 text-muted">Pimpri-Chinchwad, Pune and the nearby industrial areas are closest to our base. Call to arrange on-site repair, servicing or installation. Nearby delivery is offered.</p>
+          </div>
+          <div className="rounded-card bg-surface p-6 md:p-8">
+            <h2 className="display card-title">Across Maharashtra</h2>
+            <p className="mt-3 text-muted">For Mumbai, Nashik, Satara, Solapur, Ahilyanagar, Chhatrapati Sambhajinagar and other places, call or WhatsApp us with your town and what you need. We tell you what we can supply and how it reaches you.</p>
+          </div>
+        </div>
       </section>
       <section className="page section">
         <h2 className="display section-title mb-6">What we do.</h2>
@@ -57,6 +67,7 @@ export default async function AreasPage() {
             <li key={s.slug}>
               <Link prefetch={false} href={`/services/${s.slug}`} className="tile block h-full rounded-card bg-surface p-6 md:p-7">
                 <h3 className="display card-title">{s.name}</h3>
+                <p className="mt-2 text-muted">{s.answer.split(". ")[0]}.</p>
                 <span className="mt-4 inline-block text-[15px] font-semibold">Read more →</span>
               </Link>
             </li>

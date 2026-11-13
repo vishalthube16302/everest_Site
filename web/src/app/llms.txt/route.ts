@@ -1,5 +1,6 @@
 import { getCategoriesWithProducts, getSite } from "@/lib/data";
 import { abs, sameAs } from "@/lib/seo";
+import { glossary, guides } from "@/lib/guides";
 import { serviceAreas, servicePages } from "@/lib/service-pages";
 
 export const dynamic = "force-static";
@@ -33,6 +34,11 @@ export async function GET() {
     `- [Reviews](${abs("/reviews")}): customer reviews from Google and IndiaMART`,
     `- [About](${abs("/about")}): the company`,
     `- [Contact](${abs("/contact")}): enquiry form, phone and WhatsApp`,
+    "",
+    "## Guides",
+    "",
+    ...guides.map((g) => `- [${g.title}](${abs(`/guides/${g.slug}`)}): ${g.answer}`),
+    `- [Glossary](${abs("/guides#glossary")}): ${glossary.map((t) => t.term).join(", ")}`,
     "",
     "## Categories",
     "",

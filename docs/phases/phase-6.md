@@ -35,7 +35,7 @@ Claude, in code:
 - [x] Services list in Everest V2 fixed: AMC and "Custom Solutions" removed; now sales, installation, on-site repair and servicing, spare parts, on rent, second-hand (2026-11-13)
 - [x] Services and reviews descriptions, `llms.txt` services line match the approved facts
 - [x] Content Signals line in `robots.txt` (search, AI answers and training all allowed)
-- [ ] Cloudflare Markdown for Agents (dashboard, if the free plan has it)
+- [ ] Cloudflare Markdown for Agents (dashboard, if the free plan has it). Browser link dropped 2026-11-13; do next session
 - [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
 - [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
 - [x] Organization and LocalBusiness `sameAs`: Google Maps, IndiaMART, Justdial, Facebook, Instagram, everesthps.in. Map pin and `hasMap`. Footer "Find us on" links. Maps buttons open the Google profile
@@ -56,36 +56,37 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 
 ## Step 3: Better product and category pages (weeks 3 to 5)
 
-- [ ] Product pages to 400+ words: who it is for, where it is used, how to choose, FAQ. Specs from the database only.
-- [ ] Category pages: buying guide and FAQ with FAQPage schema
-- [ ] Comparison inside our range (oil-free vs reciprocating, which HP for which use)
-- [ ] Reviews that name a product shown on that product page
-- [ ] Admin fields for meta title, description and FAQ per product
-- [ ] Publish check stops on missing title, thin text or broken schema
+- [x] Product pages to 400+ words (now 482 to 805): about the model from its specs, who it is for, where used, how to choose, reviews, FAQ with FAQPage schema. Guide text in `web/src/lib/category-guides.ts`
+- [x] Category pages: buying guide, matching reviews, FAQ with FAQPage schema
+- [x] Comparison: guides "Oil-free vs oil-lubricated" and "What size air compressor do I need"
+- [x] Reviews that name a product type shown on its category and product pages (word for word)
+- [ ] Admin fields for meta title, description and FAQ per product: needs new database columns, waiting for owner's OK
+- [x] Every build runs `check-site` (titles, descriptions, canonicals, JSON-LD, thin pages under 300 words). A failed check stops the publish, so the live site keeps the last good version
 
 ## Step 4: AI search (GEO) (weeks 4 to 6)
 
-- [ ] Guides that answer real questions: what size compressor, oil-free vs oil, how to maintain, why a compressor will not start, pallet truck capacity
-- [ ] Glossary: CFM, LPM, bar, dB, duty cycle, oil-free
-- [ ] Clear facts block on About: founded 2020, location, what we make, sell and service, IndiaMART TrustSEAL and Justdial certificate
-- [ ] Organization schema with `sameAs` links to Google, IndiaMART, Justdial, Instagram (instagram.com/everestaircompressor), Facebook (link needed)
-- [ ] Keep `llms.txt` and `/ai-discover` up to date with the new pages
-- [ ] Wikidata entry for the company
-- [ ] YouTube: upload the product films with descriptions and chapters
+- [x] 5 guides at `/guides` (sizing, oil-free vs oil, maintenance checklist, will not start, choosing a pallet truck) with Article and FAQPage schema
+- [x] Glossary of 15 terms at `/guides#glossary` with DefinedTermSet schema
+- [x] Quick facts block on About
+- [x] `sameAs` links to Google, IndiaMART, Justdial, Facebook, Instagram, everesthps.in
+- [x] `llms.txt` lists services, areas, guides, glossary and profiles (built automatically)
+- [ ] Wikidata entry for the company (owner's go-ahead needed)
+- [ ] YouTube: upload the product films with descriptions and chapters (owner's channel needed)
 
 ## Step 5: Hindi and Marathi (weeks 6 to 8)
 
-- [ ] Hindi and Marathi versions of home, services, repair, rent and top categories
-- [ ] `hreflang` links between languages
-- [ ] Owner or a native speaker checks every page
+- [x] Hindi and Marathi drafts built: `/hi`, `/hi/air-compressor-repair`, `/hi/rent` and the same under `/mr`. Text in `web/src/lib/lang-pages.ts`. Hidden from Google (noindex, not in sitemap) until checked
+- [x] `hreflang` links added automatically when a language is set `live: true` (tested)
+- [ ] Owner or a native speaker checks every page, then set `live: true` (open question 14)
 
 ## Step 6: Measure every month
 
-- [ ] Search Console: clicks, new queries, pages not indexed
+- [x] Monthly routine written: `../ops/seo-monthly.md` (Search Console, Bing, GA4, Cloudflare, 20 AI questions, log table)
+- [ ] First monthly check: early December 2026
 - [ ] Bing Webmaster: owner signs up later, imports from Search Console
-- [ ] GA4: enquiries, calls and WhatsApp by source, including AI chat
-- [ ] Cloudflare AI Crawl Control: which bots read which pages
-- [ ] Ask the same 20 questions in ChatGPT, Gemini and Perplexity. Note if Everest is named.
+- [ ] GA4 monthly: enquiries, calls and WhatsApp by source, including AI chat (steps in the routine)
+- [ ] Cloudflare AI Crawl Control monthly: which bots read which pages
+- [ ] Monthly: ask the same 20 questions (list in the routine) in ChatGPT, Gemini and Perplexity. Note if Everest is named.
 
 ## Rules
 

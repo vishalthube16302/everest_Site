@@ -128,3 +128,7 @@ Newest first. One line each, with the reason.
 - Service pages make no claim on price, response time, warranty or AMC. FAQ answers use only approved facts plus general compressor know-how. Date: 2026-11-13.
 - Maps links on Contact and About open the Google Business Profile (place id), not an address search, so visitors land on our reviews. Date: 2026-11-13.
 - No PR until the owner asks; one PR for the day's changes (owner, 2026-11-13).
+- Category guides, guides and the glossary are written in code (`category-guides.ts`, `guides.ts`), from general know-how plus approved facts. Product text is built from database specs only. Date: 2026-11-13.
+- `check-site` now runs after every build (`postbuild`), before IndexNow. A failed check fails the Cloudflare build, so a broken or thin page never replaces the live site. Thin means under 300 words on product, category, service and guide pages. Date: 2026-11-13.
+- Hindi and Marathi pages are drafts by Claude: noindex, not in the sitemap, no hreflang, until a native speaker checks them. One switch per language (`live`) in `lang-pages.ts`. Date: 2026-11-13.
+- No PR until the owner asks. Today's work stays on `feature/phase-6-day-2026-11-13`. Date: 2026-11-13.

@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { Gallery } from "@/components/Gallery";
+import { GuideSections, matchingReviews } from "@/components/Guide";
 import { PriceBlock, ProductCard, SpecTable } from "@/components/ui";
-import { getCategoriesWithProducts, getFilms, getPrice, getProductImages, getProducts, getSite, specRows } from "@/lib/data";
-import { breadcrumbJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
+import { categoryGuides } from "@/lib/category-guides";
+import { getCategoriesWithProducts, getFilms, getPrice, getProductImages, getProducts, getReviews, getSite, keySpecs, specRows } from "@/lib/data";
+import { breadcrumbJsonLd, faqJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -31,12 +33,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const [products, categories, images, films, site] = await Promise.all([
+  const [products, categories, images, films, site, allReviews] = await Promise.all([
     getProducts(),
     getCategoriesWithProducts(),
     getProductImages(),
     getFilms(),
     getSite(),
+    getReviews(),
   ]);
   const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
@@ -53,6 +56,13 @@ export default async function ProductPage({ params }: Props) {
       .map((i, n) => ({ src: i.image_url, alt: i.alt_text ?? `${product.name}, photo ${n + 2}` })),
   ];
 
+  // Words for search and AI answers, built only from this model's database specs and the category guide.
+  const guide = category ? categoryGuides[category.slug] : undefined;
+  const key = keySpecs(product, 4);
+  const specFaq = key.slice(0, 3).map((r) => ({ q: `What is the ${r.label.toLowerCase()} of the ${product.name}?`, a: `${r.value}. See the full table above, or ask us.` }));
+  const faq = [...specFaq, ...(guide?.faq ?? []), { q: `How do I get a price for the ${product.name}?`, a: `Call or WhatsApp ${site.phoneDisplay}, or send an enquiry. We reply within 24 hours.` }];
+  const reviews = matchingReviews(allReviews, guide);
+
   const trail = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
@@ -62,7 +72,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <JsonLd data={[productJsonLd(product, category?.name, photos.map((p) => p.src)), breadcrumbJsonLd(trail)]} />
+      <JsonLd data={[productJsonLd(product, category?.name, photos.map((p) => p.src)), breadcrumbJsonLd(trail), faqJsonLd(faq)]} />
       {/* One screen at 100% zoom: photos left; name, price, every spec and the buttons right. */}
       <section className="page pt-1 md:pt-2">
         <p className="pb-3 text-[14px] text-muted">
@@ -99,6 +109,18 @@ export default async function ProductPage({ params }: Props) {
         </section>
       )}
 
+
+      <section className="page section">
+        <h2 className="display section-title">About the {product.name}</h2>
+        <p className="mt-4 max-w-[70ch] text-lg">
+          The {product.name} is {category ? `one of ${category.products.length} models in our ${category.name.toLowerCase()} range` : "an Everest product"}, supplied from Pimpri-Chinchwad, Pune.
+          {key.length > 0 && ` Key figures: ${key.map((r) => `${r.label.toLowerCase()} ${r.value}`).join("; ")}.`}
+          {guide && ` ${guide.who}`}
+        </p>
+        <p className="mt-3 max-w-[70ch] text-muted">Price on request. Nearby delivery is offered. We reply within 24 hours.</p>
+      </section>
+
+      {guide && category && <GuideSections guide={guide} name={category.name} faq={faq} reviews={reviews} />}
 
       {related.length > 0 && (
         <section className="page section">
