@@ -77,7 +77,7 @@ export default async function CategoryPage({ params }: Props) {
                 className="block rounded-panel bg-surface p-5 md:p-8"
                 aria-label={`Open ${first.name}`}
               >
-                <Photo priority src={cover} alt="" className="on-ground mx-auto h-auto max-h-[340px] w-full object-contain" />
+                <Photo priority src={cover} alt={`Everest ${category.name.toLowerCase()}`} className="on-ground mx-auto h-auto max-h-[340px] w-full object-contain" />
               </Link>
             ) : undefined
           }

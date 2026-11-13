@@ -39,7 +39,7 @@ Claude, in code:
 - [x] IndexNow: key file and `scripts/indexnow.mjs` after each live build; sends only pages whose text changed
 - [x] Share image `img/og-default.jpg` (from `tools/images/og_image.py`) on every page without its own photo, plus large Twitter/X card
 - [x] Organization and LocalBusiness `sameAs`: Google Maps, IndiaMART, Justdial, Facebook, Instagram, everesthps.in. Map pin and `hasMap`. Footer "Find us on" links. Maps buttons open the Google profile
-- [ ] `lastmod` in the sitemap: needs a "last changed" date column in Everest V2. Owner declined the database change for now
+- [ ] `lastmod` in the sitemap: SQL ready in `../ops/pending-db-seo-fields.sql`, waiting for the owner to apply it
 - Justdial rating on the reviews page: skipped (owner, 2026-11-13)
 
 ## Step 2: Pages people already search for (weeks 2 to 3)
@@ -60,7 +60,7 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 - [x] Category pages: buying guide, matching reviews, FAQ with FAQPage schema
 - [x] Comparison: guides "Oil-free vs oil-lubricated" and "What size air compressor do I need"
 - [x] Reviews that name a product type shown on its category and product pages (word for word)
-- [ ] Admin fields for meta title, description and FAQ per product: needs new database columns, waiting for owner's OK
+- [ ] Admin fields for meta title, description and FAQ per product: same SQL file, waiting for the owner
 - [x] Every build runs `check-site` (titles, descriptions, canonicals, JSON-LD, thin pages under 300 words). A failed check stops the publish, so the live site keeps the last good version
 
 ## Step 4: AI search (GEO) (weeks 4 to 6)
@@ -83,14 +83,15 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 
 - [x] Monthly routine written: `../ops/seo-monthly.md` (Search Console, Bing, GA4, Cloudflare, 20 AI questions, log table)
 - [ ] First monthly check: early December 2026
-- [ ] Bing Webmaster and Bing Places: top priority now (ChatGPT Search leans on Bing). See `../ops/seo-review-2026-11-13.md`
+- [x] Bing Webmaster Tools: imported from Search Console, sitemap submitted, home page indexed (2026-11-13)
+- [ ] Bing Places: owner (needs a Microsoft or Facebook login)
 - [ ] GA4 monthly: enquiries, calls and WhatsApp by source, including AI chat (steps in the routine)
 - [ ] Cloudflare AI Crawl Control monthly: which bots read which pages
 - [ ] Monthly: ask the same 20 questions (list in the routine) in ChatGPT, Gemini and Perplexity. Note if Everest is named.
 
 ## Review 2026-11-13
 
-- [x] AI crawler access verified for 18 bots; review with the claude-seo checklists: `../ops/seo-review-2026-11-13.md`. Fixes: visible FAQ answers, guide dates, city in category titles, areaServed, WebSite schema, HSTS
+- [x] AI crawler access verified for 18 bots; review with the claude-seo checklists: `../ops/seo-review-2026-11-13.md`. Fixes: visible FAQ answers, guide dates, city in category titles, areaServed, WebSite schema, HSTS, shorter home title, alt text on category and film images, title length check
 
 ## Rules
 

@@ -25,11 +25,11 @@ const stackerStats = [
 
 export const metadata: Metadata = {
   ...pageMeta({
-    title: "Everest Hydro Pneumatic Solutions | Compressors, pallet trucks, stackers",
+    title: "Everest Hydro Pneumatic | Air Compressors, Pallet Trucks, Pune",
     description: "Oil-free silent, dental, screw and reciprocating air compressors, pallet trucks, stackers and lifting tables from Everest, Pimpri-Chinchwad. Get a quote.",
     path: "/",
   }),
-  title: { absolute: "Everest Hydro Pneumatic Solutions | Compressors, pallet trucks, stackers" },
+  title: { absolute: "Everest Hydro Pneumatic | Air Compressors, Pallet Trucks, Pune" },
 };
 
 export default async function HomePage() {

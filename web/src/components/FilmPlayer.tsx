@@ -19,7 +19,7 @@ export function FilmPlayer({ film }: { film: Film }) {
         <video src={src} poster={film.poster_url ?? undefined} controls autoPlay muted playsInline aria-label={label} className="h-full w-full" />
       ) : (
         <button type="button" onClick={play} aria-label={`Play: ${label}`} className="group relative block h-full w-full cursor-pointer">
-          {film.poster_url && <img src={film.poster_url} alt="" loading="lazy" className="h-full w-full object-cover" />}
+          {film.poster_url && <img src={film.poster_url} alt={film.alt_text ?? "Everest product film"} loading="lazy" className="h-full w-full object-cover" />}
           <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-surface">
             <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="#111316"><path d="M7 4.5v15l13-7.5z" /></svg>
           </span>

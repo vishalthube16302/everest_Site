@@ -16,8 +16,11 @@ Pages are static HTML, so bots that do not run JavaScript see all text.
 
 - A web search for "Everest Hydro Pneumatic Solutions Pimpri-Chinchwad" and for "everesthps.com" did not
   return our site. AI chats that use those indexes cannot cite us yet.
-- Bing `site:` check hit a captcha. ChatGPT Search leans on Bing, so **Bing Webmaster Tools and Bing Places
-  are the top owner actions.** IndexNow (live since PR #20) pings Bing on every publish.
+- **Bing Webmaster Tools set up by Claude (2026-11-13)** with the Everest Google account, imported from Search
+  Console, sitemap submitted. URL Inspection: home page "Indexed successfully, can appear on Bing". Bing's two
+  flags (home title too long, 7 images without alt text) are fixed in code. IndexNow pings Bing on every publish.
+- Search Console "Search generative AI" control: Include (checked). robots.txt valid.
+- Bing Places needs a Microsoft or Facebook login, so the owner does it.
 
 ## Fixed in code from this review
 
@@ -40,13 +43,18 @@ matches canonicals. Service page per core service (top local factor). `tel:` lin
 - `llms.txt` is not used by Google; kept for other AI tools.
 - Cloudflare Markdown for Agents needs the Pro plan. Skipped.
 
+## Waiting on the owner's OK
+
+- Database change for sitemap dates and admin SEO fields: `pending-db-seo-fields.sql` (blocked twice by the permission check)
+- Installing the claude-seo skills into `~/.claude/skills` (blocked by the permission check)
+
 ## Owner actions, by impact
 
-1. Bing Webmaster Tools: sign in with the Everest Google account, import from Search Console
+1. Done by Claude: Bing Webmaster Tools
 2. Bing Places for Business: claim the listing (feeds ChatGPT, Copilot, Alexa)
 3. Apple Business Connect: claim the listing (Apple Maps, Siri)
 4. One business name everywhere (Google says "EVEREST Air Compressor & Material Handling Equipment")
 5. Justdial: some pages still show the old Chakan address
 6. YouTube channel with the product films; LinkedIn company page; Wikidata entry
-7. Search Console: keep "Search generative AI" on "include" (default)
+7. Done: Search Console "Search generative AI" is on Include
 8. Ask happy customers for Google reviews every few weeks; reply to each

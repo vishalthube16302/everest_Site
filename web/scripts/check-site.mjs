@@ -41,6 +41,7 @@ for (const f of pages) {
   const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
   // Hindi and Marathi drafts stay noindex and out of the sitemap until checked (web/src/lib/lang-pages.ts).
   if (/^(hi|mr)(\/|\.html$)/.test(rel) && noindex) continue;
+  if (title && [...title].length > 70) problems.push(`${rel}: title is ${[...title].length} characters (Bing flags over 70)`);
   if (!title) problems.push(`${rel}: no title`); else titles.set(title, [...(titles.get(title) ?? []), rel]);
   if (!desc) problems.push(`${rel}: no description`); else descs.set(desc, [...(descs.get(desc) ?? []), rel]);
   if (!canon) problems.push(`${rel}: no canonical`);

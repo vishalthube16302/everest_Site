@@ -136,3 +136,5 @@ Newest first. One line each, with the reason.
 - SEO review used the claude-seo skill checklists (MIT) read from a downloaded copy; their scripts and hooks were not run, and installing them was blocked by the safety check. Findings in `ops/seo-review-2026-11-13.md`. Date: 2026-11-13.
 - FAQ answers are always visible, not in accordions. HSTS (1 year, no preload), X-Frame-Options and Permissions-Policy added. No Content-Security-Policy yet: it could break the Salesforce form and Analytics. Date: 2026-11-13.
 - Cloudflare Markdown for Agents needs the Pro plan; not bought. Date: 2026-11-13.
+- Bing Webmaster Tools added with the Everest Google account (import from Search Console, view-only access), sitemap submitted. Home title shortened to 61 characters and category and film images given alt text, from Bing's flags. Titles over 70 characters now fail the build check. Date: 2026-11-13.
+- The database change for sitemap dates and admin SEO fields stays unapplied (blocked by the permission check). SQL kept in `ops/pending-db-seo-fields.sql`. Date: 2026-11-13.

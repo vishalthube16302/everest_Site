@@ -87,7 +87,7 @@ export function CategoryTile({ category, wide = false }: { category: CategoryTil
       {category.image && (
         <Photo
           src={category.image}
-          alt=""
+          alt={`Everest ${category.name.toLowerCase()}`}
           className={`on-ground pointer-events-none mt-auto h-auto w-full object-contain pt-3 ${wide ? "sm:mx-auto sm:max-w-[62%]" : ""}`}
         />
       )}
