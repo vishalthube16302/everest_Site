@@ -37,10 +37,13 @@ LinkedIn, Wikidata, Justdial rating on the site, Hindi/Marathi native check, Clo
 - [x] IndexNow: new key. Bing had stored a failed check from before the first key went live. Builds now skip
       the ping while the key file is not live yet
 
-## Claude, after the merge
+## Claude, after the merge (PR #22)
 
-- [ ] Send all pages to IndexNow with the new key and check Bing accepts it (answer 200 or 202)
-- [ ] Check live Lighthouse score after the photo change
+- [x] IndexNow with the new key: Bing 202 and Yandex 202 for all 110 pages (2026-11-13)
+- [x] Live Lighthouse mobile, two runs: 86 (LCP 1.5 s) and 77 (LCP 3.6 s). The hero photo loads in about
+      0.7 s; the high run counts it at the end of its fade-in. Cloudflare's bot check script (`jsd/main.js`)
+      adds about 0.4 s of script work. Google ranks on real-visitor data, which this site does not have enough
+      traffic for yet
 - [ ] In 7 to 12 days: check Bing Places shows "Published"
 
 ## Every month (first week)
