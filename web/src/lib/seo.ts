@@ -57,7 +57,7 @@ function addressNode(address: string): JsonLdNode {
   };
 }
 
-// "Mon to Sat, 9:00 AM to 6:30 PM" becomes one opening-hours rule. Anything else is left out.
+// "Mon to Sat, 9:00 AM to 7:30 PM" becomes one opening-hours rule. Anything else is left out.
 function hoursNode(hours: string): JsonLdNode[] {
   const t = hours.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*to\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
   if (!t || !/mon\w*\s*to\s*sat/i.test(hours)) return [];

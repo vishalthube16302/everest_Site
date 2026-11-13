@@ -5,7 +5,7 @@ import { PageHero } from "@/components/ui";
 import { getSite } from "@/lib/data";
 import { whatsappLink } from "@/lib/site";
 
-export const metadata: Metadata = pageMeta({ title: "Contact and get a quote", description: "Call, WhatsApp or send an enquiry to Everest in Pimpri-Chinchwad, Maharashtra. Mon to Sat, 9:00 AM to 6:30 PM. We reply within 24 hours.", path: "/contact" });
+export const metadata: Metadata = pageMeta({ title: "Contact and get a quote", description: "Call, WhatsApp or send an enquiry to Everest in Pimpri-Chinchwad, Maharashtra. Mon to Sat, 9:00 AM to 7:30 PM. We reply within 24 hours.", path: "/contact" });
 
 export default async function ContactPage() {
   const site = await getSite();
