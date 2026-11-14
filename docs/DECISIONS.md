@@ -146,3 +146,6 @@ Newest first. One line each, with the reason.
 - Share button on product pages shares name, company, 4 key specs, "Price on request", link and phone; no price. One 1200x630 white-background JPG per product is made at build time with `sharp` (dev dependency) into `public/img/share/` (git-ignored), so WhatsApp previews show one image. Date: 2026-11-13.
 - Home scroll animations shortened to 180vh (phone) and 200vh (desktop). New "Repair, rent and spare parts" strip on home links the service pages. Date: 2026-11-13.
 - Salesforce Opportunity create access was given by the owner; the live form still needs one real test. Date: 2026-11-13.
+- Google Business Profile products: one main product per category (7), each with a Supabase photo, database specs and a link to its page on everesthps.com, no prices. Date: 2026-11-14.
+- Owner confirmed 1 year warranty on all products and that credit cards are not accepted; both added to `verified-facts.md`. Date: 2026-11-14.
+- Business Profile posts have no draft state, so 10 drafts live in `content/gbp-posts-draft.md` until the owner posts them. Interior photos are frames cropped from the owner's shop video, without people. Date: 2026-11-14.

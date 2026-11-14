@@ -29,6 +29,8 @@ Publish only what is in the Approved list. A fact can move here only with a sour
 | Replies within 24 hours | Current contact page |
 | Product specs in Everest V2 | Database |
 | Installation and nearby delivery offered (not stated as free) | Owner, 2026-11-01 |
+| 1 year warranty on all products | Owner, 2026-11-14 |
+| Credit cards are not accepted | Owner, 2026-11-14 |
 | Screw compressors: 3, 5 and 10 HP at 8 bar, 10 HP permanent magnet to 16 bar. No model numbers exist on the current site, so name them by HP | everesthps.in, checked 2026-11-01 |
 | 2 HP 50 L portable oil-free compressor (1500-50L): 1.5 kW, 240 LPM, 8 bar, noise ≤70 dB | Database, checked 2026-11-01 |
 | Pallet truck EHPT-30-685: 3,000 kg, fork lift 85 to 200 mm, spread 685 mm, turning radius 1,319 mm | Database |

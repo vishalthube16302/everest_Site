@@ -17,7 +17,9 @@ LinkedIn, Wikidata, Justdial rating on the site, Hindi/Marathi native check, Clo
 - [ ] IndiaMART, Justdial, everesthps.in: add the link `https://everesthps.com`, same hours and phone
 - [ ] Justdial: change the old Chakan address to the Thermax Chauk address
 - [ ] Google reviews: ask happy customers every few weeks, reply to every review
-- [ ] Google Business Profile: add products with photos; post one update a week
+- [x] Google Business Profile products: 7 added 2026-11-14, one main product per category, with photo, specs and a link to its page on everesthps.com, no prices (5 show "Pending" until Google reviews them). Add more later if wanted
+- [ ] Google Business Profile: post one update a week. 10 drafts ready in `content/gbp-posts-draft.md` (not published)
+- [x] Google replies: Neha Kale and Sharad S answered 2026-11-14. Interior photos from the shop video added (3 frames). Credit cards: confirmed not accepted. 1 year warranty on all products: confirmed by owner
 - [x] Salesforce: Opportunity create access given to the site user (owner, 2026-11-13). Not yet tested on the live
       form: submit one real test enquiry and check it appears in Salesforce
 - [ ] Admin panel: change the starting password (new rule: 10+ characters, upper case, lower case, a number)
