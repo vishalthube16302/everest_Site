@@ -12,10 +12,10 @@ export async function SiteFrame({ children }: { children: React.ReactNode }) {
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-surface focus:p-3">
         Skip to content
       </a>
-      <Header nav={site.nav} />
+      <Header nav={site.nav} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
       <main id="main">{children}</main>
       <Footer site={site} />
-      <StickyBar whatsapp={site.whatsappNumber} />
+      <StickyBar whatsapp={site.whatsappNumber} phoneHref={site.phoneHref} />
       <Analytics />
     </>
   );

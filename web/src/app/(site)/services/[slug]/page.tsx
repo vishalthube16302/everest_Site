@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { ContactPanel, FaqList, PageHero } from "@/components/ui";
 import { getSite } from "@/lib/data";
-import { breadcrumbJsonLd, faqJsonLd, pageMeta, serviceJsonLd } from "@/lib/seo";
+import { abs, breadcrumbJsonLd, faqJsonLd, pageMeta, serviceJsonLd } from "@/lib/seo";
 import { serviceAreas, servicePages } from "@/lib/service-pages";
+import { waLink } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,7 +29,7 @@ export default async function ServicePage({ params }: Props) {
   if (!s) notFound();
   const site = await getSite();
   const path = `/services/${s.slug}`;
-  const wa = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(s.whatsapp)}`;
+  const wa = waLink(site.whatsappNumber, s.whatsapp, abs(path));
 
   return (
     <>

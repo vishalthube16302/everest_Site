@@ -5,7 +5,7 @@ import { ScrollFilm } from "@/components/ScrollFilm";
 import { CategoryTile, ContactPanel, Photo, ReviewCard } from "@/components/ui";
 import { servicePages } from "@/lib/service-pages";
 import { getCategoryTiles, getProducts, getReviews, getSite } from "@/lib/data";
-import { companyJsonLd, pageMeta } from "@/lib/seo";
+import { abs, companyJsonLd, pageMeta } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 const storage = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/Product%20Images`;
@@ -36,9 +36,10 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [categories, products, reviews, site] = await Promise.all([getCategoryTiles(), getProducts(), getReviews(), getSite()]);
   const { ratings } = site;
+  const wa = whatsappLink(site.whatsappNumber, undefined, abs("/"));
   const buyers = [
     { title: "My business", text: "Quotes and full specs for your plant or clinic.", href: "/contact", dark: true },
-    { title: "My home or workshop", text: "One unit, the right size. Ask us on WhatsApp.", href: whatsappLink(site.whatsappNumber), dark: false },
+    { title: "My home or workshop", text: "One unit, the right size. Ask us on WhatsApp.", href: wa, dark: false },
     { title: "My dealership", text: "Stock Everest. Talk to us about trade supply.", href: "/dealers", dark: false },
   ];
 
@@ -65,7 +66,7 @@ export default async function HomePage() {
             </p>
             <div className="rise rise-3 mt-5 flex flex-wrap gap-3 md:mt-7">
               <a href="#categories" className="btn btn-primary">See the products</a>
-              <a href={whatsappLink(site.whatsappNumber)} className="btn btn-outline">WhatsApp us</a>
+              <a href={wa} data-cta="home_hero" className="btn btn-outline">WhatsApp us</a>
             </div>
           </div>
           {/* Pallet truck rolls in from the left, compressor from the right. */}

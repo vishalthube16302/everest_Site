@@ -29,11 +29,17 @@ export const nav = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function whatsappLink(number: string, productName?: string) {
+// WhatsApp link with a ready message. The page address goes on the last line, so the owner sees that the chat
+// came from the website and from which page (WhatsApp also shows the page's share picture).
+export function waLink(number: string, text: string, pageUrl?: string) {
+  return `https://wa.me/${number}?text=${encodeURIComponent(pageUrl ? `${text}\n${pageUrl}` : text)}`;
+}
+
+export function whatsappLink(number: string, productName?: string, pageUrl?: string) {
   const text = productName
-    ? `Hello Everest, I would like a quote for ${productName}.`
+    ? `Hello Everest, please send the latest price for the ${productName}.`
     : "Hello Everest, I would like a quote.";
-  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+  return waLink(number, text, pageUrl);
 }
 
 // Films and scroll frames are read from one web address. Set NEXT_PUBLIC_FILMS_BASE_URL to move them

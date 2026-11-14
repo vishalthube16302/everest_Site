@@ -10,7 +10,8 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 type Gtag = (command: string, name: string, params?: Record<string, unknown>) => void;
 
 // One listener for the whole page. Sends three events: click_call, click_whatsapp, click_quote.
-// Nothing personal is sent: only the link kind, the page path and the product name when the link carries one.
+// Nothing personal is sent: only the link kind, the page path, which button (data-cta, for example "product",
+// "sticky", "price") and the product name when the link carries one (data-product).
 function useClickEvents() {
   useEffect(() => {
     if (!GA_ID) return;
@@ -18,16 +19,14 @@ function useClickEvents() {
       const link = (event.target as Element | null)?.closest?.("a");
       const href = link?.getAttribute("href");
       const gtag = (window as unknown as { gtag?: Gtag }).gtag;
-      if (!href || !gtag) return;
+      if (!link || !href || !gtag) return;
       const page = window.location.pathname;
-      if (href.startsWith("tel:")) gtag("event", "click_call", { page });
-      else if (href.includes("wa.me/")) {
-        let product: string | undefined;
-        try {
-          product = new URL(href).searchParams.get("text")?.match(/quote for (.+)\.$/)?.[1];
-        } catch {}
-        gtag("event", "click_whatsapp", { page, ...(product ? { product } : {}) });
-      } else if (href === "/contact" || href.startsWith("/contact#")) gtag("event", "click_quote", { page });
+      const cta = link.dataset.cta;
+      const product = link.dataset.product;
+      const extra = { ...(cta ? { cta } : {}), ...(product ? { product } : {}) };
+      if (href.startsWith("tel:")) gtag("event", "click_call", { page, ...extra });
+      else if (href.includes("wa.me/")) gtag("event", "click_whatsapp", { page, ...extra });
+      else if (href === "/contact" || href.startsWith("/contact#")) gtag("event", "click_quote", { page, ...extra });
     }
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);

@@ -16,7 +16,7 @@ LinkedIn, Wikidata, Justdial rating on the site, Hindi/Marathi native check, Clo
 - [ ] IndiaMART: rename the two pallet truck listings that show another brand
 - [ ] IndiaMART, Justdial, everesthps.in: add the link `https://everesthps.com`, same hours and phone
 - [ ] Justdial: change the old Chakan address to the Thermax Chauk address
-- [ ] Google reviews: ask happy customers every few weeks, reply to every review
+- [ ] Google reviews: ask every customer after each sale, repair or rental (asking only happy customers breaks Google policy); reply to every review. See `sales-plan.md`
 - [ ] Google Business Profile: add products with photos; post one update a week
 - [x] Salesforce: Opportunity create access given to the site user (owner, 2026-11-13). Not yet tested on the live
       form: submit one real test enquiry and check it appears in Salesforce

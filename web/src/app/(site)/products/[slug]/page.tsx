@@ -8,7 +8,7 @@ import { FilmPlayer } from "@/components/FilmPlayer";
 import { Gallery } from "@/components/Gallery";
 import { GuideSections, matchingReviews } from "@/components/Guide";
 import { ShareButton } from "@/components/ShareButton";
-import { PriceBlock, ProductCard, SpecTable } from "@/components/ui";
+import { ContactPanel, PriceBlock, ProductCard, SpecTable, TrustLine } from "@/components/ui";
 import { categoryGuides } from "@/lib/category-guides";
 import { getCategoriesWithProducts, getFilms, getPrice, getProductImages, getProducts, getReviews, getSite, keySpecs, specRows } from "@/lib/data";
 import { abs, breadcrumbJsonLd, faqJsonLd, pageMeta, productDescription, productJsonLd } from "@/lib/seo";
@@ -73,7 +73,10 @@ export default async function ProductPage({ params }: Props) {
   const faq = [...ownFaq, ...specFaq, ...(guide?.faq ?? []), { q: `How do I get a price for the ${product.name}?`, a: `Call or WhatsApp ${site.phoneDisplay}, or send an enquiry. We reply within 24 hours.` }];
   const reviews = matchingReviews(allReviews, guide);
 
-  const share = shareContent(product, abs(`/products/${product.slug}`), sharePicture(product), site);
+  const pageUrl = abs(`/products/${product.slug}`);
+  const share = shareContent(product, pageUrl, sharePicture(product), site);
+  // One WhatsApp message for every button on this page: the model name and the page address.
+  const wa = whatsappLink(site.whatsappNumber, product.name, pageUrl);
 
   const trail = [
     { name: "Home", path: "/" },
@@ -86,7 +89,7 @@ export default async function ProductPage({ params }: Props) {
     <>
       <JsonLd data={[productJsonLd(product, category?.name, photos.map((p) => p.src)), breadcrumbJsonLd(trail), faqJsonLd(faq)]} />
       {/* One screen at 100% zoom: photos left; name, price, every spec and the buttons right. */}
-      <section className="page pt-1 md:pt-2">
+      <section className="page pt-1 md:pt-2" data-page-product={product.name}>
         <p className="pb-3 text-[14px] text-muted">
           <Link prefetch={false} href="/products" className="inline-block py-2 hover:text-brand md:py-0">Products</Link>
           {category && (
@@ -104,14 +107,18 @@ export default async function ProductPage({ params }: Props) {
                 <span key={n} className="whitespace-nowrap">{n > 0 ? " " : ""}{word}</span>
               ))}
             </h1>
-            <div className="mt-2"><PriceBlock price={price} /></div>
+            <div className="mt-2"><PriceBlock price={price} whatsappHref={wa} product={product.name} /></div>
             <h2 className="sr-only">Technical specifications</h2>
             <div className="mt-3"><SpecTable rows={specRows(product)} /></div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link prefetch={false} href="/contact" className="btn btn-primary">Get a quote</Link>
-              <a href={whatsappLink(site.whatsappNumber, product.name)} className="btn btn-outline">WhatsApp us</a>
+              <a href={wa} data-cta="product" data-product={product.name} className="btn btn-primary">
+                {price ? "WhatsApp us" : "Get price on WhatsApp"}
+              </a>
+              <a href={site.phoneHref} data-cta="product" className="btn btn-outline">Call us</a>
+              <Link prefetch={false} href="/contact" data-cta="product" className="btn btn-outline">Get a quote</Link>
               <ShareButton share={share} />
             </div>
+            <TrustLine ratings={site.ratings} />
           </div>
         </div>
       </section>
@@ -143,6 +150,8 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      <ContactPanel productName={product.name} pageUrl={pageUrl} />
     </>
   );
 }
