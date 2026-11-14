@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/build-redirects.mjs && node -e \"require('fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\"",
+    "prebuild": "node scripts/build-redirects.mjs && node scripts/build-share-images.mjs && node -e \"require('fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\"",
     "build": "next build",
     "postbuild": "node scripts/check-site.mjs && node scripts/indexnow.mjs",
     "start": "next start"
@@ -20,6 +20,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

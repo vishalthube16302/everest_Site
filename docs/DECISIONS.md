@@ -143,3 +143,6 @@ Newest first. One line each, with the reason.
 - Home hero photos are served from `web/public/img` (1200 px and 600 px) instead of Supabase storage: one connection less on the first view. The fade-in stays: without it the photos become the LCP element and the score drops. Date: 2026-11-13.
 - New IndexNow key; the old one was refused by Bing after a failed first check. `indexnow.mjs` now skips the ping when the key file is not live yet. Date: 2026-11-13.
 - Supabase Auth: minimum password 10 characters with lower case, upper case and digits (free-plan alternative to the Pro-only leaked-password check). GA4 key events: click_call, click_whatsapp, click_quote. Date: 2026-11-13.
+- Share button on product pages shares name, company, 4 key specs, "Price on request", link and phone; no price. One 1200x630 white-background JPG per product is made at build time with `sharp` (dev dependency) into `public/img/share/` (git-ignored), so WhatsApp previews show one image. Date: 2026-11-13.
+- Home scroll animations shortened to 180vh (phone) and 200vh (desktop). New "Repair, rent and spare parts" strip on home links the service pages. Date: 2026-11-13.
+- Salesforce Opportunity create access was given by the owner; the live form still needs one real test. Date: 2026-11-13.

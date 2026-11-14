@@ -18,8 +18,8 @@ LinkedIn, Wikidata, Justdial rating on the site, Hindi/Marathi native check, Clo
 - [ ] Justdial: change the old Chakan address to the Thermax Chauk address
 - [ ] Google reviews: ask happy customers every few weeks, reply to every review
 - [ ] Google Business Profile: add products with photos; post one update a week
-- [ ] Salesforce: the website enquiry form still fails ("Access to entity 'Opportunity' denied"), so no lead
-      is created. Needs the Salesforce admin to give the site user create access to Opportunity
+- [x] Salesforce: Opportunity create access given to the site user (owner, 2026-11-13). Not yet tested on the live
+      form: submit one real test enquiry and check it appears in Salesforce
 - [ ] Admin panel: change the starting password (new rule: 10+ characters, upper case, lower case, a number)
 - [ ] Optional: fill "Google and AI search" fields on your top products in the admin panel
 
@@ -45,6 +45,16 @@ LinkedIn, Wikidata, Justdial rating on the site, Hindi/Marathi native check, Clo
       adds about 0.4 s of script work. Google ranks on real-visitor data, which this site does not have enough
       traffic for yet
 - [ ] In 7 to 12 days: check Bing Places shows "Published"
+
+## Claude, share and polish (branch `feature/share-and-prod-ready`, 2026-11-13)
+
+- [x] Share button on every product page (WhatsApp, Email, Send with photo on phones, Copy link); one 1200x630
+      white-background image per product, made at build time (`web/scripts/build-share-images.mjs`, `sharp`)
+- [x] Home scroll animations shorter (180vh phone, 200vh desktop); "Repair, rent and spare parts" strip on home;
+      "Form not working? Use WhatsApp or call" line on contact; category pages: hidden "Models" heading
+- [x] Checks: `tsc` clean, both builds pass, 110 sitemap URLs, share images step runs (74 products)
+- [ ] After merge: Cloudflare build installs `sharp` and makes the share images
+- [ ] After merge: test Share on the live site (WhatsApp preview shows one image); run live Lighthouse again
 
 ## Every month (first week)
 

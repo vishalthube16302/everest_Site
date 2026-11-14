@@ -17,7 +17,7 @@ export const site = {
 // Ratings change. Refresh before launch, see docs/content/reviews.md.
 export const ratings = {
   google: { score: "5.0", count: "39" },
-  indiamart: { score: "4.9", count: "about 40" },
+  indiamart: { score: "4.9", count: "41" },
 };
 
 export const nav = [

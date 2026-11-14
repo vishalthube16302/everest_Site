@@ -93,6 +93,13 @@ New pages, each with a short direct answer at the top, an FAQ and a quote button
 
 - [x] AI crawler access verified for 18 bots; review with the claude-seo checklists: `../ops/seo-review-2026-11-13.md`. Fixes: visible FAQ answers, guide dates, city in category titles, areaServed, WebSite schema, HSTS, shorter home title, alt text on category and film images, title length check
 
+## Share and polish (2026-11-13)
+
+- [x] Share button on every product page; share images built at build time (`web/scripts/build-share-images.mjs`)
+- [x] Shorter home scroll animations; services strip on home; contact page WhatsApp/call line; hidden "Models" heading on category pages (Lighthouse accessibility 98 to 100)
+- [x] `tsc` clean; normal and indexable builds pass; 110 sitemap URLs
+- [ ] After merge: confirm Cloudflare makes the share images; test Share live; live Lighthouse
+
 ## Rules
 
 Only facts in `../content/verified-facts.md`. No other brand. No prices in schema. Reviews word for word.
