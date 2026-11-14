@@ -2,6 +2,15 @@
 
 Newest first. One line each, with the reason.
 
+## 2026-11-14
+
+- Sales plan from a war room of agents (`ops/sales-plan.md`). Reason: owner asked for the best way to raise sales; data shows the Google profile brings about 10 times the website's contacts.
+- Product pages: "Get price on WhatsApp" is the main button, with Call us, Get a quote and Share beside it, and a ratings line under them. A hidden price shows as a WhatsApp link. A contact panel closes every product page. Reason: buyers here use WhatsApp and calls; the Salesforce form stays on the contact page.
+- Every WhatsApp message ends with the page address, and product messages name the model. Reason: the owner sees that the chat came from the website and from which page.
+- Phone bar is Call, WhatsApp, Get a quote. Desktop header shows the phone number from 1200 px. On phones the contact page shows WhatsApp and Call before the slow form.
+- GA4 click events carry `cta` (which button) and `product` from data attributes. Reason: see which buttons bring chats and calls.
+- Review requests go to every customer, not only happy ones. Reason: Google bans selective asking.
+
 ## 2026-11-03
 
 - The old Vite site, its notes, an empty `backup.sql` and Python cache files were deleted from the repo (`chore/remove-old-code`). The old `llms.txt`, `robots.txt`, `sitemap.xml`, Googlebot script and SEO guide moved to `docs/archive/old-site-seo/` for Phase 4. Reason: owner wants no old or dead code before merging to `main`. The old code stays in tag `live-before-v2`. Because the live Cloudflare project still builds the repo root, merging this to `main` makes that build fail until the Cloudflare settings are switched to `web`; the live site keeps serving its last good deployment meanwhile.

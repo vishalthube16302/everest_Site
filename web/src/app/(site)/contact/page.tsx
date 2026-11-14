@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { mapsUrl, pageMeta } from "@/lib/seo";
+import { abs, mapsUrl, pageMeta } from "@/lib/seo";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { PageHero } from "@/components/ui";
 import { getSite } from "@/lib/data";
@@ -10,32 +10,35 @@ export const metadata: Metadata = pageMeta({ title: "Contact and get a quote", d
 export default async function ContactPage() {
   const site = await getSite();
   const maps = mapsUrl;
+  const wa = whatsappLink(site.whatsappNumber, undefined, abs("/contact"));
+  // Phones: the quick WhatsApp and Call panel comes first, because the enquiry form takes a few seconds to load.
+  // Wide screens: form on the left; quick panel and details on the right.
   return (
     <section className="page pb-4">
       <PageHero kicker="Contact" title="Tell us what you need." intro="We reply within 24 hours." />
-      <div className="mt-8 grid items-start gap-5 md:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-panel bg-surface p-6 md:p-8">
+      <div className="mt-8 grid items-start gap-5 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-[auto_1fr]">
+        <div className="on-ink rounded-card bg-brand p-6 text-white md:col-start-2 md:row-start-1 md:p-7">
+          <h2 className="display card-title">Quickest way</h2>
+          <p className="mt-2">Message or call us now.</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a href={wa} data-cta="contact" className="btn btn-white">WhatsApp us</a>
+            <a href={site.phoneHref} data-cta="contact" className="btn btn-outline-white tabular">{site.phoneDisplay}</a>
+          </div>
+        </div>
+
+        <div className="rounded-panel bg-surface p-6 md:col-start-1 md:row-span-2 md:row-start-1 md:p-8">
           <h2 className="display card-title mb-4">Send an enquiry</h2>
           <div className="min-h-[360px]">
             <EnquiryForm whatsapp={site.whatsappNumber} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
           </div>
           <p className="mt-5 border-t border-line pt-4 text-[15px] text-muted">
             Form not working? Send the same details on{" "}
-            <a href={whatsappLink(site.whatsappNumber)} className="font-semibold text-brand hover:underline">WhatsApp</a> or call{" "}
-            <a href={site.phoneHref} className="tabular font-semibold text-brand hover:underline">{site.phoneDisplay}</a>.
+            <a href={wa} data-cta="contact_form_help" className="font-semibold text-brand hover:underline">WhatsApp</a> or call{" "}
+            <a href={site.phoneHref} data-cta="contact_form_help" className="tabular font-semibold text-brand hover:underline">{site.phoneDisplay}</a>.
           </p>
         </div>
 
-        <div className="space-y-4">
-          <div className="on-ink rounded-card bg-brand p-6 text-white md:p-7">
-            <h2 className="display card-title">Quickest way</h2>
-            <p className="mt-2">Message or call us now.</p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a href={whatsappLink(site.whatsappNumber)} className="btn btn-white">WhatsApp us</a>
-              <a href={site.phoneHref} className="btn btn-outline-white tabular">{site.phoneDisplay}</a>
-            </div>
-          </div>
-
+        <div className="md:col-start-2 md:row-start-2">
           <dl className="rounded-card bg-surface p-6 md:p-7">
             <div className="border-b border-line pb-4">
               <dt className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted">Email</dt>

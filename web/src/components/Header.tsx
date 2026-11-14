@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export function Header({ nav }: { nav: { href: string; label: string }[] }) {
+type Props = { nav: { href: string; label: string }[]; phoneDisplay: string; phoneHref: string };
+
+export function Header({ nav, phoneDisplay, phoneHref }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -28,9 +30,14 @@ export function Header({ nav }: { nav: { href: string; label: string }[] }) {
           ))}
         </nav>
 
-        <Link prefetch={false} href="/contact" className="btn btn-dark hidden md:inline-flex">
-          Get a quote
-        </Link>
+        <div className="hidden items-center gap-5 md:flex">
+          <a href={phoneHref} data-cta="header" className="tabular hidden py-2.5 text-[15px] font-semibold hover:text-brand lg:inline-block">
+            {phoneDisplay}
+          </a>
+          <Link prefetch={false} href="/contact" data-cta="header" className="btn btn-dark">
+            Get a quote
+          </Link>
+        </div>
 
         <button
           type="button"

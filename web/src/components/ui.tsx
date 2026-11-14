@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSite, keySpecs, type CategoryTile as CategoryTileData, type Product, type Review, type SpecRow } from "@/lib/data";
+import { getSite, keySpecs, type CategoryTile as CategoryTileData, type Product, type Review, type SiteInfo, type SpecRow } from "@/lib/data";
 import { whatsappLink } from "@/lib/site";
 
 export function Photo({
@@ -186,26 +186,50 @@ export function SpecTable({ rows }: { rows: SpecRow[] }) {
   );
 }
 
-export function PriceBlock({ price }: { price: string | null }) {
-  return price ? (
-    <p className="display tabular text-[28px] font-bold">{price}</p>
-  ) : (
-    <p className="text-muted">Price on request</p>
+// Prices stay hidden unless the admin shows them. A hidden price becomes a WhatsApp link that asks for it.
+export function PriceBlock({ price, whatsappHref, product }: { price: string | null; whatsappHref?: string; product?: string }) {
+  if (price) return <p className="display tabular text-[28px] font-bold">{price}</p>;
+  if (!whatsappHref) return <p className="text-muted">Price on request</p>;
+  return (
+    <p className="text-muted">
+      Price on request:{" "}
+      <a href={whatsappHref} data-cta="price" data-product={product} className="inline-block py-1 font-semibold text-brand hover:underline">
+        get the latest price on WhatsApp →
+      </a>
+    </p>
   );
 }
 
-export async function ContactPanel({ productName }: { productName?: string }) {
+// Ratings and trust marks next to the buttons. Approved facts only (docs/content/verified-facts.md);
+// the ratings come from the admin panel.
+export function TrustLine({ ratings }: { ratings: SiteInfo["ratings"] }) {
+  return (
+    <p className="mt-3 text-[14px] text-muted">
+      <Link prefetch={false} href="/reviews" className="inline-block py-1 hover:text-brand">
+        <span aria-hidden="true" className="text-brand">★ </span>
+        <span className="font-semibold text-ink">{ratings.google.score}</span> from {ratings.google.count} Google reviews
+        {" · "}
+        <span className="font-semibold text-ink">{ratings.indiamart.score}</span> from {ratings.indiamart.count} IndiaMART reviews
+      </Link>
+      {" · IndiaMART TrustSEAL · We reply within 24 hours"}
+    </p>
+  );
+}
+
+export async function ContactPanel({ productName, pageUrl }: { productName?: string; pageUrl?: string }) {
   const site = await getSite();
   return (
     <section className="page section">
       <div className="on-ink flex flex-wrap items-center justify-between gap-7 rounded-panel bg-brand p-8 text-white md:p-16">
         <div>
-          <h2 className="display section-title">Tell us what you need.</h2>
+          <h2 className="display section-title">{productName ? "Want the latest price?" : "Tell us what you need."}</h2>
           <p className="mt-3 text-lg">We reply within 24 hours.</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href={whatsappLink(site.whatsappNumber, productName)} className="btn btn-white">WhatsApp us</a>
-          <a href={site.phoneHref} className="btn btn-outline-white tabular">{site.phoneDisplay}</a>
+          <a href={whatsappLink(site.whatsappNumber, productName, pageUrl)} data-cta="panel" data-product={productName} className="btn btn-white">
+            WhatsApp us
+          </a>
+          <a href={site.phoneHref} data-cta="panel" className="btn btn-outline-white tabular">{site.phoneDisplay}</a>
         </div>
       </div>
     </section>

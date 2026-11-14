@@ -6,6 +6,11 @@ Do this in the first week of each month. Write the numbers in the table at the e
 
 - Performance, last 28 days: clicks, impressions, average position. Filter queries that do not contain "everest" for non-brand clicks.
 - New queries: services pages (repair, rent, second-hand, spare parts) and guides.
+- Query filters (Add filter, Query, Custom (regex)):
+  - Non-brand ("Doesn't match regex"): `everest|evrest|hps|hydro ?pneumatic`
+  - Buying words: `price|\brate\b|\brent|hire|second ?hand|\bused\b|repair|servic|near me|dealer|manufactur|pune|pimpri|chinchwad|bhosari|chakan`
+  - Model sizes: `\d+(\.\d+)? ?(hp|l|ltr|ton|kg|mm|cfm|lpm)\b`
+  - Questions, every 3 months: `(?i)^(who|what|when|where|why|how|which|is|are|can|does|do|should|will|kya|kaise|kaun|kitna|kab|kahan)\b|\?`
 - Pages, "Crawled, currently not indexed": product pages should drop now that they have 480+ words.
 - Enhancements: Product snippets, FAQ, Breadcrumbs. No new errors.
 
@@ -21,6 +26,12 @@ Do this in the first week of each month. Write the numbers in the table at the e
 ## 4. Cloudflare AI Crawl Control
 
 - Which AI bots read the site and which pages. Nothing should be blocked.
+
+## 4b. Sales numbers (see `sales-plan.md`)
+
+- Google profile Performance: calls, chats, directions, website clicks.
+- IndiaMART response rate.
+- Enquiries and orders by source, from "Where did you find us?".
 
 ## 5. AI answers test
 

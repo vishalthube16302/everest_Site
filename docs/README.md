@@ -22,6 +22,7 @@ Read `STATUS.md` first. Then open only what the task needs.
 | Where films are hosted | `ops/film-hosting.md` |
 | Admin panel, logins, publishing | `ops/admin-panel.md` |
 | Why pages showed twice in Google, and the one-address rule | `ops/url-hygiene.md` |
+| Getting more sales (war room plan, 2026-11-14) | `ops/sales-plan.md` |
 | Going live | `ops/launch-checklist.md` |
 | Going back | `ops/rollback.md` |
 | New site code | `../web/` |

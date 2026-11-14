@@ -58,4 +58,4 @@ matches canonicals. Service page per core service (top local factor). `tel:` lin
 5. Justdial: some pages still show the old Chakan address
 6. Skipped by owner: Apple Business Connect, YouTube, LinkedIn. Wikidata not planned
 7. Done: Search Console "Search generative AI" is on Include
-8. Ask happy customers for Google reviews every few weeks; reply to each
+8. Ask every customer for a Google review (not only happy ones: Google policy); reply to each

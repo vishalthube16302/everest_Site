@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { pageMeta } from "@/lib/seo";
+import { abs, pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { CategoryTile, ContactPanel, PageHero, Photo } from "@/components/ui";
 import { getCategoryTiles, getProducts, getSite, storageUrl } from "@/lib/data";
-import { whatsappLink } from "@/lib/site";
+import { waLink } from "@/lib/site";
 
 export const metadata: Metadata = pageMeta({ title: "Dealers: stock Everest", description: "Everest sells to dealers. Ask about trade supply of oil-free compressors, screw compressors, pallet trucks and stackers. We reply within 24 hours.", path: "/dealers" });
 
@@ -25,7 +25,9 @@ export default async function DealersPage() {
           intro={`We sell to dealers. Talk to us about trade supply across ${products.length} models in ${categories.length} categories.`}
           actions={
             <>
-              <a href={whatsappLink(site.whatsappNumber)} className="btn btn-primary">WhatsApp us</a>
+              <a href={waLink(site.whatsappNumber, "Hello Everest, I am a dealer. Please share your dealer terms.", abs("/dealers"))} data-cta="dealers" className="btn btn-primary">
+                WhatsApp us
+              </a>
               <Link prefetch={false} href="/contact" className="btn btn-outline">Send a dealer enquiry</Link>
             </>
           }
