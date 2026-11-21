@@ -1,0 +1,213 @@
+{
+ "summary": {
+  "health_score": 74,
+  "business_type": "Local industrial supplier and service business (hybrid)",
+  "top_findings": [
+   "Hindi/Marathi pages declare lang=en and have no hreflang",
+   "Home LCP 4.2 s lab, TBT 430 ms",
+   "Product schema lacks offers/review/aggregateRating",
+   "Thin pages: /products, /contact, /dealers, guides under 300 words",
+   "Home H1 has no keywords"
+  ],
+  "quick_wins": [
+   "Fix lang and hreflang on 6 pages",
+   "Link guides from category and product pages",
+   "Add /ai-discover to footer",
+   "Turn off Cloudflare Email Obfuscation",
+   "Shorten 16 long titles"
+  ]
+ },
+ "categories": [
+  {
+   "name": "Technical SEO",
+   "score": 82,
+   "what_works": [
+    "All 110 pages 200",
+    "Clean 301s for www, http, slash",
+    "Real 404",
+    "HSTS and security headers",
+    "pages.dev noindex"
+   ],
+   "findings": [
+    {
+     "title": "Wrong lang on Hindi/Marathi pages",
+     "severity": "High",
+     "description": "6 pages use lang=en, no hreflang",
+     "recommendation": "Set hi/mr lang and add hreflang"
+    },
+    {
+     "title": "Cloudflare email-protection 404 link",
+     "severity": "Low",
+     "description": "/cdn-cgi/l/email-protection answers 404",
+     "recommendation": "Turn off Email Obfuscation"
+    }
+   ]
+  },
+  {
+   "name": "Content Quality",
+   "score": 62,
+   "what_works": [
+    "Answer-first guides",
+    "Local service pages"
+   ],
+   "findings": [
+    {
+     "title": "Thin pages",
+     "severity": "Medium",
+     "description": "/products 57 words, /contact 78, /dealers 117, guides 244-296",
+     "recommendation": "Add useful copy; grow guides to 700+ words"
+    },
+    {
+     "title": "Second site competes for brand",
+     "severity": "Medium",
+     "description": "www.everesthps.in is a separate live site",
+     "recommendation": "Redirect or point it to everesthps.com"
+    }
+   ]
+  },
+  {
+   "name": "On-Page SEO",
+   "score": 80,
+   "what_works": [
+    "Unique titles, descriptions, canonicals",
+    "One H1 per page"
+   ],
+   "findings": [
+    {
+     "title": "Home H1 has no keywords",
+     "severity": "Medium",
+     "description": "H1 is 'Quiet power. Clean air.'",
+     "recommendation": "Make H1 state product and place"
+    },
+    {
+     "title": "Guides weakly linked",
+     "severity": "Medium",
+     "description": "1 inlink each; /ai-discover orphan",
+     "recommendation": "Link from category/product pages and footer"
+    },
+    {
+     "title": "Long titles",
+     "severity": "Low",
+     "description": "16 titles over 60 chars",
+     "recommendation": "Shorten"
+    }
+   ]
+  },
+  {
+   "name": "Schema / Structured Data",
+   "score": 72,
+   "what_works": [
+    "Organization, LocalBusiness, Product, BreadcrumbList, Article, Service on all pages",
+    "No parse errors"
+   ],
+   "findings": [
+    {
+     "title": "Product schema not rich-result eligible",
+     "severity": "High",
+     "description": "No offers, review or aggregateRating on 74 products",
+     "recommendation": "Add real reviews or record decision"
+    },
+    {
+     "title": "Templated FAQ schema",
+     "severity": "Low",
+     "description": "97 pages repeat spec questions",
+     "recommendation": "Keep only real questions"
+    }
+   ]
+  },
+  {
+   "name": "Performance (CWV)",
+   "score": 60,
+   "what_works": [
+    "CLS 0",
+    "FCP 1.9 s"
+   ],
+   "findings": [
+    {
+     "title": "Slow LCP on mobile",
+     "severity": "High",
+     "description": "Lab LCP 4.2 s, TBT 430 ms, 2.2 MB; gtag 73 KB unused; Cloudflare challenge script",
+     "recommendation": "Preload hero, defer gtag, review Bot Fight Mode"
+    }
+   ]
+  },
+  {
+   "name": "AI Search Readiness",
+   "score": 85,
+   "what_works": [
+    "llms.txt",
+    "/ai-discover catalogue",
+    "robots allows AI bots"
+   ],
+   "findings": []
+  },
+  {
+   "name": "Images",
+   "score": 78,
+   "what_works": [
+    "All img have alt attribute",
+    "WebP"
+   ],
+   "findings": [
+    {
+     "title": "Product images on Supabase domain",
+     "severity": "Medium",
+     "description": "All product photos load from supabase.co",
+     "recommendation": "Serve via site domain"
+    },
+    {
+     "title": "Missing dimensions",
+     "severity": "Low",
+     "description": "32 images lack width/height",
+     "recommendation": "Add sizes"
+    }
+   ]
+  }
+ ],
+ "action_plan": {
+  "phases": [
+   {
+    "name": "Phase 1: Critical Fixes",
+    "timeframe": "Week 1",
+    "items": [
+     "lang + hreflang",
+     "Home speed",
+     "Bot Fight Mode check",
+     "Product rich result decision"
+    ]
+   },
+   {
+    "name": "Phase 2: High-Impact Improvements",
+    "timeframe": "Weeks 2-3",
+    "items": [
+     "Home H1",
+     "Guide links",
+     "Copy on thin pages",
+     "everesthps.in decision"
+    ]
+   },
+   {
+    "name": "Phase 3: Content & Authority",
+    "timeframe": "Month 2",
+    "items": [
+     "Longer guides",
+     "New guides",
+     "Images on own domain",
+     "Reviews and GBP posts"
+    ]
+   },
+   {
+    "name": "Phase 4: Monitoring & Iteration",
+    "timeframe": "Ongoing",
+    "items": [
+     "Search Console coverage and CWV",
+     "Re-run audit monthly"
+    ]
+   }
+  ]
+ },
+ "artifacts": {
+  "findings_dir": "findings/",
+  "screenshots_dir": "screenshots/"
+ }
+}

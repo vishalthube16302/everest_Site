@@ -35,6 +35,7 @@ __pycache__/
 supabase/.temp/
 .bolt/
 .vite-react-ssg-temp
+.Temp
 
 # Database backups
 backup/
