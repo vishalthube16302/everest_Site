@@ -47,22 +47,25 @@ export function shareContent(
     return `${label}: ${s.value}`;
   });
 
+  // WhatsApp message: *stars* make bold there. Labels are bold so the message is easy to scan.
+  const waSpecLines = specs.map((s) => `• *${s.label.replace(/[:\-]+$/, "").trim()}:* ${s.value}`);
+  const waPrice = price
+    ? `${price} + 18% GST extra, transport extra at actual (customer scope)`
+    : "On request + 18% GST extra, transport extra at actual (customer scope)";
+
   const whatsapp = [
-    ...(modelNo ? [`Model No:- ${modelNo}`] : []),
-    `Product Name:- ${product.name}`,
+    ...(modelNo ? [`*Model No:* ${modelNo}`] : []),
+    `*${product.name}*`,
     "",
-    ...specLines,
-    ...(specLines.length ? [""] : []),
-    priceLine,
-    deliveryTerm,
-    paymentTerm,
-    warrantyLine,
+    ...(waSpecLines.length ? ["*Specifications*", ...waSpecLines, ""] : []),
+    "*Commercial Terms*",
+    `• *Price:* ${waPrice}`,
+    "• *Delivery:* Ex-works Chakan, Pune",
+    "• *Payment:* 100% before dispatch (50% advance for order confirmation)",
+    `• *Warranty:* ${warrantyText.replace(/^Eligible for /, "").replace(/^./, (c) => c.toUpperCase())}`,
     "",
-    "Photos and full specifications:",
+    "*Check it out:*",
     url,
-    "",
-    site.name,
-    `Call or WhatsApp: ${site.phoneDisplay}`,
   ].join("\n");
 
   const emailSubject = modelNo
