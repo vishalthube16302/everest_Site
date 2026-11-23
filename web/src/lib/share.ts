@@ -11,6 +11,16 @@ export type ShareContent = {
   emailBody: string;
 };
 
+// Turns the stored warranty value into one clean sentence. "1 Year Against Manufacturing Defects" and
+// "1 Year ( 6 Months for Electrical parts)" both read correctly; anything unreadable falls back to the default.
+function warrantySentence(value: string, fallback: string): string {
+  const raw = value.replace(/\s*against manufacturing defects\s*/i, " ").trim();
+  const m = raw.match(/^(.*?)\s*\((.*)\)\s*$/);
+  const main = (m ? m[1] : raw).trim();
+  const note = m && m[2].trim() ? ` (${m[2].trim()})` : "";
+  return main ? `Eligible for ${main} warranty${note} against manufacturing defects based on end user purchase date` : fallback;
+}
+
 export function shareContent(
   product: Product,
   url: string,
@@ -26,11 +36,8 @@ export function shareContent(
 
   // Extract warranty if present in specifications
   const warrantyRow = allSpecs.find((s) => /warranty/i.test(s.label));
-  const warrantyText = warrantyRow
-    ? (warrantyRow.value.toLowerCase().includes("electrical")
-        ? `Eligible for ${warrantyRow.value} warranty against manufacturing defects based on end user purchase date`
-        : "Eligible for one year warranty against manufacturing defects based on end user purchase date")
-    : "Eligible for one year warranty against manufacturing defects based on end user purchase date";
+  const defaultWarranty = "Eligible for one year warranty against manufacturing defects based on end user purchase date";
+  const warrantyText = warrantyRow ? warrantySentence(warrantyRow.value, defaultWarranty) : defaultWarranty;
 
   // Remaining specs excluding model and warranty so they don't repeat
   const specs = allSpecs.filter((s) => s !== modelRow && s !== warrantyRow);
