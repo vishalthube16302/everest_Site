@@ -74,7 +74,7 @@ export default async function ProductPage({ params }: Props) {
   const reviews = matchingReviews(allReviews, guide);
 
   const pageUrl = abs(`/products/${product.slug}`);
-  const share = shareContent(product, pageUrl, sharePicture(product), site);
+  const share = shareContent(product, pageUrl, sharePicture(product), site, price);
   // One WhatsApp message for every button on this page: the model name and the page address.
   const wa = whatsappLink(site.whatsappNumber, product.name, pageUrl);
 

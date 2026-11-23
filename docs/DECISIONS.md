@@ -2,6 +2,10 @@
 
 Newest first. One line each, with the reason.
 
+## 2026-11-23
+
+- Product share template updated to include Model No, Product Name, all technical specifications from the database, commercial terms (Price with 18% GST + transport at actual, Ex-works Chakan Pune delivery, 100% payment before dispatch with 50% advance, product warranty), and page link with phone contact. Reason: owner request for quotation sharing via WhatsApp/Email.
+
 ## 2026-11-14
 
 - Sales plan from a war room of agents (`ops/sales-plan.md`). Reason: owner asked for the best way to raise sales; data shows the Google profile brings about 10 times the website's contacts.

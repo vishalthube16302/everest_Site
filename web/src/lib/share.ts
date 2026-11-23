@@ -1,43 +1,89 @@
 import type { Product, SiteInfo } from "./data";
-import { keySpecs } from "./data";
+import { specRows } from "./data";
 
-// The share message for one product. One template, used by the Share button for WhatsApp, email and the
-// phone's own share sheet. Wording stays inside docs/content/verified-facts.md: specs come from the database,
-// and there is never a price.
+// The share message for one product. Used by the Share button for WhatsApp, email, and the phone's native share sheet.
 export type ShareContent = {
   title: string;
   url: string;
   image: string | null; // the one picture sent with the message
-  whatsapp: string; // WhatsApp text; *stars* make bold there
+  whatsapp: string; // WhatsApp text
   emailSubject: string;
   emailBody: string;
 };
 
-export function shareContent(product: Product, url: string, image: string | null, site: SiteInfo): ShareContent {
-  const specs = keySpecs(product, 4).map((r) => `${r.label}: ${r.value}`);
+export function shareContent(
+  product: Product,
+  url: string,
+  image: string | null,
+  site: SiteInfo,
+  price?: string | null,
+): ShareContent {
+  const allSpecs = specRows(product);
+
+  // Extract model number if present in specifications
+  const modelRow = allSpecs.find((s) => /^models?(\s*no\.?)?$/i.test(s.label));
+  const modelNo = modelRow?.value;
+
+  // Extract warranty if present in specifications
+  const warrantyRow = allSpecs.find((s) => /warranty/i.test(s.label));
+  const warrantyText = warrantyRow
+    ? (warrantyRow.value.toLowerCase().includes("electrical")
+        ? `Eligible for ${warrantyRow.value} warranty against manufacturing defects based on end user purchase date`
+        : "Eligible for one year warranty against manufacturing defects based on end user purchase date")
+    : "Eligible for one year warranty against manufacturing defects based on end user purchase date";
+
+  // Remaining specs excluding model and warranty so they don't repeat
+  const specs = allSpecs.filter((s) => s !== modelRow && s !== warrantyRow);
+
+  const priceLine = price
+    ? `Price:- ${price}+18% GST Extra+ Transport Extra At Actual at Customer scope`
+    : "Price:- Price on request + 18% GST Extra+ Transport Extra At Actual at Customer scope";
+  const deliveryTerm = "Delivery Term :- Ex-works -Chakan Pune";
+  const paymentTerm = "Payment Term:- 100% Before Dispatch.(Advance 50% for order confirmation)";
+  const warrantyLine = `Products Warranty: ${warrantyText}`;
+
+  const specLines = specs.map((s) => {
+    const label = s.label.replace(/[:\-]+$/, "").trim();
+    return `${label}: ${s.value}`;
+  });
 
   const whatsapp = [
-    `*${product.name}*`,
-    site.name,
+    ...(modelNo ? [`Model No:- ${modelNo}`] : []),
+    `Product Name:- ${product.name}`,
     "",
-    ...specs.map((s) => `• ${s}`),
-    ...(specs.length ? [""] : []),
-    "Price on request.",
+    ...specLines,
+    ...(specLines.length ? [""] : []),
+    priceLine,
+    deliveryTerm,
+    paymentTerm,
+    warrantyLine,
+    "",
     "Photos and full specifications:",
     url,
     "",
+    site.name,
     `Call or WhatsApp: ${site.phoneDisplay}`,
   ].join("\n");
+
+  const emailSubject = modelNo
+    ? `${modelNo} - ${product.name} | Everest`
+    : `${product.name} | Everest`;
 
   const emailBody = [
     "Hello,",
     "",
-    `Here is a product from ${site.name}:`,
+    `Here is the quotation and specifications from ${site.name}:`,
     "",
-    product.name,
-    ...specs.map((s) => `- ${s}`),
+    ...(modelNo ? [`Model No:- ${modelNo}`] : []),
+    `Product Name:- ${product.name}`,
     "",
-    "Price on request.",
+    ...specLines,
+    ...(specLines.length ? [""] : []),
+    priceLine,
+    deliveryTerm,
+    paymentTerm,
+    warrantyLine,
+    "",
     `Product page: ${url}`,
     ...(image ? [`Photo: ${image}`] : []),
     "",
@@ -48,5 +94,5 @@ export function shareContent(product: Product, url: string, image: string | null
     site.hours,
   ].join("\n");
 
-  return { title: product.name, url, image, whatsapp, emailSubject: `${product.name} | Everest`, emailBody };
+  return { title: product.name, url, image, whatsapp, emailSubject, emailBody };
 }

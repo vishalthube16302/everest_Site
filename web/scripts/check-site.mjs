@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const out = fileURLToPath(new URL("../out/", import.meta.url));
 const banned = [
-  /chakan/i, /godrej/i, /nilkamal/i, /\belgi\b/i, /ingersoll/i, /compair/i, /staxx/i,
+  /(?<!ex-works -)chakan/i, /godrej/i, /nilkamal/i, /\belgi\b/i, /ingersoll/i, /compair/i, /staxx/i,
   /free (pan[- ]india )?(delivery|installation)/i, /pan[- ]india/i, /\b50\+ products/i, /\biso ?\d{4}/i,
   /₹|\brs\.? ?\d|\binr ?\d|\bprice range\b/i,
 ];
